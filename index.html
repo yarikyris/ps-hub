@@ -372,6 +372,48 @@
   .disc-card b { display: block; font-size: 14px; line-height: 1.25; }
   .disc-card small { color: var(--muted); font-size: 12px; }
 
+  /* ---------- Режим разработчика ---------- */
+  header { position: relative; }
+  .dev-btn { position: absolute; right: 16px; top: 26px; display: none; padding: 8px 12px; border-radius: 12px; cursor: pointer;
+    border: 1px solid #ffcc33; background: rgba(255,204,51,.12); color: #ffcc33; font: 900 12px Unbounded; letter-spacing: .1em;
+    box-shadow: 0 0 18px rgba(255,204,51,.35); animation: devGlow 2s ease-in-out infinite; }
+  body.is-dev .dev-btn { display: block; }
+  @keyframes devGlow { 50% { box-shadow: 0 0 30px rgba(255,204,51,.7); } }
+  .dev-sheet { position: fixed; inset: 0; z-index: 80; overflow-y: auto; padding: 16px 16px 40px; background: #07090f;
+    font-family: Manrope, sans-serif; transform: translateX(105%); transition: transform .5s cubic-bezier(.2,1.1,.3,1);
+    background-image: linear-gradient(rgba(255,204,51,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,204,51,.05) 1px, transparent 1px);
+    background-size: 24px 24px; }
+  .dev-sheet.on { transform: none; }
+  .dev-top { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+  .dev-top h2 { margin: 0; font: 900 20px Unbounded; color: #ffcc33; }
+  .dev-top small { display: block; color: #8a8f9f; font: 600 12px ui-monospace, Consolas, monospace; }
+  .dev-top button { margin-left: auto; }
+  .dev-h { margin: 22px 2px 10px; font: 800 11px Unbounded; letter-spacing: .16em; color: #8a8f9f; text-transform: uppercase; }
+  .dev-card { background: #10141f; border: 1px solid #262c3d; border-radius: 16px; padding: 14px; margin-bottom: 10px; }
+  .team { display: flex; align-items: center; gap: 12px; }
+  .team .av { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; font: 900 20px Unbounded; color: #07090f; flex: none; }
+  .team b { display: block; font-size: 15px; } .team small { color: #8a8f9f; font-size: 12.5px; }
+  .team .role { margin-left: auto; font: 800 10px Unbounded; padding: 5px 8px; border-radius: 8px; background: rgba(255,204,51,.12); color: #ffcc33; }
+  .dstats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .dstat { background: #10141f; border: 1px solid #262c3d; border-radius: 14px; padding: 12px; }
+  .dstat b { display: block; font: 900 22px Unbounded; color: #fff; }
+  .dstat span { color: #8a8f9f; font-size: 12px; }
+  .dbtns { display: grid; gap: 8px; }
+  .dbtn { width: 100%; padding: 13px 14px; border-radius: 14px; border: 1px solid #262c3d; background: #141a28; color: #e8ecf5;
+    font: 700 14px Manrope; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+  .dbtn:active { transform: scale(.98); } .dbtn.warn { border-color: #ff9f1a66; color: #ffcf8a; }
+  .dbtn em { font-style: normal; font-size: 11px; color: #8a8f9f; }
+  .dlog { margin-top: 10px; padding: 12px; border-radius: 12px; background: #05070b; border: 1px solid #262c3d; color: #9dff9d;
+    font: 12px/1.5 ui-monospace, Consolas, monospace; white-space: pre-wrap; max-height: 240px; overflow: auto; display: none; }
+  .dlog.on { display: block; }
+  .tgl { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; }
+  .sw { width: 46px; height: 26px; border-radius: 99px; background: #262c3d; position: relative; transition: background .3s; flex: none; }
+  .sw::after { content: ""; position: absolute; left: 3px; top: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
+  .tgl.on .sw { background: #ffcc33; } .tgl.on .sw::after { transform: translateX(20px); }
+  #fps { position: fixed; left: 8px; top: 8px; z-index: 200; padding: 4px 8px; border-radius: 8px; background: rgba(0,0,0,.7); color: #9dff9d;
+    font: 700 12px ui-monospace, Consolas, monospace; display: none; pointer-events: none; }
+  body.dbg-outline * { outline: 1px solid rgba(255,0,128,.35); }
+
   /* ---------- ИИ-консультант ---------- */
   .ai-fab { position: fixed; right: 16px; bottom: calc(96px + env(safe-area-inset-bottom)); z-index: 60; width: 60px; height: 60px; border-radius: 50%;
     border: 0; cursor: pointer; display: grid; place-items: center; font-size: 28px;
@@ -548,6 +590,7 @@
         <p>PS5, PS4, Xbox 360 и GTA VI</p>
       </div>
     </div>
+    <button class="dev-btn" id="dev-btn">DEV</button>
   </header>
   <div class="ticker"><div class="ticker-track" id="ticker"></div></div>
 
@@ -657,6 +700,47 @@
       <div id="quiz"></div>
     </section>
   </main>
+</div>
+
+<div id="fps">-- FPS</div>
+<div class="dev-sheet" id="dev-sheet">
+  <div class="dev-top">
+    <div>
+      <h2>Панель разработчика</h2>
+      <small id="dev-ver">build ---</small>
+    </div>
+    <button class="ai-close" id="dev-close" aria-label="Закрыть"><svg width="18" height="18"><use href="#i-x"/></svg></button>
+  </div>
+
+  <div class="dev-h">Команда</div>
+  <div id="dev-team"></div>
+
+  <div class="dev-h">Статистика бота</div>
+  <div class="dstats" id="dev-stats"><div class="dstat"><b>…</b><span>загрузка</span></div></div>
+  <div class="dbtns" style="margin-top:8px"><button class="dbtn" data-a="stats">Обновить статистику <em>stats</em></button></div>
+
+  <div class="dev-h">Канал @ps_xbox_hub</div>
+  <div class="dbtns">
+    <button class="dbtn" data-a="countdown_preview">Предпросмотр отсчёта до GTA VI <em>dry-run</em></button>
+    <button class="dbtn" data-a="news_preview">Предпросмотр следующей новости <em>dry-run, ИИ</em></button>
+    <button class="dbtn warn" data-a="post_tip" data-confirm="Опубликовать фишку дня в канал прямо сейчас?">Опубликовать фишку дня сейчас <em>live</em></button>
+    <button class="dbtn warn" data-a="post_news" data-confirm="Опубликовать свежую новость в канал прямо сейчас?">Опубликовать новость сейчас <em>live</em></button>
+    <button class="dbtn" data-a="test_dm">Тестовое сообщение мне в бота <em>ping</em></button>
+  </div>
+  <div class="dlog" id="dev-log"></div>
+
+  <div class="dev-h">ИИ-консультант</div>
+  <div class="dev-card">Для разработчиков вопросы <b style="color:#ffcc33">без лимита</b>. Обычные пользователи: 15 в день, всего 100 в день на всех.</div>
+
+  <div class="dev-h">Инструменты</div>
+  <div class="dev-card tgl" data-t="fps"><span>Счётчик FPS</span><div class="sw"></div></div>
+  <div class="dev-card tgl" data-t="outline"><span>Показать рамки элементов</span><div class="sw"></div></div>
+  <div class="dev-card tgl" data-t="x360"><span>Тема Xbox 360</span><div class="sw"></div></div>
+  <div class="dbtns">
+    <button class="dbtn" data-local="device">Информация об устройстве <em>env</em></button>
+    <button class="dbtn warn" data-local="reset">Сбросить мои локальные данные <em>избранное, тесты</em></button>
+  </div>
+  <div class="dlog" id="dev-log2"></div>
 </div>
 
 <button class="ai-fab" id="ai-fab" aria-label="ИИ-консультант"><svg width="30" height="30"><use href="#i-bot"/></svg><span>ИИ</span></button>
@@ -1489,6 +1573,96 @@ async function aiAsk(q) {
   aiBusy = false; aiSend.disabled = false;
 }
 $("ai-form").addEventListener("submit", e => { e.preventDefault(); aiAsk(aiIn.value); });
+
+/* ---- Режим разработчика ---- */
+const API_BASE = "https://ps-bot.ps-bot.workers.dev/api/";
+const BUILD = "v9 · 2026-11";
+const apiPost = (path, data) => fetch(API_BASE + path, { method: "POST", headers: { "content-type": "application/json" },
+  body: JSON.stringify({ initData: (tg && tg.initData) || "", ...data }) }).then(r => r.json());
+const devSheet = $("dev-sheet");
+$("dev-ver").textContent = `build ${BUILD} · Telegram ${tg && tg.version ? tg.version : "—"}`;
+
+function renderTeam(devs) {
+  const me = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
+  const people = [];
+  (devs || []).forEach(d => people.push({ n: d.name, s: me && String(me.id) === d.id ? "это ты · идея, дизайн, контент" : "разработчик", r: "OWNER", c: "#ffcc33", l: (d.name || "?")[0] }));
+  if (!people.length && me) people.push({ n: me.first_name, s: "идея, дизайн, контент", r: "OWNER", c: "#ffcc33", l: me.first_name[0] });
+  people.push({ n: "Claude", s: "ИИ-разработчик · код, бот, монтаж", r: "AI DEV", c: "#9dff2e", l: "C" });
+  $("dev-team").innerHTML = people.map(p => `
+    <div class="dev-card team"><div class="av" style="background:${p.c}">${esc(p.l)}</div>
+      <div><b>${esc(p.n)}</b><small>${esc(p.s)}</small></div><span class="role">${p.r}</span></div>`).join("");
+}
+function renderStats(s) {
+  if (!s || s.error) { $("dev-stats").innerHTML = `<div class="dstat"><b>!</b><span>${esc((s && s.error) || "ошибка")}</span></div>`; return; }
+  const items = [
+    [s.users, "пользователей бота"], [`${s.aiToday}/${s.aiLimit}`, "вопросов ИИ сегодня"],
+    [s.stars + " ★", "звёзд донатов"], [s.newsPosted, "новостей выложено"],
+    [`${s.tipNext}/${s.tipsTotal}`, "следующая фишка"], [s.released ? "вышла" : s.gtaDays + " д", "GTA VI"],
+    [s.devs, "разработчиков"], [String(s.kyivHour).padStart(2, "0") + ":00", "время сервера (Киев)"],
+  ];
+  $("dev-stats").innerHTML = items.map(([v, l], i) => `<div class="dstat" style="animation:msgIn .4s ${i * 0.04}s both"><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join("");
+}
+async function devRun(action, btn) {
+  const log = $("dev-log");
+  if (action === "stats") { renderStats(await apiPost("dev", { action }).catch(e => ({ error: String(e) }))); H.ok(); return; }
+  log.classList.add("on"); log.textContent = `> ${action}\n…`;
+  btn && (btn.disabled = true);
+  try {
+    const r = await apiPost("dev", { action });
+    log.textContent = `> ${action}\n` + (r.msg ? r.msg.replace(/<[^>]+>/g, "") : JSON.stringify(r, null, 2));
+    H.ok();
+  } catch (e) { log.textContent = `> ${action}\nошибка: ${e}`; H.err(); }
+  btn && (btn.disabled = false);
+}
+function confirmBox(text) {
+  return new Promise(res => { try { tg.showConfirm(text, ok => res(ok)); } catch (e) { res(confirm(text)); } });
+}
+devSheet.addEventListener("click", async e => {
+  const b = e.target.closest(".dbtn[data-a]");
+  if (b) { if (b.dataset.confirm && !(await confirmBox(b.dataset.confirm))) return; return devRun(b.dataset.a, b); }
+  const l = e.target.closest(".dbtn[data-local]");
+  if (l) {
+    const log = $("dev-log2"); log.classList.add("on");
+    if (l.dataset.local === "device") {
+      log.textContent = JSON.stringify({ screen: `${screen.width}x${screen.height}`, viewport: `${innerWidth}x${innerHeight}`, dpr: devicePixelRatio,
+        platform: tg && tg.platform, tgVersion: tg && tg.version, colorScheme: tg && tg.colorScheme, ua: navigator.userAgent.slice(0, 90) }, null, 2);
+    } else if (await confirmBox("Сбросить избранное, тест старшего брата и другие локальные данные на этом устройстве?")) {
+      ["ps_favs", "obc", "x360_year"].forEach(k => { try { localStorage.removeItem(k); } catch (err) {} });
+      log.textContent = "Локальные данные сброшены. Перезапусти приложение.";
+    }
+    H.tap("medium"); return;
+  }
+  const t = e.target.closest(".tgl");
+  if (t) {
+    const on = !t.classList.contains("on"); t.classList.toggle("on", on); H.tap();
+    if (t.dataset.t === "fps") { $("fps").style.display = on ? "block" : "none"; if (on) fpsLoop(); }
+    if (t.dataset.t === "outline") document.body.classList.toggle("dbg-outline", on);
+    if (t.dataset.t === "x360") { document.body.classList.toggle("x360", on); setTheme(on); }
+  }
+});
+let fpsOn = false;
+function fpsLoop() {
+  if (fpsOn) return; fpsOn = true;
+  let frames = 0, last = performance.now();
+  (function tick(t) {
+    frames++;
+    if (t - last >= 500) { $("fps").textContent = Math.round(frames * 1000 / (t - last)) + " FPS"; frames = 0; last = t; }
+    if ($("fps").style.display !== "none") requestAnimationFrame(tick); else fpsOn = false;
+  })(last);
+}
+$("dev-btn").addEventListener("click", () => {
+  devSheet.classList.add("on"); H.tap("heavy");
+  const tx = devSheet.querySelector('.tgl[data-t="x360"]'); tx.classList.toggle("on", document.body.classList.contains("x360"));
+  devRun("stats");
+});
+$("dev-close").addEventListener("click", () => { devSheet.classList.remove("on"); H.tap(); });
+
+// кто я? если разработчик — показываем кнопку DEV
+if (tg && tg.initData) {
+  apiPost("me", {}).then(r => {
+    if (r && r.dev) { document.body.classList.add("is-dev"); renderTeam(r.devs); }
+  }).catch(() => {});
+}
 $("ai-chips").addEventListener("click", e => { const b = e.target.closest("button"); if (b) aiAsk(b.textContent); });
 </script>
 </body>
