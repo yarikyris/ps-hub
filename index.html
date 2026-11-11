@@ -242,10 +242,79 @@
   .page.active { display: block; animation: pageIn .6s cubic-bezier(.16,1,.3,1); }
   @keyframes pageIn { from { opacity: 0; transform: translateX(var(--dir, 40px)) skewX(-6deg); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
 
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-    .r { opacity: 1; transform: none; filter: none; }
-  }
+  /* ---------- GTA VI ---------- */
+  .gta-banner { position: relative; overflow: hidden; border-radius: 22px; padding: 18px; margin: 14px 0 4px; cursor: pointer;
+    background: linear-gradient(120deg, #ff3d8b, #ff7a3d 45%, #8b5cff); box-shadow: 0 18px 40px -14px rgba(255,61,139,.8);
+    animation: bannerPulse 2.4s ease-in-out infinite; }
+  @keyframes bannerPulse { 50% { box-shadow: 0 18px 60px -6px rgba(255,122,61,.95); transform: scale(1.015); } }
+  .gta-banner::before { content: ""; position: absolute; inset: -50%; background: conic-gradient(from 0deg, transparent, rgba(255,255,255,.35), transparent 30%);
+    animation: spin 3s linear infinite; }
+  .gta-banner::after { content: ""; position: absolute; inset: 2px; border-radius: 20px; background: linear-gradient(120deg, #2a0b2e, #3a1230 50%, #1b1040); }
+  .gta-banner > * { position: relative; z-index: 1; }
+  .gta-banner small { display: block; font: 800 11px Unbounded; letter-spacing: .2em; color: #ffb27a; }
+  .gta-banner b { display: block; font: 900 22px Unbounded; margin: 6px 0 4px; background: linear-gradient(90deg, #ff4fa0, #ffb020);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .gta-banner .mini { font: 700 15px Unbounded; color: #fff; letter-spacing: .04em; }
+  .gta-banner .go { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%;
+    display: grid; place-items: center; background: rgba(255,255,255,.12); animation: nudge 1.2s ease-in-out infinite; }
+  .gta-banner .go svg { width: 20px; height: 20px; transform: rotate(-90deg); }
+  @keyframes nudge { 50% { transform: translate(6px, -50%); } }
+
+  .gta-hero { position: relative; overflow: hidden; border-radius: 26px; padding: 26px 18px 22px; margin-top: 4px; text-align: center;
+    background: linear-gradient(180deg, #1a0630 0%, #4a0d4a 38%, #ff3d8b 72%, #ffb020 100%); }
+  .sun { position: absolute; left: 50%; bottom: -70px; width: 260px; height: 260px; margin-left: -130px; border-radius: 50%;
+    background: linear-gradient(180deg, #ffe066, #ff7a3d 55%, #ff3d8b);
+    -webkit-mask: repeating-linear-gradient(180deg, #000 0 14px, transparent 14px 20px); mask: repeating-linear-gradient(180deg, #000 0 14px, transparent 14px 20px);
+    animation: sunMove 3s linear infinite, sunGlow 2.5s ease-in-out infinite alternate; opacity: .9; }
+  @keyframes sunMove { to { -webkit-mask-position: 0 20px; mask-position: 0 20px; } }
+  @keyframes sunGlow { to { filter: drop-shadow(0 0 40px #ff7a3d); transform: scale(1.06); } }
+  .grid-floor { position: absolute; left: -50%; right: -50%; bottom: 0; height: 90px; transform: perspective(200px) rotateX(60deg); transform-origin: bottom;
+    background-image: linear-gradient(rgba(255,255,255,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.35) 1px, transparent 1px);
+    background-size: 30px 30px; animation: floor 1s linear infinite; mask-image: linear-gradient(transparent, #000); -webkit-mask-image: linear-gradient(transparent, #000); }
+  @keyframes floor { to { background-position: 0 30px; } }
+  .palm { position: absolute; bottom: 30px; width: 70px; height: 120px; opacity: .85; animation: sway 4s ease-in-out infinite; transform-origin: bottom center; }
+  .palm.l { left: -6px; } .palm.rr { right: -6px; transform: scaleX(-1); animation-delay: -2s; }
+  @keyframes sway { 50% { rotate: 4deg; } }
+  .gta-logo { position: relative; z-index: 2; font: 900 64px/1 Unbounded; letter-spacing: -.02em; color: #fff;
+    text-shadow: 0 0 10px #ff4fa0, 0 0 30px #ff4fa0, 0 0 60px #ff7a3d; animation: neon 3s infinite; }
+  .gta-logo span { background: linear-gradient(180deg, #fff 30%, #ffb3d6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  @keyframes neon { 0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; } 20%, 24%, 55% { opacity: .35; text-shadow: none; } }
+  .gta-sub { position: relative; z-index: 2; font: 700 12px Unbounded; letter-spacing: .3em; color: #ffd0e6; margin: 8px 0 20px; }
+  .count { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .cbox { background: rgba(10,4,24,.62); border: 1px solid rgba(255,255,255,.18); border-radius: 16px; padding: 12px 0 8px;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); overflow: hidden; }
+  .cbox b { display: block; font: 900 28px Unbounded; color: #fff; text-shadow: 0 0 16px rgba(255,79,160,.9); }
+  .cbox b.flip { animation: flip .5s cubic-bezier(.3,1.5,.5,1); }
+  @keyframes flip { 0% { transform: translateY(-100%) rotateX(90deg); opacity: 0; } 100% { transform: none; opacity: 1; } }
+  .cbox span { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #ffc2dd; }
+  .gta-date { position: relative; z-index: 2; margin-top: 16px; display: inline-flex; gap: 8px; align-items: center; padding: 8px 14px; border-radius: 999px;
+    background: rgba(10,4,24,.6); font: 700 12px Unbounded; letter-spacing: .06em; }
+  .gta-date::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #22e39a; box-shadow: 0 0 12px #22e39a; animation: blink 1s infinite; }
+
+  .timeline { position: relative; padding-left: 30px; }
+  .timeline::before { content: ""; position: absolute; left: 10px; top: 6px; bottom: 6px; width: 3px; border-radius: 3px;
+    background: linear-gradient(#8b5cff, #ff3d8b, #ffb020); transform-origin: top; transform: scaleY(0); transition: transform 1.4s cubic-bezier(.2,.9,.3,1); }
+  .timeline.reveal::before { transform: scaleY(1); }
+  .tl { position: relative; margin-bottom: 14px; }
+  .tl::before { content: ""; position: absolute; left: -26px; top: 18px; width: 13px; height: 13px; border-radius: 50%; background: var(--bg);
+    border: 3px solid var(--dot, #8b5cff); box-shadow: 0 0 14px var(--dot, #8b5cff); }
+  .tl.done .card h3 { text-decoration: line-through; text-decoration-color: rgba(255,68,102,.8); text-decoration-thickness: 2px; }
+  .tl.now { --dot: #22e39a; }
+  .tl.now::before { animation: ping 1.4s infinite; }
+  @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(34,227,154,.8); } 100% { box-shadow: 0 0 0 16px rgba(34,227,154,0); } }
+
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .hero-card { position: relative; overflow: hidden; border-radius: 18px; padding: 16px 14px; min-height: 130px;
+    background: linear-gradient(160deg, var(--h1), var(--h2)); display: flex; flex-direction: column; justify-content: flex-end; }
+  .hero-card b { font: 900 18px Unbounded; position: relative; z-index: 1; }
+  .hero-card span { font-size: 12px; opacity: .85; position: relative; z-index: 1; }
+  .hero-card::before { content: attr(data-l); position: absolute; right: -6px; top: -14px; font: 900 90px Unbounded; color: rgba(255,255,255,.12);
+    animation: floatL 4s ease-in-out infinite; }
+  @keyframes floatL { 50% { transform: translateY(8px) rotate(-6deg); } }
+  .price { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px dashed var(--line); }
+  .price:last-child { border: 0; }
+  .price b { font: 900 20px Unbounded; background: linear-gradient(90deg, #ff4fa0, #ffb020); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .src { font-size: 11px; color: var(--muted); margin-top: 10px; }
 </style>
 </head>
 <body>
@@ -256,6 +325,7 @@
     <linearGradient id="sg" x1="0" x2="1"><stop offset="0" stop-color="#23d5ff"/><stop offset=".5" stop-color="#2f6bff"/><stop offset="1" stop-color="#ff3d8b"/></linearGradient>
   </defs>
   <symbol id="i-news" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M8 9h5M8 13h5M8 17h3"/></symbol>
+  <symbol id="i-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4 0 7-2.7 7-7 0-3.5-2.2-6-4-8 0 2.5-1.3 4-3 4 .5-3-1-6-4-9 0 4-5 7-5 12 0 4.3 3 8 9 8z"/><path d="M12 22c-2 0-3.5-1.5-3.5-3.5S10 15 12 13c2 2 3.5 3.5 3.5 5.5S14 22 12 22z"/></symbol>
   <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
   <symbol id="i-pad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10a5 5 0 0 1 4.9 6l-.6 3a3 3 0 0 1-5.3 1.2L14.5 15h-5L8 17.2A3 3 0 0 1 2.7 16l-.6-3A5 5 0 0 1 7 7z"/><path d="M7 10v4M5 12h4"/><circle cx="16" cy="11" r=".6" fill="currentColor"/><circle cx="18" cy="13" r=".6" fill="currentColor"/></symbol>
   <symbol id="i-cup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3M12 14v4M8 21h8M9 18h6"/></symbol>
@@ -309,8 +379,51 @@
 
   <main>
     <section class="page active" id="page-news">
+      <div class="gta-banner" id="gta-banner">
+        <small>ГЛАВНЫЙ РЕЛИЗ ГОДА</small>
+        <b>GTA VI</b>
+        <div class="mini" id="mini-count">—</div>
+        <div class="go"><svg><use href="#i-chev"/></svg></div>
+      </div>
       <div class="section-title">Свежие новости</div>
       <div id="news-list"></div>
+    </section>
+
+    <section class="page" id="page-gta">
+      <div class="gta-hero">
+        <div class="sun"></div>
+        <div class="grid-floor"></div>
+        <svg class="palm l" viewBox="0 0 70 120"><path d="M38 120 C36 90 34 60 38 38" stroke="#1a0630" stroke-width="5" fill="none"/><path d="M38 38 C24 26 10 28 2 36 C14 30 26 32 38 38 Z M38 38 C30 20 18 12 6 12 C20 18 30 26 38 38 Z M38 38 C42 22 52 12 66 10 C54 18 46 26 38 38 Z M38 38 C52 30 62 32 70 42 C60 36 50 34 38 38 Z" fill="#1a0630"/></svg>
+        <svg class="palm rr" viewBox="0 0 70 120"><path d="M38 120 C36 90 34 60 38 38" stroke="#1a0630" stroke-width="5" fill="none"/><path d="M38 38 C24 26 10 28 2 36 C14 30 26 32 38 38 Z M38 38 C30 20 18 12 6 12 C20 18 30 26 38 38 Z M38 38 C42 22 52 12 66 10 C54 18 46 26 38 38 Z M38 38 C52 30 62 32 70 42 C60 36 50 34 38 38 Z" fill="#1a0630"/></svg>
+        <div class="gta-logo"><span>GTA VI</span></div>
+        <div class="gta-sub">ДО РЕЛИЗА ОСТАЛОСЬ</div>
+        <div class="count">
+          <div class="cbox"><b id="cd-d">00</b><span>дней</span></div>
+          <div class="cbox"><b id="cd-h">00</b><span>часов</span></div>
+          <div class="cbox"><b id="cd-m">00</b><span>минут</span></div>
+          <div class="cbox"><b id="cd-s">00</b><span>секунд</span></div>
+        </div>
+        <div class="gta-date" id="gta-date">19 НОЯБРЯ 2026 · PS5 / XBOX SERIES</div>
+      </div>
+
+      <div class="section-title">Главное</div>
+      <div id="gta-news"></div>
+
+      <div class="section-title">Путь к релизу</div>
+      <div class="timeline r" id="timeline"></div>
+
+      <div class="section-title">Герои</div>
+      <div class="duo">
+        <div class="hero-card r" data-l="L" style="--h1:#ff3d8b;--h2:#5a0f3c"><b>Лусия</b><span>Первая главная героиня в современной GTA</span></div>
+        <div class="hero-card r" data-l="J" style="--h1:#2f6bff;--h2:#120f4a"><b>Джейсон</b><span>Её напарник по криминальным делам</span></div>
+      </div>
+
+      <div class="section-title">Цены</div>
+      <div class="card r">
+        <div class="price"><span>Standard Edition</span><b>$79.99</b></div>
+        <div class="price"><span>Ultimate Edition</span><b>$99.99</b></div>
+        <div class="src">По данным игровых сайтов. Точную цену в гривнах смотри в PS Store.</div>
+      </div>
     </section>
 
     <section class="page" id="page-tips">
@@ -341,6 +454,7 @@
 <nav id="nav">
   <div class="pill" id="pill"></div>
   <button class="active" data-page="news"><svg><use href="#i-news"/></svg>Новости</button>
+  <button data-page="gta"><svg><use href="#i-fire"/></svg>GTA VI</button>
   <button data-page="tips"><svg><use href="#i-bolt"/></svg>Фишки</button>
   <button data-page="features"><svg><use href="#i-pad"/></svg>Особенности</button>
   <button data-page="quiz"><svg><use href="#i-cup"/></svg>Квиз</button>
@@ -434,7 +548,33 @@ const FEATURES = [
     text: "Почти все игры PS4 запускаются на PS5, а некоторые получают бесплатное улучшение." },
 ];
 
+/* ---- GTA VI ---- */
+const GTA_RELEASE = new Date(2026, 10, 19, 0, 0, 0); // 19 ноября 2026, 00:00 по местному времени
+
+const GTA_NEWS = [
+  { tag: "Релиз", type: "hot", title: "Выход 19 ноября — без новых переносов",
+    text: "Rockstar держит дату: GTA VI выходит 19 ноября 2026 на PS5 и Xbox Series X|S. Свежих переносов не объявляли." },
+  { tag: "Предзагрузка", type: "free", title: "Можно скачать заранее",
+    text: "По данным магазинов, цифровую версию можно предзагрузить до релиза, чтобы играть сразу в полночь. Игра весит много — освободи место на SSD." },
+  { tag: "Предзаказ", type: "", title: "Бонус за предзаказ до 20 ноября",
+    text: "Предзаказы открыты с лета. По данным игровых сайтов, за предзаказ стандартного издания дают бонусный набор в стиле старого Вайс-Сити." },
+  { tag: "ПК", type: "hw", title: "На ПК — не на старте",
+    text: "На релизе игра выходит только на консолях. Версию для ПК Rockstar пока не анонсировала — как было и с GTA V." },
+  { tag: "Мир", type: "", title: "Штат Леонида и Вайс-Сити",
+    text: "Действие происходит в вымышленном штате Леонида — пародии на Флориду. Главный город — неоновый Вайс-Сити, вокруг болота, пляжи и Keys." },
+];
+
+const GTA_TIMELINE = [
+  { when: "Декабрь 2023", title: "Первый трейлер", text: "Побил рекорды просмотров на YouTube за сутки.", st: "ok" },
+  { when: "2025", title: "Планировали осень 2025", text: "Первый перенос — на 26 мая 2026.", st: "done" },
+  { when: "Май 2026", title: "26 мая 2026", text: "Второй перенос — на 19 ноября 2026.", st: "done" },
+  { when: "Июнь 2026", title: "Открыты предзаказы", text: "Standard и Ultimate издания.", st: "ok" },
+  { when: "19 ноября 2026", title: "Релиз", text: "PS5 и Xbox Series X|S.", st: "now" },
+];
+
 const QUIZ = [
+  { q: "Когда выходит GTA VI?", a: ["26 мая 2026", "19 ноября 2026", "1 января 2027", "Уже вышла"], r: 1 },
+  { q: "Как называется штат, где происходит GTA VI?", a: ["Сан-Андреас", "Либерти", "Леонида", "Алдерни"], r: 2 },
   { q: "Как называется геймпад PS5?", a: ["DualShock 5", "DualSense", "PlayPad", "SenseShock"], r: 1 },
   { q: "Что будет, если зажать кнопку микрофона на DualSense?", a: ["Выключится консоль", "Выключится весь звук игры", "Откроется чат", "Сделается скриншот"], r: 1 },
   { q: "Как зовут робота — героя игры, встроенной в каждую PS5?", a: ["Astro", "Ratchet", "Clank", "Sackboy"], r: 0 },
@@ -454,7 +594,7 @@ const H = {
   ok: () => { try { tg.HapticFeedback.notificationOccurred("success"); } catch (e) {} },
   err: () => { try { tg.HapticFeedback.notificationOccurred("error"); } catch (e) {} },
 };
-const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduce = false; // анимации всегда включены
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const $ = id => document.getElementById(id);
 const SHAPES = ["s-tri", "s-cir", "s-crs", "s-sqr"];
@@ -552,7 +692,7 @@ function shakeScreen() { document.body.classList.remove("shake"); void document.
 setInterval(() => { if (reduce) return; const t = $("title"); t.classList.add("on"); setTimeout(() => t.classList.remove("on"), 380); }, 3800);
 
 /* ---- Бегущая строка ---- */
-const tickerItems = NEWS.map(n => `<span>${esc(n.title)}</span>`).join("");
+const tickerItems = ["GTA VI выходит 19 ноября", ...NEWS.map(n => n.title), "Предзагрузка GTA VI"].map(t => `<span>${esc(t)}</span>`).join("");
 $("ticker").innerHTML = tickerItems + tickerItems;
 
 /* ---- Появление при прокрутке + 3D-наклон ---- */
@@ -618,6 +758,43 @@ $("news-list").innerHTML = NEWS.map((n, i) => `
     <p>${esc(n.text)}</p>
   </div>`).join("");
 watch($("news-list"));
+
+/* ---- GTA VI ---- */
+$("gta-news").innerHTML = GTA_NEWS.map(n => `
+  <div class="card r">
+    <span class="tag ${n.type}">${esc(n.tag)}</span>
+    <h3>${esc(n.title)}</h3>
+    <p>${esc(n.text)}</p>
+  </div>`).join("");
+$("timeline").innerHTML = GTA_TIMELINE.map(t => `
+  <div class="tl ${t.st === "done" ? "done" : t.st === "now" ? "now" : ""}">
+    <div class="card">
+      <span class="tag ${t.st === "now" ? "free" : t.st === "done" ? "hot" : ""}">${esc(t.when)}</span>
+      <h3>${esc(t.title)}</h3>
+      <p>${esc(t.text)}</p>
+    </div>
+  </div>`).join("");
+watch($("page-gta"));
+$("gta-banner").addEventListener("click", () => navBtns[1].click());
+
+const pad = n => String(n).padStart(2, "0");
+let lastCd = {};
+function tickCountdown() {
+  let ms = GTA_RELEASE - new Date();
+  if (ms <= 0) {
+    ["d", "h", "m", "s"].forEach(k => $("cd-" + k).textContent = "00");
+    $("gta-date").textContent = "УЖЕ ВЫШЛА · ИГРАЙ";
+    $("mini-count").textContent = "Уже в продаже";
+    return;
+  }
+  const s = Math.floor(ms / 1000), v = { d: Math.floor(s / 86400), h: Math.floor(s % 86400 / 3600), m: Math.floor(s % 3600 / 60), s: s % 60 };
+  for (const k in v) {
+    const el = $("cd-" + k), txt = pad(v[k]);
+    if (lastCd[k] !== txt) { el.textContent = txt; el.classList.remove("flip"); void el.offsetWidth; el.classList.add("flip"); lastCd[k] = txt; }
+  }
+  $("mini-count").textContent = `${v.d} д  ${pad(v.h)} ч  ${pad(v.m)} м  ${pad(v.s)} с`;
+}
+tickCountdown(); setInterval(tickCountdown, 1000);
 
 /* ---- Фишки ---- */
 let favs = [];
