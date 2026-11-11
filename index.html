@@ -78,12 +78,23 @@
     animation: spin 6s linear infinite; padding: 2px; }
   .brand-mark i { position: absolute; inset: 2px; border-radius: 12px; background: var(--bg2); display: grid; place-items: center; }
   .brand-mark svg { width: 24px; height: 24px; animation: spin 6s linear infinite reverse; }
-  .brand-mark .bx { display: none; width: 34px; height: 34px; border-radius: 50%; place-items: center; position: relative;
+  .brand-mark .bx { display: none; width: 34px; height: 34px; place-items: center; position: relative; perspective: 120px;
+    animation: spin 6s linear infinite reverse; }
+  .brand-mark .bx .orbx { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; position: relative; overflow: hidden;
     background: radial-gradient(circle at 35% 28%, #fff 0 6%, #dcff9e 14%, #7fd81e 45%, #2c7d00 80%, #0d3a00);
     box-shadow: 0 0 16px rgba(150,255,40,.8); font: 900 17px/1 Unbounded; color: #fff; text-shadow: 0 1px 2px rgba(0,50,0,.8);
-    animation: spin 6s linear infinite reverse; }
+    animation: coin 2.2s cubic-bezier(.45,.05,.55,.95) infinite, coinGlow 2.2s ease-in-out infinite; }
+  .brand-mark .bx .orbx::after { content: ""; position: absolute; top: -20%; left: -60%; width: 40%; height: 140%; transform: skewX(-20deg);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.8), transparent); animation: orbShine 2.2s ease-in-out infinite; }
+  @keyframes coin { 0% { transform: rotateY(0); } 100% { transform: rotateY(360deg); } }
+  @keyframes coinGlow { 50% { box-shadow: 0 0 26px rgba(190,255,60,1); } }
+  @keyframes orbShine { 0%, 40% { left: -60%; } 70%, 100% { left: 130%; } }
   .brand-mark .bx small { position: absolute; bottom: -3px; right: -8px; font: 800 8px Unbounded; background: #0d3a00;
     border: 1px solid #9dff00; color: #c8ff3d; padding: 1px 3px; border-radius: 5px; text-shadow: none; }
+  /* новое имя анимации перезапускает вращение рамки в тот же кадр, что и у значка — фазы совпадают */
+  body.x360 .brand-mark { animation: spinX 6s linear infinite; }
+  body.x360 .brand-mark .bx { animation: spinX 6s linear infinite reverse; }
+  @keyframes spinX { to { transform: rotate(360deg); } }
   body.x360 .brand-mark .ps { display: none; }
   body.x360 .brand-mark .bx { display: grid; }
   .brand-mark i.swap { animation: swapMark .7s cubic-bezier(.3,1.6,.5,1); }
@@ -441,7 +452,7 @@
 <div class="app">
   <header>
     <div class="brand">
-      <div class="brand-mark" id="mark"><i><svg class="ps" viewBox="0 0 24 24"><use href="#s-tri"/></svg><span class="bx">X<small>360</small></span></i></div>
+      <div class="brand-mark" id="mark"><i><svg class="ps" viewBox="0 0 24 24"><use href="#s-tri"/></svg><span class="bx"><span class="orbx">X</span><small>360</small></span></i></div>
       <div>
         <h1><span class="glitch" id="title" data-text="PS | XBOX">PS | XBOX</span></h1>
         <p>PS5, PS4, Xbox 360 и GTA VI</p>
