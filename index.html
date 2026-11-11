@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<title>PS | Xbox Хаб</title>
+<title>PS Хаб</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -78,25 +78,6 @@
     animation: spin 6s linear infinite; padding: 2px; }
   .brand-mark i { position: absolute; inset: 2px; border-radius: 12px; background: var(--bg2); display: grid; place-items: center; }
   .brand-mark svg { width: 24px; height: 24px; animation: spin 6s linear infinite reverse; }
-  .brand-mark .bx { display: none; width: 34px; height: 34px; place-items: center; position: relative; perspective: 120px;
-    animation: spin 6s linear infinite reverse; }
-  .brand-mark .bx .orbx { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; position: relative; overflow: hidden;
-    background: radial-gradient(circle at 35% 28%, #fff 0 6%, #dcff9e 14%, #7fd81e 45%, #2c7d00 80%, #0d3a00);
-    box-shadow: 0 0 16px rgba(150,255,40,.8); font: 900 17px/1 Unbounded; color: #fff; text-shadow: 0 1px 2px rgba(0,50,0,.8);
-    animation: coin 2.2s cubic-bezier(.45,.05,.55,.95) infinite, coinGlow 2.2s ease-in-out infinite; }
-  .brand-mark .bx .orbx::after { content: ""; position: absolute; top: -20%; left: -60%; width: 40%; height: 140%; transform: skewX(-20deg);
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.8), transparent); animation: orbShine 2.2s ease-in-out infinite; }
-  @keyframes coin { 0% { transform: rotateY(0); } 100% { transform: rotateY(360deg); } }
-  @keyframes coinGlow { 50% { box-shadow: 0 0 26px rgba(190,255,60,1); } }
-  @keyframes orbShine { 0%, 40% { left: -60%; } 70%, 100% { left: 130%; } }
-  .brand-mark .bx small { position: absolute; bottom: -3px; right: -8px; font: 800 8px Unbounded; background: #0d3a00;
-    border: 1px solid #9dff00; color: #c8ff3d; padding: 1px 3px; border-radius: 5px; text-shadow: none; }
-  /* новое имя анимации перезапускает вращение рамки в тот же кадр, что и у значка — фазы совпадают */
-  body.x360 .brand-mark { animation: spinX 6s linear infinite; }
-  body.x360 .brand-mark .bx { animation: spinX 6s linear infinite reverse; }
-  @keyframes spinX { to { transform: rotate(360deg); } }
-  body.x360 .brand-mark .ps { display: none; }
-  body.x360 .brand-mark .bx { display: grid; }
   .brand-mark i.swap { animation: swapMark .7s cubic-bezier(.3,1.6,.5,1); }
   @keyframes swapMark { 0% { transform: scale(.2) rotate(-180deg); } 100% { transform: none; } }
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -263,215 +244,17 @@
   .page.active { display: block; animation: pageIn .6s cubic-bezier(.16,1,.3,1); }
   @keyframes pageIn { from { opacity: 0; transform: translateX(var(--dir, 40px)) skewX(-6deg); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
 
-  /* ---------- Тема Xbox 360 (older brother core) ---------- */
-  body, .glow, .card, .spec, nav, .chip, .search { transition: background-color .8s, background .8s, border-color .8s, color .8s; }
-  body.x360 {
-    --bg: #020a02; --bg2: #071a05; --card: rgba(18, 46, 12, .62); --line: rgba(170, 255, 110, .18);
-    --text: #f2ffe9; --muted: #a3c795; --blue: #5fd400; --violet: #1e8a00; --cyan: #c8ff3d; --pink: #9dff00;
-    --tri: #b6ff3b; --cir: #6be000; --crs: #e8ffd0; --sqr: #2fa800;
-  }
-  body.x360 .glow.a { background: #4cc400; } body.x360 .glow.b { background: #1e8a00; } body.x360 .glow.c { background: #c8ff3d; opacity: .3; }
-  body.x360 .card, body.x360 .spec { box-shadow: inset 0 1px 0 rgba(255,255,255,.08); }
-  body.x360 .glitch.on::before { color: #c8ff3d; } body.x360 .glitch.on::after { color: #ffffff; }
-  #wipe { position: fixed; inset: 0; z-index: 80; pointer-events: none; clip-path: circle(0% at var(--wx, 50%) var(--wy, 50%)); opacity: 1; }
-  #wipe.go { animation: wipe .9s cubic-bezier(.7,0,.2,1) forwards; }
-  @keyframes wipe { 0% { clip-path: circle(0% at var(--wx) var(--wy)); opacity: 1; } 55% { clip-path: circle(150% at var(--wx) var(--wy)); opacity: 1; }
-    100% { clip-path: circle(150% at var(--wx) var(--wy)); opacity: 0; } }
-
-  .seg { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); background: var(--card); border: 1px solid var(--line);
-    border-radius: 18px; padding: 4px; margin: 16px 0 4px; }
-  .seg button { position: relative; z-index: 1; background: none; border: 0; color: var(--muted); font: 700 13px Unbounded, sans-serif;
-    padding: 12px 0; cursor: pointer; transition: color .3s; }
-  .seg button.on { color: #fff; }
-  .seg-ind { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / 3); border-radius: 14px;
-    background: linear-gradient(135deg, var(--blue), var(--violet)); box-shadow: 0 6px 22px -4px var(--blue);
-    transition: transform .55s cubic-bezier(.5,1.6,.4,.9), background .6s; }
-
+  /* ---------- Консоль PS5 ---------- */
   .con-hero { position: relative; overflow: hidden; border-radius: 24px; padding: 24px 18px 22px; margin: 12px 0 4px;
     background: linear-gradient(135deg, var(--h1), var(--h2)); border: 1px solid rgba(255,255,255,.12); }
   .con-hero h2 { position: relative; z-index: 1; margin: 0; font: 900 34px/1.05 Unbounded; letter-spacing: -.01em; }
   .con-hero p { position: relative; z-index: 1; margin: 8px 0 0; max-width: 64%; opacity: .9; line-height: 1.45; font-size: 14px; }
   .con-hero .ghost { position: absolute; right: -10px; bottom: -26px; font: 900 110px Unbounded; color: rgba(255,255,255,.08); animation: floatL 5s ease-in-out infinite; }
-  .orb { position: absolute; right: -24px; top: -24px; width: 160px; height: 160px; border-radius: 50%;
-    background: radial-gradient(circle at 34% 28%, #fff 0 5%, #e6ffb0 11%, #8ee62a 38%, #3a9400 70%, #0f3a00 100%);
-    box-shadow: 0 0 70px rgba(150,255,40,.75), inset -12px -16px 34px rgba(0,0,0,.45); animation: orbPulse 2.4s ease-in-out infinite; }
-  .orb::before { content: ""; position: absolute; inset: 22%; border-radius: 50%; border: 6px solid rgba(255,255,255,.85);
-    border-left-color: transparent; border-right-color: transparent; transform: rotate(45deg); animation: spin 5s linear infinite; }
-  .orb::after { content: ""; position: absolute; left: 18%; top: 10%; width: 46%; height: 26%; border-radius: 50%;
-    background: linear-gradient(180deg, rgba(255,255,255,.75), transparent); transform: rotate(-18deg); }
-  @keyframes orbPulse { 50% { box-shadow: 0 0 110px rgba(170,255,60,.95), inset -12px -16px 34px rgba(0,0,0,.45); transform: scale(1.05); } }
   .blades { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
   .blades i { position: absolute; top: -20%; width: 34px; height: 140%; background: linear-gradient(180deg, transparent, rgba(255,255,255,.18), transparent);
     transform: skewX(-22deg); animation: blade 3.2s linear infinite; }
   .blades i:nth-child(2) { animation-delay: -1.1s; width: 18px; } .blades i:nth-child(3) { animation-delay: -2.2s; width: 52px; }
   @keyframes blade { from { left: -20%; } to { left: 120%; } }
-
-  .obc-meter { text-align: center; padding: 18px 10px 14px; }
-  .obc-meter b { display: block; font: 900 46px Unbounded; background: linear-gradient(180deg, #fff, var(--cyan));
-    -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .obc-meter span { color: var(--muted); font-size: 13px; }
-  .obc-bar { height: 10px; border-radius: 99px; background: rgba(255,255,255,.07); overflow: hidden; margin-top: 12px; }
-  .obc-bar div { height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--violet), var(--blue), var(--cyan));
-    box-shadow: 0 0 18px var(--blue); transition: width .6s cubic-bezier(.2,.9,.3,1); }
-  .obc-item { display: flex; gap: 14px; align-items: center; padding: 14px; border-radius: 16px; background: var(--card);
-    border: 1px solid var(--line); margin-bottom: 8px; cursor: pointer; transition: transform .25s, border-color .3s, background .3s; }
-  .obc-item:active { transform: scale(.97); }
-  .obc-item .box { flex: none; width: 28px; height: 28px; border-radius: 9px; border: 2px solid var(--blue); display: grid; place-items: center;
-    transition: all .35s cubic-bezier(.3,1.8,.5,1); }
-  .obc-item .box svg { width: 16px; height: 16px; opacity: 0; transform: scale(0) rotate(-45deg); transition: all .35s cubic-bezier(.3,1.8,.5,1); }
-  .obc-item.on { border-color: var(--blue); background: rgba(95,212,0,.12); }
-  .obc-item.on .box { background: var(--blue); box-shadow: 0 0 16px var(--blue); }
-  .obc-item.on .box svg { opacity: 1; transform: none; }
-  .obc-item b { display: block; font-size: 15px; } .obc-item small { color: var(--muted); font-size: 12.5px; }
-
-  /* ---------- Xbox: квиз, статья OBC, диски ---------- */
-  .answer .xk { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; border-radius: 50%;
-    display: grid; place-items: center; font: 900 14px Unbounded; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.5);
-    box-shadow: inset 0 -3px 0 rgba(0,0,0,.25), inset 0 3px 4px rgba(255,255,255,.35); }
-  body.x360 .gta-banner { display: none; }
-
-  .obc-hero { position: relative; overflow: hidden; border-radius: 26px; padding: 30px 20px 26px; margin-top: 6px;
-    background: radial-gradient(120% 90% at 80% 0%, #6be000 0%, #1e7a00 40%, #062a02 100%); }
-  .obc-hero .orb { right: -36px; top: -36px; width: 190px; height: 190px; }
-  .obc-hero small { position: relative; z-index: 1; font: 800 11px Unbounded; letter-spacing: .2em; color: #e8ffd0; opacity: .85; }
-  .obc-hero h2 { position: relative; z-index: 1; margin: 10px 0 8px; font: 900 34px/1.05 Unbounded; max-width: 80%;
-    text-shadow: 0 0 30px rgba(200,255,61,.6); }
-  .obc-hero p { position: relative; z-index: 1; margin: 0; max-width: 78%; line-height: 1.5; color: #f2ffe9; }
-  .art p { margin: 0 0 10px; color: var(--text); opacity: .88; line-height: 1.65; }
-  .art p:last-child { margin-bottom: 0; }
-  .vibe { display: flex; flex-wrap: wrap; gap: 8px; }
-  .vibe span { padding: 8px 12px; border-radius: 999px; background: rgba(157,255,46,.12); border: 1px solid rgba(157,255,46,.35);
-    font: 700 13px Manrope, sans-serif; color: #dfffc0; animation: vibeIn .5s cubic-bezier(.3,1.6,.5,1) both; }
-  @keyframes vibeIn { from { transform: scale(0) rotate(-10deg); opacity: 0; } }
-  .btn.lime { background: linear-gradient(135deg, #9dff2e, #2fa800); color: #062a02; box-shadow: 0 10px 30px -8px rgba(157,255,46,.7); }
-
-  .years { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  .years button { padding: 12px 0; border-radius: 14px; border: 1px solid var(--line); background: var(--card); color: var(--text);
-    font: 800 14px Unbounded, sans-serif; cursor: pointer; transition: all .3s cubic-bezier(.3,1.6,.5,1); }
-  .years button.on { background: linear-gradient(135deg, #9dff2e, #2fa800); color: #062a02; transform: scale(1.08); box-shadow: 0 6px 22px rgba(157,255,46,.5); }
-  .era { margin: 12px 0 4px; padding: 14px 16px; border-radius: 16px; background: rgba(157,255,46,.1); border: 1px solid rgba(157,255,46,.3);
-    line-height: 1.5; font-weight: 600; }
-  .discs { display: flex; gap: 12px; overflow-x: auto; padding: 8px 2px 14px; scrollbar-width: none; scroll-snap-type: x mandatory; }
-  .discs::-webkit-scrollbar { display: none; }
-  .disc-card { flex: none; width: 150px; scroll-snap-align: start; text-align: center; animation: discIn .6s cubic-bezier(.2,1.4,.4,1) both; }
-  @keyframes discIn { from { opacity: 0; transform: translateY(30px) rotate(-8deg); } }
-  .disc { width: 130px; height: 130px; margin: 0 auto 10px; border-radius: 50%; position: relative;
-    background: conic-gradient(from 0deg, var(--c1), #fff 12%, var(--c2) 25%, #c9f 38%, var(--c1) 50%, #fff 62%, var(--c2) 75%, #9ff 88%, var(--c1));
-    box-shadow: 0 10px 30px -6px var(--c1), inset 0 0 0 6px rgba(255,255,255,.25); animation: spin 4s linear infinite; }
-  .disc::before { content: ""; position: absolute; inset: 28%; border-radius: 50%; background: radial-gradient(circle, #111 0 30%, #ddd 31% 45%, rgba(255,255,255,.7) 46%); }
-  .disc::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: linear-gradient(135deg, rgba(255,255,255,.55), transparent 45%); }
-  .disc.sm { width: 74px; height: 74px; margin: 0; flex: none; }
-  .starter { display: flex; gap: 14px; align-items: center; padding: 14px; margin-bottom: 10px; border-radius: 18px; background: var(--card);
-    border: 1px solid var(--line); cursor: pointer; }
-  .st-body { position: relative; flex: 1; min-width: 0; }
-  .st-body b { display: block; font: 800 15px Unbounded, sans-serif; line-height: 1.25; padding-right: 30px; }
-  .st-body small { color: #b6ff3b; font-size: 12px; font-weight: 700; }
-  .st-body p { margin: 6px 0 0; color: var(--muted); font-size: 13.5px; line-height: 1.45; }
-  .st-n { position: absolute; right: 0; top: -2px; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center;
-    background: #5fbf1a; color: #fff; font: 900 12px Unbounded; }
-  .disc-card b { display: block; font-size: 14px; line-height: 1.25; }
-  .disc-card small { color: var(--muted); font-size: 12px; }
-
-  /* ---------- Ивент «Зима выживших» (The Last of Us) ---------- */
-  #ev-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; display: none; }
-  body.ev #ev-canvas { display: block; }
-  body.ev #bg, body.ev .glow { opacity: .25; }
-  body.ev[data-ev="1"] { --bg: #0b1112; --bg2: #121a1b; --card: rgba(30,40,40,.7); --line: rgba(160,190,180,.16); --blue: #6f8f86; --violet: #3e5a55; --cyan: #c9b97a; --pink: #b58b4c; --text: #e7ece6; --muted: #9aa69f; }
-  body.ev[data-ev="2"] { --bg: #070d0a; --bg2: #0d1611; --card: rgba(20,36,26,.72); --line: rgba(200,255,140,.16); --blue: #9be15d; --violet: #3c6e2a; --cyan: #f4ff8a; --pink: #e7ff6e; --text: #f1f7e8; --muted: #a2b39a; }
-  body.ev[data-ev="3"] { --bg: #0a1018; --bg2: #121b26; --card: rgba(30,44,60,.7); --line: rgba(200,225,255,.2); --blue: #8fb8ff; --violet: #4b6a9a; --cyan: #e6f2ff; --pink: #b9d6ff; --text: #f2f6ff; --muted: #9fb0c8; }
-  body.ev[data-ev="4"] { --bg: #0d0b0a; --bg2: #19130f; --card: rgba(44,32,24,.7); --line: rgba(255,200,140,.16); --blue: #ffb066; --violet: #8a4b22; --cyan: #ffe2b0; --pink: #ff9a4d; --text: #fff4e8; --muted: #bfa892; }
-  body.ev[data-ev="5"] { --bg: #070a0d; --bg2: #0f1418; --card: rgba(24,32,40,.75); --line: rgba(160,190,220,.16); --blue: #5f8fb3; --violet: #2e4a63; --cyan: #a9d3ff; --pink: #7fb2d9; --text: #e6eef5; --muted: #8b9aa8; }
-  body.ev[data-ev="6"] { --bg: #0a0f08; --bg2: #121a0f; --card: rgba(30,44,24,.7); --line: rgba(200,240,160,.18); --blue: #8ccf5a; --violet: #4a7a2e; --cyan: #ffe88a; --pink: #f2a6c2; --text: #f2f8ea; --muted: #a6b496; }
-  body.ev[data-ev="7"] { --bg: #0a0705; --bg2: #160f0a; --card: rgba(40,26,18,.72); --line: rgba(230,170,90,.18); --blue: #d4913a; --violet: #7a3a14; --cyan: #f5c46b; --pink: #d0402a; --text: #f5ebe0; --muted: #b29a85; }
-  body.ev[data-ev="nye"] { --bg: #08060f; --bg2: #120c1c; --card: rgba(36,22,40,.72); --line: rgba(255,210,120,.2); --blue: #e23c3c; --violet: #1f8a4c; --cyan: #ffd56b; --pink: #ff5b5b; --text: #fff6ea; --muted: #c8b39f; }
-  body.ev[data-ev="7"]::after { content: ""; position: fixed; inset: 0; z-index: 2; pointer-events: none;
-    background: radial-gradient(circle, transparent 55%, rgba(160,30,10,.35)); animation: sporePulse 3s ease-in-out infinite; }
-  @keyframes sporePulse { 50% { opacity: .35; } }
-  body.ev[data-ev="5"].flash::before { content: ""; position: fixed; inset: 0; z-index: 3; background: rgba(220,235,255,.35); pointer-events: none; animation: flashA .4s; }
-
-  /* «зарастание»: с каждым днём ивента больше мха и трещин на карточках (--grow от 0 до 1) */
-  body.ev .card, body.ev .spec, body.ev .starter { background-image:
-      radial-gradient(120px 50px at 0% 100%, rgba(90,140,60,calc(var(--grow,0) * .55)), transparent 70%),
-      radial-gradient(90px 40px at 100% 0%, rgba(90,140,60,calc(var(--grow,0) * .45)), transparent 70%),
-      radial-gradient(60px 26px at 70% 100%, rgba(120,170,70,calc(var(--grow,0) * .35)), transparent 70%); }
-  body.ev .card { border-color: rgba(120,170,80,calc(.12 + var(--grow,0) * .3)); }
-
-  .ev-banner { position: relative; overflow: hidden; border-radius: 22px; padding: 18px; margin: 14px 0 4px; cursor: pointer; display: none;
-    background: linear-gradient(135deg, var(--violet), var(--bg2)); border: 1px solid var(--line); box-shadow: 0 16px 40px -14px var(--blue); }
-  body.ev .ev-banner { display: block; }
-  .ev-banner small { display: block; font: 800 11px Unbounded; letter-spacing: .2em; color: var(--cyan); }
-  .ev-banner b { display: block; font: 900 22px Unbounded; margin: 6px 0 4px; color: var(--text); text-shadow: 0 0 20px var(--blue); animation: flick 4s infinite; }
-  .ev-banner p { margin: 0; color: var(--muted); font-size: 13px; max-width: 78%; }
-  .ev-banner .go { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%;
-    display: grid; place-items: center; background: rgba(255,255,255,.12); animation: nudge 1.2s ease-in-out infinite; }
-  .ev-banner .go svg { width: 20px; height: 20px; transform: rotate(-90deg); }
-  @keyframes flick { 0%, 19%, 23%, 61%, 65%, 100% { opacity: 1; } 21%, 63% { opacity: .4; } }
-
-  .ev-sheet { position: fixed; inset: 0; z-index: 78; overflow-y: auto; padding: 16px 16px 50px; background: var(--bg);
-    transform: translateY(105%); transition: transform .55s cubic-bezier(.2,1.1,.3,1); }
-  .ev-sheet.on { transform: none; }
-  .ev-hero { position: relative; overflow: hidden; border-radius: 26px; padding: 28px 20px; text-align: center; margin-top: 6px;
-    background: radial-gradient(120% 100% at 50% 0%, var(--blue), var(--bg2) 70%); border: 1px solid var(--line); }
-  .ev-hero small { font: 800 11px Unbounded; letter-spacing: .25em; color: var(--cyan); }
-  .ev-hero h2 { margin: 10px 0 6px; font: 900 28px/1.1 Unbounded; text-shadow: 0 0 30px var(--blue); animation: flick 5s infinite; }
-  .ev-hero p { margin: 0; color: var(--text); opacity: .85; }
-  .door { perspective: 900px; margin: 4px 0 10px; }
-  .door-in { position: relative; min-height: 150px; transform-style: preserve-3d; transition: transform .9s cubic-bezier(.3,1.3,.5,1); cursor: pointer; }
-  .door.open .door-in { transform: rotateY(180deg); }
-  .door-f, .door-b { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 20px; padding: 18px; display: flex; flex-direction: column; justify-content: center; }
-  .door-f { background: repeating-linear-gradient(45deg, var(--violet) 0 14px, var(--bg2) 14px 28px); border: 2px solid var(--blue); align-items: center; text-align: center; }
-  .door-f b { font: 900 40px Unbounded; text-shadow: 0 0 20px var(--blue); } .door-f span { color: var(--text); font-weight: 700; }
-  .door-b { transform: rotateY(180deg); background: var(--card); border: 1px solid var(--line); line-height: 1.55; }
-  .door-b small { color: var(--cyan); font: 800 11px Unbounded; letter-spacing: .14em; margin-bottom: 8px; }
-  .past { display: grid; gap: 8px; }
-  .past div { padding: 12px 14px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); font-size: 13.5px; line-height: 1.5; }
-  .past b { color: var(--cyan); font: 800 11px Unbounded; display: block; margin-bottom: 4px; }
-
-  .garland { position: fixed; left: 0; right: 0; top: 0; height: 34px; z-index: 55; pointer-events: none; display: none; }
-  body.ev[data-ev="nye"] .garland { display: block; }
-  .garland i { position: absolute; top: 10px; width: 12px; height: 16px; border-radius: 50% 50% 45% 45%; animation: bulb 1.2s ease-in-out infinite; }
-  @keyframes bulb { 50% { opacity: .25; filter: none; } }
-  .zombies { position: fixed; left: 0; right: 0; bottom: calc(84px + env(safe-area-inset-bottom)); height: 90px; z-index: 40; pointer-events: none; overflow: hidden; display: none; }
-  body.ev[data-ev="nye"] .zombies { display: block; }
-  .zombie { position: absolute; bottom: 0; width: 46px; height: 78px; animation: walk linear infinite; }
-  .zombie svg { width: 100%; height: 100%; animation: shamble .9s ease-in-out infinite; transform-origin: 50% 100%; }
-  @keyframes walk { from { transform: translateX(-80px); } to { transform: translateX(calc(100vw + 80px)); } }
-  @keyframes shamble { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(5deg) translateY(-3px); } }
-  .nye-count { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
-  .nye-count div { background: rgba(0,0,0,.35); border-radius: 14px; padding: 10px 0; }
-  .nye-count b { display: block; font: 900 26px Unbounded; color: #ffd56b; text-shadow: 0 0 16px #ffd56b; }
-  .nye-count span { font-size: 11px; color: var(--muted); }
-
-  /* ---------- Что нового ---------- */
-  .wn-btn { position: absolute; right: 16px; top: 24px; z-index: 2; padding: 9px 12px; border-radius: 12px; cursor: pointer;
-    border: 1px solid var(--line); background: rgba(255,255,255,.06); color: #fff; font: 800 11px Unbounded; letter-spacing: .08em;
-    display: flex; align-items: center; gap: 7px; transition: transform .3s cubic-bezier(.3,1.8,.5,1); }
-  .wn-btn:active { transform: scale(.92); }
-  body.is-dev .wn-btn { right: 86px; }
-  .wn-btn i { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); display: none; animation: wnPing 1.4s ease-out infinite; }
-  .wn-btn.fresh i { display: block; }
-  @keyframes wnPing { 0% { box-shadow: 0 0 0 0 var(--cyan); } 100% { box-shadow: 0 0 0 9px transparent; } }
-  .wn-sheet { position: fixed; inset: 0; z-index: 79; overflow-y: auto; padding: 16px 16px 50px; background: var(--bg);
-    transform: translateY(105%); transition: transform .55s cubic-bezier(.2,1.1,.3,1); }
-  .wn-sheet.on { transform: none; }
-  .wn-list { position: relative; margin-top: 18px; padding-left: 26px; }
-  .wn-list::before { content: ""; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 2px; border-radius: 2px;
-    background: linear-gradient(var(--cyan), var(--violet), transparent); transform-origin: top; transform: scaleY(0); transition: transform 1.2s cubic-bezier(.3,1,.4,1) .15s; }
-  .wn-sheet.on .wn-list::before { transform: scaleY(1); }
-  .wn-item { position: relative; margin-bottom: 14px; padding: 16px; border-radius: 20px; background: var(--card); border: 1px solid var(--line);
-    opacity: 0; transform: translateX(30px); transition: opacity .5s, transform .6s cubic-bezier(.3,1.5,.5,1); }
-  .wn-sheet.on .wn-item { opacity: 1; transform: none; }
-  .wn-item::before { content: ""; position: absolute; left: -24px; top: 20px; width: 12px; height: 12px; border-radius: 50%;
-    background: var(--bg); border: 3px solid var(--violet); }
-  .wn-item.latest { border-color: var(--cyan); box-shadow: 0 0 30px -10px var(--cyan); }
-  .wn-item.latest::before { border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
-  .wn-item .v { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .wn-item .v b { font: 900 17px Unbounded; }
-  .wn-item .v span { font-size: 12px; color: var(--muted); }
-  .wn-item .v em { font: 800 10px Unbounded; font-style: normal; letter-spacing: .12em; padding: 4px 8px; border-radius: 8px; background: var(--cyan); color: #000; }
-  .wn-item h3 { margin: 6px 0 8px; font: 800 14px Unbounded; color: var(--cyan); }
-  .wn-item ul { margin: 0; padding-left: 18px; line-height: 1.55; font-size: 14px; }
-  .wn-item li { margin-bottom: 4px; }
 
   /* ---------- Режим разработчика ---------- */
   header { position: relative; }
@@ -515,44 +298,8 @@
     font: 700 12px ui-monospace, Consolas, monospace; display: none; pointer-events: none; }
   body.dbg-outline * { outline: 1px solid rgba(255,0,128,.35); }
 
-  /* ---------- ИИ-консультант ---------- */
-  .ai-fab { position: fixed; right: 16px; bottom: calc(96px + env(safe-area-inset-bottom)); z-index: 60; width: 60px; height: 60px; border-radius: 50%;
-    border: 0; cursor: pointer; display: grid; place-items: center; font-size: 28px;
-    background: linear-gradient(135deg, var(--blue), var(--violet)); box-shadow: 0 10px 30px -6px var(--blue);
-    animation: fabIn .7s 1.8s cubic-bezier(.3,1.6,.5,1) both, fabBob 3s 2.5s ease-in-out infinite; }
-  .ai-fab::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--cyan); animation: fabRing 2s ease-out infinite; }
-  .ai-fab span { position: absolute; top: -4px; right: -4px; background: var(--pink); color: #fff; font: 800 10px Unbounded; padding: 3px 6px; border-radius: 999px; }
-  @keyframes fabIn { from { transform: scale(0) rotate(-180deg); } }
-  @keyframes fabBob { 50% { transform: translateY(-6px); } }
-  @keyframes fabRing { from { transform: scale(.9); opacity: .9; } to { transform: scale(1.5); opacity: 0; } }
-  .ai-back { position: fixed; inset: 0; z-index: 70; background: rgba(0,0,0,.55); opacity: 0; pointer-events: none; transition: opacity .35s; backdrop-filter: blur(4px); }
-  .ai-back.on { opacity: 1; pointer-events: auto; }
-  .ai-sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 75; height: 82vh; display: flex; flex-direction: column;
-    background: var(--bg2); border-radius: 26px 26px 0 0; border-top: 1px solid var(--line); box-shadow: 0 -20px 60px rgba(0,0,0,.6);
-    transform: translateY(105%); transition: transform .55s cubic-bezier(.2,1.1,.3,1); }
-  .ai-sheet.on { transform: none; }
-  .ai-head { display: flex; align-items: center; gap: 12px; padding: 16px; border-bottom: 1px solid var(--line); }
-  .ai-ava { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; font-size: 24px; background: linear-gradient(135deg, var(--blue), var(--violet)); }
-  .ai-head b { display: block; font: 800 15px Unbounded; } .ai-head small { color: var(--green); font-size: 12px; font-weight: 700; }
-  .ai-close { margin-left: auto; width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--text); font-size: 20px; cursor: pointer; }
-  .ai-msgs { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
-  .msg { max-width: 86%; padding: 12px 14px; border-radius: 18px; line-height: 1.5; font-size: 14.5px; white-space: pre-wrap; animation: msgIn .4s cubic-bezier(.3,1.4,.5,1); }
-  .msg.bot { background: var(--card); border: 1px solid var(--line); border-bottom-left-radius: 6px; align-self: flex-start; }
-  .msg.me { background: linear-gradient(135deg, var(--blue), var(--violet)); color: #fff; border-bottom-right-radius: 6px; align-self: flex-end; }
-  .msg.err { border-color: var(--red); }
-  .msg small { display: block; margin-top: 8px; color: var(--muted); font-size: 11.5px; }
   @keyframes msgIn { from { opacity: 0; transform: translateY(12px) scale(.95); } }
-  .dots { display: inline-flex; gap: 5px; } .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); animation: dot 1s infinite; }
-  .dots i:nth-child(2) { animation-delay: .15s; } .dots i:nth-child(3) { animation-delay: .3s; }
-  @keyframes dot { 50% { transform: translateY(-6px); background: var(--cyan); } }
-  .ai-chips { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 10px; scrollbar-width: none; }
-  .ai-chips::-webkit-scrollbar { display: none; }
-  .ai-chips button { flex: none; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--text); font: 600 12.5px Manrope; cursor: pointer; }
-  .ai-form { display: flex; gap: 8px; padding: 10px 16px calc(14px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); }
-  .ai-form input { flex: 1; min-width: 0; padding: 13px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--card); color: var(--text); font: inherit; outline: none; }
-  .ai-form input:focus { border-color: var(--blue); }
-  .ai-form button { width: 48px; border: 0; border-radius: 14px; background: linear-gradient(135deg, var(--blue), var(--violet)); color: #fff; font-size: 20px; cursor: pointer; }
-  .ai-form button:disabled { opacity: .5; }
+  .ai-close { margin-left: auto; width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--text); font-size: 20px; cursor: pointer; }
 
   /* ---------- GTA VI ---------- */
   .gta-banner { position: relative; overflow: hidden; border-radius: 22px; padding: 18px; margin: 14px 0 4px; cursor: pointer;
@@ -673,40 +420,29 @@
     <svg viewBox="0 0 54 54"><line x1="8" y1="8" x2="46" y2="46"/><line x1="46" y1="8" x2="8" y2="46"/></svg>
     <svg viewBox="0 0 54 54"><rect x="7" y="7" width="40" height="40"/></svg>
   </div>
-  <div class="intro-title">PS | XBOX</div>
+  <div class="intro-title">PS HUB</div>
 </div>
 
 <canvas id="bg"></canvas>
-<canvas id="ev-canvas"></canvas>
-<div class="garland" id="garland"></div>
-<div class="zombies" id="zombies"></div>
 <div class="glow a"></div><div class="glow b"></div><div class="glow c"></div>
 <canvas id="fx"></canvas>
 <div id="flash"></div>
-<div id="wipe"></div>
 
 <div class="app">
   <header>
     <div class="brand">
-      <div class="brand-mark" id="mark"><i><svg class="ps" viewBox="0 0 24 24"><use href="#s-tri"/></svg><span class="bx"><span class="orbx">X</span><small>360</small></span></i></div>
+      <div class="brand-mark" id="mark"><i><svg class="ps" viewBox="0 0 24 24"><use href="#s-tri"/></svg></i></div>
       <div>
-        <h1><span class="glitch" id="title" data-text="PS | XBOX">PS | XBOX</span></h1>
-        <p id="sub">PS5, PS4, Xbox 360 и GTA VI</p>
+        <h1><span class="glitch" id="title" data-text="PS HUB">PS HUB</span></h1>
+        <p id="sub">PS5, новости, фишки и GTA VI</p>
       </div>
     </div>
-    <button class="wn-btn" id="wn-btn"><i></i>НОВОЕ</button>
     <button class="dev-btn" id="dev-btn">DEV</button>
   </header>
   <div class="ticker"><div class="ticker-track" id="ticker"></div></div>
 
   <main>
     <section class="page active" id="page-news">
-      <div class="ev-banner" id="ev-banner">
-        <small id="ev-b-small">ЗИМА ВЫЖИВШИХ · ДЕНЬ 1</small>
-        <b id="ev-b-title">Карантинная зона</b>
-        <p id="ev-b-text">Ивент по The Last of Us. Открой дверцу дня и пройди квиз.</p>
-        <div class="go"><svg><use href="#i-chev"/></svg></div>
-      </div>
       <div class="gta-banner" id="gta-banner">
         <small>ГЛАВНЫЙ РЕЛИЗ ГОДА</small>
         <b>GTA VI</b>
@@ -731,7 +467,7 @@
           <div class="cbox"><b id="cd-m">00</b><span>минут</span></div>
           <div class="cbox"><b id="cd-s">00</b><span>секунд</span></div>
         </div>
-        <div class="gta-date" id="gta-date">19 НОЯБРЯ 2026 · PS5 / XBOX SERIES</div>
+        <div class="gta-date" id="gta-date">19 НОЯБРЯ 2026 · PS5</div>
       </div>
 
       <div class="section-title">Главное</div>
@@ -754,37 +490,6 @@
       </div>
     </section>
 
-    <section class="page" id="page-obc">
-      <div class="obc-hero r">
-        <div class="orb"></div>
-        <small>СТАТЬЯ</small>
-        <h2>Older Brother Core</h2>
-        <p>Что это такое и почему по этому скучают все, кто застал Xbox 360</p>
-      </div>
-      <div class="section-title">Что это такое</div>
-      <div class="card r art">
-        <p><b>Older Brother Core</b> — «вайб старшего брата». Так в соцсетях называют атмосферу конца 2000-х и начала 2010-х: комнату старшего брата, где гудит Xbox 360, на столе гарнитура и газировка, а из колонок слышно пати-чат.</p>
-        <p>Это не одна вещь, а целое настроение: игры, звуки, предметы и привычки, которые младшие братья и сёстры видели из-за плеча и мечтали, когда им дадут поиграть.</p>
-      </div>
-      <div class="section-title">Откуда пошло</div>
-      <div class="card r art">
-        <p>Тренд разошёлся в TikTok: люди выкладывали ролики с меню Xbox 360, звуком ачивки, лобби Call of Duty и подписью вроде «это комната моего старшего брата в 2010». В комментариях тысячи людей писали: «у нас было точно так же».</p>
-        <p>Сработала ностальгия: те, кто был младшим тогда, сейчас выросли — и захотели вернуть то чувство.</p>
-      </div>
-      <div class="section-title">Признаки вайба</div>
-      <div class="card r"><div class="vibe" id="vibe"></div></div>
-      <div class="section-title">Почему это цепляет</div>
-      <div class="card r art">
-        <p>Тогда игры были «событием»: диск покупали один раз и играли в него месяцами. Онлайн ощущался как магия — голоса друзей в гарнитуре, первые клановые войны, ночные катки на выходных.</p>
-        <p>А ещё у старшего брата всегда было то, чего не было у тебя, — и именно поэтому это так запомнилось.</p>
-      </div>
-      <div class="section-title">Как поймать вайб сегодня</div>
-      <div class="card r art">
-        <p>Многие игры Xbox 360 работают на Xbox One и Xbox Series благодаря обратной совместимости. Собери друзей, включи пати-чат, поставь на стол зелёную газировку — и вайб вернётся.</p>
-      </div>
-      <button class="btn lime r" id="obc-test">Пройти тест: был ли ты старшим братом?</button>
-    </section>
-
     <section class="page" id="page-tips">
       <div class="section-title">Фишки и лайфхаки</div>
       <div class="search-wrap">
@@ -797,12 +502,6 @@
     </section>
 
     <section class="page" id="page-features">
-      <div class="seg" id="seg">
-        <div class="seg-ind" id="seg-ind"></div>
-        <button class="on" data-c="ps5">PS5</button>
-        <button data-c="ps4">PS4</button>
-        <button data-c="x360">Xbox 360</button>
-      </div>
       <div id="console-view"></div>
     </section>
 
@@ -811,40 +510,6 @@
       <div id="quiz"></div>
     </section>
   </main>
-</div>
-
-<div class="ev-sheet" id="ev-sheet">
-  <div class="dev-top" style="margin-bottom:0">
-    <div><h2 style="color:var(--cyan)">Зима выживших</h2><small style="color:var(--muted);font-family:Manrope">новогодний ивент · The Last of Us 1 и 2</small></div>
-    <button class="ai-close" id="ev-close" aria-label="Закрыть"><svg width="18" height="18"><use href="#i-x"/></svg></button>
-  </div>
-  <div class="ev-hero">
-    <small id="ev-h-small">ДЕНЬ 1</small>
-    <h2 id="ev-h-title">Карантинная зона</h2>
-    <p id="ev-h-text">Каждый день приложение меняется. Завтра будет новая сцена.</p>
-    <div class="nye-count" id="nye-count" style="display:none">
-      <div><b id="ny-h">00</b><span>часов</span></div><div><b id="ny-m">00</b><span>минут</span></div><div><b id="ny-s">00</b><span>секунд</span></div>
-    </div>
-  </div>
-  <div class="section-title">Дверца дня</div>
-  <div class="door" id="door">
-    <div class="door-in">
-      <div class="door-f"><b id="door-n">1</b><span>Нажми, чтобы открыть</span></div>
-      <div class="door-b"><small id="door-t">ФАКТ ДНЯ</small><div id="door-fact"></div></div>
-    </div>
-  </div>
-  <div class="section-title">Квиз: насколько ты выживший?</div>
-  <div id="ev-quiz"></div>
-  <div class="section-title" id="past-title">Открытые дверцы</div>
-  <div class="past" id="past"></div>
-</div>
-
-<div class="wn-sheet" id="wn-sheet">
-  <div class="dev-top" style="margin-bottom:0">
-    <div><h2 style="color:var(--cyan)">Что нового</h2><small style="color:var(--muted);font-family:Manrope" id="wn-ver">все обновления приложения</small></div>
-    <button class="ai-close" id="wn-close" aria-label="Закрыть"><svg width="18" height="18"><use href="#i-x"/></svg></button>
-  </div>
-  <div class="wn-list" id="wn-list"></div>
 </div>
 
 <div id="fps">-- FPS</div>
@@ -864,7 +529,7 @@
   <div class="dstats" id="dev-stats"><div class="dstat"><b>…</b><span>загрузка</span></div></div>
   <div class="dbtns" style="margin-top:8px"><button class="dbtn" data-a="stats">Обновить статистику <em>stats</em></button></div>
 
-  <div class="dev-h">Канал @ps_xbox_hub</div>
+  <div class="dev-h">Канал</div>
   <div class="dbtns">
     <button class="dbtn" data-a="countdown_preview">Предпросмотр отсчёта до GTA VI <em>dry-run</em></button>
     <button class="dbtn" data-a="news_preview">Предпросмотр следующей новости <em>dry-run, ИИ</em></button>
@@ -874,56 +539,14 @@
   </div>
   <div class="dlog" id="dev-log"></div>
 
-  <div class="dev-h">Ивент «Зима выживших» (The Last of Us)</div>
-  <div class="dbtns">
-    <button class="dbtn warn" data-a="event_on" data-confirm="Запустить ивент для всех? Бот выложит пост в канал и разошлёт сообщение всем пользователям.">Запустить ивент для всех <em>live</em></button>
-    <button class="dbtn" data-a="event_status">Статус ивента <em>status</em></button>
-    <button class="dbtn warn" data-a="event_off" data-confirm="Остановить ивент для всех?">Остановить ивент <em>live</em></button>
-  </div>
-  <div class="dev-card" style="margin-top:8px"><span style="color:#8a8f9f;font-size:12.5px">Предпросмотр сцен — только на этом устройстве:</span>
-    <div class="ai-chips" id="ev-preview" style="padding:10px 0 0;flex-wrap:wrap">
-      <button data-p="1">1 Карантин</button><button data-p="2">2 Светлячки</button><button data-p="3">3 Метель</button><button data-p="4">4 Джексон</button>
-      <button data-p="5">5 Сиэтл</button><button data-p="6">6 Весна</button><button data-p="7">7 Споры</button><button data-p="nye">31 декабря</button><button data-p="off">Выкл</button>
-    </div>
-  </div>
-
-  <div class="dev-h">ИИ-консультант</div>
-  <div class="dev-card">Для разработчиков вопросы <b style="color:#ffcc33">без лимита</b>. Обычные пользователи: 15 в день, всего 100 в день на всех.</div>
-
   <div class="dev-h">Инструменты</div>
   <div class="dev-card tgl" data-t="fps"><span>Счётчик FPS</span><div class="sw"></div></div>
   <div class="dev-card tgl" data-t="outline"><span>Показать рамки элементов</span><div class="sw"></div></div>
-  <div class="dev-card tgl" data-t="x360"><span>Тема Xbox 360</span><div class="sw"></div></div>
   <div class="dbtns">
     <button class="dbtn" data-local="device">Информация об устройстве <em>env</em></button>
-    <button class="dbtn warn" data-local="reset">Сбросить мои локальные данные <em>избранное, тесты</em></button>
+    <button class="dbtn warn" data-local="reset">Сбросить мои локальные данные <em>избранное</em></button>
   </div>
   <div class="dlog" id="dev-log2"></div>
-</div>
-
-<button class="ai-fab" id="ai-fab" aria-label="ИИ-консультант"><svg width="30" height="30"><use href="#i-bot"/></svg><span>ИИ</span></button>
-<div class="ai-back" id="ai-back"></div>
-<div class="ai-sheet" id="ai-sheet">
-  <div class="ai-head">
-    <div class="ai-ava"><svg width="26" height="26"><use href="#i-bot"/></svg></div>
-    <div><b>Консультант</b><small>онлайн · приставки и цены</small></div>
-    <button class="ai-close" id="ai-close" aria-label="Закрыть"><svg width="18" height="18"><use href="#i-x"/></svg></button>
-  </div>
-  <div class="ai-msgs" id="ai-msgs">
-    <div class="msg bot">Привет! Я консультант PS | Xbox Хаб.
-Помогу выбрать приставку, игры и подскажу, на что смотреть при покупке. Спрашивай!<small>Цены называю примерно — точные проверяй в магазинах и на OLX.</small></div>
-  </div>
-  <div class="ai-chips" id="ai-chips">
-    <button>PS5 или Xbox Series S?</button>
-    <button>Стоит ли брать PS4 сейчас?</button>
-    <button>Какие диски к Xbox 360?</button>
-    <button>Что проверить у б/у приставки?</button>
-    <button>Сколько стоит PS5?</button>
-  </div>
-  <form class="ai-form" id="ai-form">
-    <input id="ai-in" maxlength="500" placeholder="Спроси про приставки или цены…" autocomplete="off">
-    <button id="ai-send" aria-label="Отправить"><svg width="22" height="22" style="margin:auto"><use href="#i-send"/></svg></button>
-  </form>
 </div>
 
 <nav id="nav">
@@ -995,21 +618,6 @@ const TIPS = [
   { cat: "Онлайн", icon: "cast", c: ["#ff8a3d", "#ff4466"], title: "Играй с телефона через Remote Play",
     text: "Можно играть в PS5, когда телевизор занят.",
     how: "Установи PS Remote Play на телефон или ПК и войди в тот же аккаунт. На PS5: Настройки → Система → Дистанционная игра → включить. Лучше всего по Wi‑Fi 5 ГГц." },
-  { cat: "Xbox 360", icon: "refresh", c: ["#7cff2a", "#1e7a00"], title: "Установи игру с диска на HDD",
-    text: "Официально: игра грузится быстрее, привод не гудит.",
-    how: "Вставь диск → на главном экране выбери игру → открой её меню → «Установить». Для запуска диск всё равно нужен, но шума и загрузок станет меньше." },
-  { cat: "Xbox 360", icon: "grid", c: ["#9dff2e", "#2fa800"], title: "Флешка как карта памяти",
-    text: "Обычная USB-флешка заменит карту памяти.",
-    how: "Вставь флешку → Настройки → Система → Память → выбери флешку → «Настроить». Туда можно сохранять профили, сохранения и дополнения." },
-  { cat: "Xbox 360", icon: "laptop", c: ["#5fbf1a", "#0d3a00"], title: "Геймпад не подключается",
-    text: "Пара нажатий — и всё работает.",
-    how: "Нажми кнопку синхронизации на консоли, потом маленькую кнопку сверху на геймпаде. Огоньки покрутятся — и геймпад подключится." },
-  { cat: "Xbox 360", icon: "refresh", c: ["#c8ff3d", "#3a9400"], title: "Очистка кэша от зависаний",
-    text: "Если игры тормозят или зависают.",
-    how: "Настройки → Система → Память → выбери накопитель → нажми Y → «Очистить системный кэш». Сохранения не пропадут." },
-  { cat: "Xbox 360", icon: "battery", c: ["#ff4466", "#7a0a1a"], title: "Как не словить красное кольцо",
-    text: "Главная причина поломки — перегрев.",
-    how: "Не ставь консоль в закрытую тумбу, оставь место сзади и сбоку, протирай решётки от пыли. Не клади ничего сверху на старые белые модели." },
 ];
 
 const SPECS = [
@@ -1062,20 +670,6 @@ const GTA_TIMELINE = [
   { when: "19 ноября 2026", title: "Релиз", text: "PS5 и Xbox Series X|S.", st: "now" },
 ];
 
-// Квиз для режима Xbox 360
-const QUIZ_X360 = [
-  { q: "В каком году вышел Xbox 360?", a: ["2001", "2005", "2008", "2013"], r: 1 },
-  { q: "Что значили три красных огня вокруг кнопки?", a: ["Идёт обновление", "Поломка — «красное кольцо смерти»", "Новое достижение", "Режим сна"], r: 1 },
-  { q: "На какой консоли впервые появились достижения и Gamerscore?", a: ["PS3", "Wii", "Xbox 360", "Nintendo DS"], r: 2 },
-  { q: "Как называлась камера, чтобы играть движениями тела?", a: ["Kinect", "EyeToy", "PlayStation Move", "Wii Remote"], r: 0 },
-  { q: "Какая буква на зелёной кнопке геймпада Xbox?", a: ["X", "Y", "B", "A"], r: 3 },
-  { q: "Как назывался онлайн-сервис Xbox 360?", a: ["PlayStation Network", "Xbox Live", "Steam", "Origin"], r: 1 },
-  { q: "Какая модель вышла в 2010 году — тонкая и чёрная?", a: ["Xbox 360 E", "Xbox One", "Xbox 360 S", "Xbox Series S"], r: 2 },
-  { q: "В какой игре 2007 года главный герой — Мастер Чиф?", a: ["Halo 3", "Gears of War", "Fable II", "Forza 2"], r: 0 },
-];
-const Q = () => document.body.classList.contains("x360") ? QUIZ_X360 : QUIZ;
-const XBTN = [["A", "#5fbf1a"], ["B", "#e0372b"], ["X", "#2f6bff"], ["Y", "#f5b800"]];
-
 const QUIZ = [
   { q: "Когда выходит GTA VI?", a: ["26 мая 2026", "19 ноября 2026", "1 января 2027", "Уже вышла"], r: 1 },
   { q: "Как называется штат, где происходит GTA VI?", a: ["Сан-Андреас", "Либерти", "Леонида", "Алдерни"], r: 2 },
@@ -1125,28 +719,7 @@ const SHAPE_COLORS = ["#2ee6a8", "#ff4d6d", "#5b8cff", "#e86bff"];
     vx: (Math.random() - .5) * .25, vy: -.15 - Math.random() * .35 });
   addEventListener("pointermove", e => { tx = (e.clientX / W - .5) * 30; ty = (e.clientY / Hh - .5) * 30; });
   addEventListener("deviceorientation", e => { if (e.gamma != null) { tx = e.gamma * .8; ty = (e.beta - 45) * .5; } });
-  function can(p) {
-    // банка лаймовой газировки (без логотипов)
-    const s = p.s * p.z * 2.2, w = s * .62, h = s * 1.2;
-    x.save(); x.translate(p.x + mx * p.z, p.y + my * p.z); x.rotate(Math.sin(p.a) * .5);
-    x.globalAlpha = .35 + p.z * .35;
-    const g = x.createLinearGradient(-w / 2, 0, w / 2, 0);
-    g.addColorStop(0, "#1f6b00"); g.addColorStop(.35, "#8ee62a"); g.addColorStop(.55, "#d9ff8a"); g.addColorStop(1, "#2a8a00");
-    x.fillStyle = g; x.beginPath(); x.roundRect(-w / 2, -h / 2, w, h, w * .18); x.fill();
-    x.fillStyle = "#cfd8c8"; x.fillRect(-w / 2 + 1, -h / 2, w - 2, h * .08); x.fillRect(-w / 2 + 1, h / 2 - h * .07, w - 2, h * .07);
-    x.fillStyle = "rgba(10,40,0,.7)"; x.fillRect(-w / 2, -h * .12, w, h * .26);
-    x.strokeStyle = "#ff3b2f"; x.lineWidth = Math.max(1, s * .05); x.beginPath(); x.moveTo(-w * .3, h * .02); x.quadraticCurveTo(0, -h * .1, w * .3, h * .02); x.stroke();
-    x.restore();
-  }
-  function bubble(p) {
-    const r = p.s * p.z * .55;
-    x.save(); x.translate(p.x + mx * p.z, p.y + my * p.z); x.globalAlpha = .25 + p.z * .35;
-    x.strokeStyle = "#c8ff3d"; x.lineWidth = 1.4; x.beginPath(); x.arc(0, 0, r, 0, 6.28); x.stroke();
-    x.fillStyle = "rgba(220,255,160,.6)"; x.beginPath(); x.arc(-r * .35, -r * .35, r * .25, 0, 6.28); x.fill();
-    x.restore();
-  }
   function shape(p) {
-    if (document.body.classList.contains("x360")) { return (p.t === 0 || p.t === 2) && p.z > .6 ? can(p) : bubble(p); }
     x.save(); x.translate(p.x + mx * p.z, p.y + my * p.z); x.rotate(p.a);
     x.strokeStyle = SHAPE_COLORS[p.t]; x.globalAlpha = .18 + p.z * .25; x.lineWidth = 1.6; x.beginPath();
     const s = p.s * p.z * 1.4;
@@ -1263,7 +836,7 @@ navBtns.forEach((b, i) => b.addEventListener("click", () => {
   if (i === cur) return;
   document.documentElement.style.setProperty("--dir", (i > cur ? 60 : -60) + "px");
   cur = i; navBtns.forEach(x => x.classList.toggle("active", x === b)); movePill(i);
-  const pid = b.dataset.page === "gta" && document.body.classList.contains("x360") ? "obc" : b.dataset.page;
+  const pid = b.dataset.page;
   document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === "page-" + pid));
   window.scrollTo({ top: 0 });
   const page = $("page-" + pid);
@@ -1374,248 +947,32 @@ $("tips-list").addEventListener("click", e => {
 $("tip-search").addEventListener("input", renderTips);
 renderChips(); renderTips();
 
-/* ---- Консоли: PS5 / PS4 / Xbox 360 ---- */
-const CONSOLES = {
-  ps5: {
-    title: "PS5", sub: "Текущее поколение PlayStation. SSD, DualSense и PS5 Pro.", h: ["#1d3fb8", "#3a1a8a"],
-    specs: SPECS,
-    sections: [{ title: "Особенности", items: FEATURES }],
-  },
-  ps4: {
-    title: "PS4", sub: "Легенда 2013 года. До сих пор есть почти у всех.", h: ["#0a2a7a", "#06123a"],
-    specs: [
-      { v: 2013, suf: "", l: "Год выхода" },
-      { v: 117, suf: "+ млн", l: "Продано консолей" },
-      { v: 8, suf: " ГБ", l: "Оперативная память" },
-      { v: 4, suf: "K", l: "Картинка у PS4 Pro" },
-    ],
-    sections: [
-      { title: "Новости PS4", items: [
-        { tag: "Обновление", type: "", title: "Прошивка PS4 14.02",
-          text: "4 ноября Sony выпустила неожиданное обновление для PS4. По данным PlayStation LifeStyle, оно мешает взлому и модам." },
-        { tag: "Игры", type: "free", title: "PS4 ещё получает игры",
-          text: "Крупные издатели почти ушли, но небольшие игры — в основном цифровые — до сих пор выходят на PS4." },
-        { tag: "GTA VI", type: "hot", title: "GTA VI на PS4 не будет",
-          text: "Игра выходит только на PS5 и Xbox Series X|S. На PS4 остаётся GTA V." },
-        { tag: "Апгрейд", type: "hw", title: "Игры PS4 работают на PS5",
-          text: "Почти вся библиотека PS4 запускается на PS5, а сохранения можно перенести. Диски тоже подходят, если у PS5 есть дисковод." },
-      ] },
-      { title: "Факты", items: [
-        { tag: "Кнопка Share", type: "", title: "Именно PS4 придумала кнопку Share",
-          text: "Скриншоты, видео и стримы прямо с геймпада — впервые появились на DualShock 4." },
-        { tag: "Pro и Slim", type: "hw", title: "Три версии консоли",
-          text: "Оригинальная PS4 (2013), тонкая Slim и мощная PS4 Pro (обе в 2016). Pro выводит картинку в 4K." },
-        { tag: "VR", type: "", title: "Первый VR от PlayStation",
-          text: "Шлем PlayStation VR вышел в 2016 году именно для PS4." },
-        { tag: "Продажи", type: "free", title: "Больше 117 миллионов",
-          text: "PS4 — одна из самых продаваемых консолей в истории PlayStation." },
-      ] },
-      { title: "Фишки PS4", items: [
-        { tag: "Скриншоты", type: "", title: "Скриншот одним нажатием",
-          text: "Настройки → Настройки общего доступа и трансляций → Настройки кнопки SHARE → «Простые снимки экрана»." },
-        { tag: "Скорость", type: "hw", title: "Поставь SSD вместо HDD",
-          text: "Замена жёсткого диска на SSD заметно ускоряет загрузки. Диск меняется своими руками за 10 минут." },
-        { tag: "Ремонт", type: "", title: "Если PS4 тормозит",
-          text: "Выключи консоль, зажми кнопку питания до второго сигнала → «Перестроить базу данных». Сохранения не удалятся." },
-        { tag: "PS4 Pro", type: "hot", title: "Режим Boost",
-          text: "На PS4 Pro: Настройки → Система → Режим «Буст». Старые игры будут работать плавнее." },
-      ] },
-    ],
-  },
-  x360: {
-    title: "XBOX 360", sub: "2005 год. Пати-чат, Halo 3 и ночи без сна. Older brother core.", h: ["#1e7a00", "#062a02"], orb: true,
-    specs: [
-      { v: 2005, suf: "", l: "Год выхода" },
-      { v: 84, suf: " млн", l: "Продано консолей" },
-      { v: 512, suf: " МБ", l: "Оперативная память" },
-      { v: 3, suf: "", l: "Модели: первая, S и E" },
-    ],
-    sections: [
-      { title: "Новости Xbox 360", items: [
-        { tag: "Совместимость", type: "free", title: "Xbox возвращает обратную совместимость",
-          text: "На GDC 2026 Microsoft пообещала возродить программу обратной совместимости к 25-летию Xbox. На Xbox Series могут появиться новые игры с 360." },
-        { tag: "Обновление", type: "", title: "Игры 360 на новых Xbox стали удобнее",
-          text: "В августовском обновлении у игр Xbox 360 появились игровые хабы: достижения и записи видно прямо в карточке игры." },
-        { tag: "Слух", type: "hw", title: "Игры Xbox 360 на ПК?",
-          text: "По утечке, Microsoft готовит запуск игр Xbox 360 на Windows через эмуляцию — примерно в 2027–2028. Официально не подтверждено." },
-        { tag: "Магазин", type: "hot", title: "Магазин Xbox 360 закрыт",
-          text: "С 29 июля 2024 года в магазине Xbox 360 ничего не купить. Но уже купленные игры можно скачать заново." },
-        { tag: "GTA VI", type: "hot", title: "GTA VI на 360 не будет",
-          text: "Игра выходит только на Xbox Series X|S и PS5. На 360 остаются GTA IV и GTA V." },
-      ] },
-      { title: "Факты", items: [
-        { tag: "Ачивки", type: "free", title: "Достижения придумали здесь",
-          text: "Именно на Xbox 360 появились достижения и Gamerscore. Тот самый звук «бдынь» знают все." },
-        { tag: "Легенда", type: "hot", title: "Красное кольцо смерти",
-          text: "Три красных огня вокруг кнопки — поломка из-за перегрева. Microsoft продлила гарантию до 3 лет и потратила на ремонты больше миллиарда долларов." },
-        { tag: "Kinect", type: "hw", title: "Рекорд Гиннесса",
-          text: "Kinect для Xbox 360 (2010) попал в Книгу рекордов как самое быстро продаваемое электронное устройство." },
-        { tag: "История", type: "", title: "Три версии и 11 лет выпуска",
-          text: "Первая белая (2005), чёрная тонкая S (2010) и E (2013). Производство остановили в 2016 году." },
-      ] },
-      { title: "Прошивки: как это было", items: [
-        { tag: "Легенда СНГ", type: "hot", title: "«Прошитый» Xbox 360",
-          text: "В странах СНГ Xbox 360 очень часто продавали уже прошитыми. Из-за этого консоль стала народной: диски с играми стоили копейки, и у старшего брата их была целая стопка." },
-        { tag: "LT / LT+", type: "", title: "Прошивка привода",
-          text: "Самый первый способ: меняли прошивку DVD-привода, чтобы консоль запускала записанные диски. Microsoft с каждым обновлением системы закрывала лазейки, а моддеры выпускали новые версии." },
-        { tag: "JTAG и RGH", type: "hw", title: "Freeboot",
-          text: "Позже появились JTAG (около 2009) и RGH — Reset Glitch Hack (2011). Они позволяли запускать на консоли любые программы и игры прямо с жёсткого диска. Такие Xbox называли «фрибут»." },
-        { tag: "Бан", type: "hot", title: "Миллион консолей без онлайна",
-          text: "В ноябре 2009 Microsoft разом отключила от Xbox Live около миллиона модифицированных консолей. Прошивка всегда была против правил — прошитый Xbox мог навсегда лишиться онлайна." },
-      ] },
-      { title: "Фишки Xbox 360", items: [
-        { tag: "Ремонт", type: "", title: "Очистка кэша",
-          text: "Настройки → Система → Память → выбери накопитель → нажми Y → «Очистить системный кэш». Помогает от зависаний." },
-        { tag: "Перегрев", type: "hot", title: "Не прячь консоль в тумбу",
-          text: "Перегрев — главная причина красного кольца. Оставь место сзади и сбоку, протирай решётки от пыли." },
-        { tag: "Игры", type: "free", title: "Играй в 360 на новых Xbox",
-          text: "Сотни игр Xbox 360 запускаются на Xbox One и Series — часто с лучшей картинкой и стабильным FPS." },
-        { tag: "Тише и быстрее", type: "free", title: "Установи диск на жёсткий диск",
-          text: "Официальная функция: вставь диск, на главном экране выбери игру, открой её меню и нажми «Установить». Игра будет грузиться быстрее, а привод перестанет гудеть. Диск для запуска всё равно нужен." },
-        { tag: "Память", type: "", title: "Флешка вместо карты памяти",
-          text: "Xbox 360 умеет использовать обычную USB-флешку как хранилище: вставь её и в «Настройки → Система → Память» выбери «Настроить». Туда влезут сохранения, профили и дополнения." },
-        { tag: "Геймпад", type: "", title: "Если геймпад не подключается",
-          text: "Нажми маленькую кнопку синхронизации на консоли, а потом — кнопку сверху на геймпаде, рядом с бамперами. Огоньки покрутятся, и геймпад подключится." },
-        { tag: "Кнопка Guide", type: "", title: "Большая кнопка X творит чудеса",
-          text: "Нажми центральную кнопку X на геймпаде прямо в игре — откроется меню: друзья, сообщения, пати-чат и выход на главный экран. Зажми её — можно выключить консоль или геймпад." },
-      ] },
-    ],
-  },
+/* ---- Консоль PS5 ---- */
+const CONSOLE = {
+  title: "PS5", sub: "Текущее поколение PlayStation. SSD, DualSense и PS5 Pro.", h: ["#1d3fb8", "#3a1a8a"],
+  specs: SPECS,
+  sections: [{ title: "Особенности", items: FEATURES }],
 };
-
-const OBC = [
-  ["Halo 3 до утра", "Пати с друзьями, кастомки и «ещё одна катка»"],
-  ["Лобби в Modern Warfare 2", "Ночные катки и звуки из микрофонов"],
-  ["Skate 3 и баги с физикой", "Улетающий в космос скейтер"],
-  ["Minecraft: Xbox 360 Edition", "Первый мир на разделённом экране"],
-  ["Звук получения ачивки", "До сих пор приятно"],
-  ["Пати-чат в гарнитуре", "Голоса друзей до трёх часов ночи"],
-  ["Зелёная газировка на столе", "Классика стола геймера"],
-  ["Красное кольцо смерти", "Самый страшный звук из тумбы"],
-];
-
-// «Только купил Xbox 360 — какие диски взять первыми»: [название, жанр, почему, цвет1, цвет2]
-const STARTER = [
-  ["Halo 3", "Шутер · кооп", "Легенда Xbox 360. Сюжет проходится вдвоём на одном экране, а мультиплеер — тот самый вайб старшего брата.", "#2f7a2a", "#0a2a1a"],
-  ["GTA V", "Открытый мир", "Огромный Лос-Сантос и три героя. Лучший способ подготовиться к GTA VI. На 360 — два диска.", "#2a8a3a", "#1a1a0a"],
-  ["Red Dead Redemption", "Вестерн", "Дикий Запад от Rockstar. Многие считают его лучшей игрой поколения.", "#a3271a", "#2a0a0a"],
-  ["Minecraft: Xbox 360 Edition", "Песочница", "Строить вместе с друзьями на разделённом экране — идеально для первой ночи с консолью.", "#4aaa2a", "#2a1a0a"],
-  ["Forza Horizon", "Гонки", "Открытый мир, фестиваль и сотни машин. Заходит даже тем, кто не любит гонки.", "#e0601a", "#2a0a2a"],
-  ["Gears of War 3", "Экшен · кооп", "Мощный экшен с укрытиями. Кампания на двоих — один из лучших коопов на консоли.", "#8a1c1c", "#1a1a1a"],
-  ["Skate 3", "Скейтбординг", "Трюки, угар и знаменитые баги с физикой. Классика для игры с друзьями.", "#1a7aaa", "#0a1a2a"],
-  ["Left 4 Dead 2", "Кооп против зомби", "Вчетвером против орд зомби. Каждая катка — новая история.", "#8a1a1a", "#1a0a0a"],
-];
-function starterHtml() {
-  return STARTER.map((s, i) => `
-    <div class="starter r">
-      <div class="disc sm" style="--c1:${s[3]};--c2:${s[4]};animation-duration:${3 + (i % 4) * 0.7}s"></div>
-      <div class="st-body">
-        <span class="st-n">${i + 1}</span>
-        <b>${esc(s[0])}</b><small>${esc(s[1])}</small>
-        <p>${esc(s[2])}</p>
-      </div>
-    </div>`).join("");
-}
-
-let curConsole = "ps5";
-let obc = [];
-try { obc = JSON.parse(localStorage.getItem("obc") || "[]"); } catch (e) {}
-
 function card(f) {
   return `<div class="card r"><span class="tag ${f.type || ""}">${esc(f.tag)}</span><h3>${esc(f.title)}</h3><p>${esc(f.text)}</p></div>`;
 }
-function renderConsole(key) {
-  const c = CONSOLES[key], view = $("console-view");
+function renderConsole() {
+  const c = CONSOLE, view = $("console-view");
   view.innerHTML = `
     <div class="con-hero r" style="--h1:${c.h[0]};--h2:${c.h[1]}">
-      ${c.orb ? '<div class="orb"></div>' : `<div class="ghost">${esc(c.title)}</div>`}
+      <div class="ghost">${esc(c.title)}</div>
       <div class="blades"><i></i><i></i><i></i></div>
       <h2>${esc(c.title)}</h2>
       <p>${esc(c.sub)}</p>
     </div>
     <div class="section-title">${esc(c.title)} в цифрах</div>
     <div class="specs">${c.specs.map(s => `<div class="spec r"><b data-v="${s.v}" data-suf="${esc(s.suf)}" data-dec="${s.dec || 0}">0${esc(s.suf)}</b><span>${esc(s.l)}</span></div>`).join("")}</div>
-    ${c.sections.map(sec => `<div class="section-title">${esc(sec.title)}</div>${sec.items.map(card).join("")}`).join("")}
-    ${key === "x360" ? `
-      <div class="section-title">Только купил Xbox 360? Какие диски взять первыми</div>
-      ${starterHtml()}
-      <div class="card r"><span class="tag free">Совет</span><h3>Бери диски б/у</h3><p>Диски для Xbox 360 на барахолках и OLX стоят недорого. Проверяй, чтобы на рабочей стороне не было глубоких царапин, и смотри, чтобы был регион PAL. Многие из этих игр работают и на Xbox One / Series.</p></div>
-      <div class="section-title" id="obc-anchor">Older brother core</div>
-      <div class="card r obc-meter"><b id="obc-pct">0%</b><span id="obc-txt">Отмечай, что было у тебя</span><div class="obc-bar"><div id="obc-bar"></div></div></div>
-      <div id="obc-list">${OBC.map((o, i) => `
-        <div class="obc-item r ${obc.includes(i) ? "on" : ""}" data-o="${i}">
-          <div class="box"><svg><use href="#i-check"/></svg></div>
-          <div><b>${esc(o[0])}</b><small>${esc(o[1])}</small></div>
-        </div>`).join("")}</div>` : ""}`;
+    ${c.sections.map(sec => `<div class="section-title">${esc(sec.title)}</div>${sec.items.map(card).join("")}`).join("")}`;
   watch(view);
   view.querySelectorAll(".r").forEach(el => { io.unobserve(el); io.observe(el); });
   countUp();
-  if (key === "x360") updateObc(false);
 }
-function updateObc(fx) {
-  const pct = Math.round(obc.length / OBC.length * 100);
-  $("obc-pct").textContent = pct + "%";
-  $("obc-bar").style.width = pct + "%";
-  $("obc-txt").textContent = pct === 100 ? "Ты и есть тот самый старший брат" : pct >= 50 ? "Настоящий старший брат" : pct > 0 ? "Почти старший брат" : "Отмечай, что было у тебя";
-  if (fx && pct === 100) { const r = $("obc-pct").getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 90, ["#b6ff3b", "#6be000", "#e8ffd0", "#2fa800"]); H.ok(); }
-}
-$("console-view").addEventListener("click", e => {
-  const st = e.target.closest(".starter");
-  if (st) { const d = st.querySelector(".disc"); d.style.animationDuration = "0.6s"; setTimeout(() => d.style.animationDuration = "", 900); H.tap(); return; }
-  const it = e.target.closest(".obc-item"); if (!it) return;
-  const i = +it.dataset.o, on = !obc.includes(i);
-  obc = on ? [...obc, i] : obc.filter(x => x !== i);
-  try { localStorage.setItem("obc", JSON.stringify(obc)); } catch (err) {}
-  it.classList.toggle("on", on); H.tap(on ? "medium" : "light");
-  if (on) { const r = it.querySelector(".box").getBoundingClientRect(); FX.burst(r.left + 14, r.top + 14, 16, ["#b6ff3b", "#6be000", "#e8ffd0"]); }
-  updateObc(true);
-});
-$("seg").addEventListener("click", e => {
-  const b = e.target.closest("button[data-c]"); if (!b || b.dataset.c === curConsole) return;
-  const keys = ["ps5", "ps4", "x360"], i = keys.indexOf(b.dataset.c);
-  $("seg").querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
-  $("seg-ind").style.transform = `translateX(${i * 100}%)`;
-  const toX = b.dataset.c === "x360", wasX = curConsole === "x360";
-  curConsole = b.dataset.c;
-  if (toX !== wasX) {
-    const r = b.getBoundingClientRect(), w = $("wipe");
-    w.style.setProperty("--wx", r.left + r.width / 2 + "px"); w.style.setProperty("--wy", r.top + r.height / 2 + "px");
-    w.style.background = toX ? "radial-gradient(circle, #c8ff3d, #3a9400 70%)" : "radial-gradient(circle, #5b8cff, #2a1470 70%)";
-    w.classList.remove("go"); void w.offsetWidth; w.classList.add("go");
-    setTimeout(() => { document.body.classList.toggle("x360", toX); setTheme(toX); }, 380);
-    H.tap("heavy");
-  } else H.tap("medium");
-  renderConsole(curConsole);
-});
-function setTheme(x) {
-  try { tg.setHeaderColor(x ? "#020a02" : "#05070f"); tg.setBackgroundColor(x ? "#020a02" : "#05070f"); } catch (e) {}
-  $("title").textContent = x ? "XBOX 360" : "PS | XBOX"; $("title").dataset.text = $("title").textContent;
-  const m = $("mark").querySelector("i"); m.classList.remove("swap"); void m.offsetWidth; m.classList.add("swap");
-  // квиз переключается на вопросы про Xbox / обратно
-  qi = 0; score = 0; renderQuiz();
-  // фишки: в зелёном режиме сразу показываем фишки Xbox 360
-  tipCat = x ? "Xbox 360" : "Все"; renderChips(); renderTips();
-  // вкладка GTA VI ↔ статья Older Brother Core
-  const gb = navBtns[1];
-  gb.innerHTML = x ? '<svg><use href="#i-cup"/></svg>Old Bro' : '<svg><use href="#i-fire"/></svg>GTA VI';
-  movePill(cur);
-  const active = document.querySelector(".page.active");
-  if (active && (active.id === "page-gta" || active.id === "page-obc")) {
-    document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === (x ? "page-obc" : "page-gta")));
-  }
-}
-renderConsole("ps5");
-
-/* ---- Статья Older Brother Core ---- */
-const VIBE = ["Xbox 360 с гудящим вентилятором", "Звук получения ачивки", "Пати-чат до 3 ночи", "Игровая гарнитура", "Зелёная газировка",
-  "Halo 3", "Лобби Modern Warfare 2", "Баги Skate 3", "Minecraft на разделённом экране", "Стопка дисков у телевизора",
-  "Летсплеи на YouTube", "Красное кольцо смерти", "Kinect в гостиной", "«Дай поиграть!»"];
-$("vibe").innerHTML = VIBE.map((v, i) => `<span style="animation-delay:${i * 0.05}s">${esc(v)}</span>`).join("");
-watch($("page-obc"));
-$("obc-test").addEventListener("click", () => {
-  navBtns[3].click();
-  setTimeout(() => { const a = $("obc-anchor"); if (a) a.scrollIntoView({ behavior: "smooth", block: "start" }); }, 450);
-});
+renderConsole();
 
 function countUp() {
   document.querySelectorAll("#console-view .spec b").forEach(b => {
@@ -1632,22 +989,20 @@ function countUp() {
 let qi = 0, score = 0, locked = false;
 const quizEl = $("quiz");
 function renderQuiz() {
-  if (qi >= Q().length) return renderResult();
-  const item = Q()[qi]; locked = false;
+  if (qi >= QUIZ.length) return renderResult();
+  const item = QUIZ[qi]; locked = false;
   quizEl.innerHTML = `
-    <div class="q-top"><span>Вопрос ${qi + 1} из ${Q().length}</span><span>Очки: ${score}</span></div>
-    <div class="progress"><div style="width:${qi / Q().length * 100}%"></div></div>
+    <div class="q-top"><span>Вопрос ${qi + 1} из ${QUIZ.length}</span><span>Очки: ${score}</span></div>
+    <div class="progress"><div style="width:${qi / QUIZ.length * 100}%"></div></div>
     <div class="quiz-q r">${esc(item.q)}</div>
-    ${item.a.map((a, i) => `<button class="answer r" data-i="${i}">${document.body.classList.contains("x360")
-      ? `<span class="key xk" style="background:${XBTN[i][1]}">${XBTN[i][0]}</span>`
-      : `<svg class="key"><use href="#${SHAPES[i]}"/></svg>`}${esc(a)}</button>`).join("")}`;
+    ${item.a.map((a, i) => `<button class="answer r" data-i="${i}"><svg class="key"><use href="#${SHAPES[i]}"/></svg>${esc(a)}</button>`).join("")}`;
   quizEl.querySelectorAll(".r").forEach((el, i) => { el.style.setProperty("--d", i * 0.08 + "s"); requestAnimationFrame(() => el.classList.add("reveal")); });
 }
 quizEl.addEventListener("click", e => {
   const b = e.target.closest(".answer");
   if (b && !locked) {
     locked = true;
-    const item = Q()[qi], pick = +b.dataset.i, right = quizEl.querySelectorAll(".answer")[item.r];
+    const item = QUIZ[qi], pick = +b.dataset.i, right = quizEl.querySelectorAll(".answer")[item.r];
     right.classList.add("right");
     if (pick === item.r) {
       score++; H.ok(); flash("green");
@@ -1657,18 +1012,17 @@ quizEl.addEventListener("click", e => {
     return;
   }
   if (e.target.closest("#q-again")) { qi = 0; score = 0; renderQuiz(); H.tap("medium"); }
-  if (e.target.closest("#q-share")) tg.sendData(JSON.stringify({ quiz: score, total: Q().length }));
+  if (e.target.closest("#q-share")) tg.sendData(JSON.stringify({ quiz: score, total: QUIZ.length }));
 });
 function renderResult() {
-  const pct = score / Q().length;
-  const xb = document.body.classList.contains("x360");
-  const verdict = pct === 1 ? (xb ? "Легенда Xbox 360" : "Легенда PlayStation") : pct >= .6 ? (xb ? "Настоящий старший брат" : "Опытный геймер") : "Есть куда расти";
+  const pct = score / QUIZ.length;
+  const verdict = pct === 1 ? "Легенда PlayStation" : pct >= .6 ? "Опытный геймер" : "Есть куда расти";
   const sub = pct === 1 ? "Ни одной ошибки. Респект." : pct >= .6 ? "Почти идеально. Загляни в «Фишки» и добей до максимума." : "Прочитай «Фишки» и попробуй ещё раз.";
   quizEl.innerHTML = `
     <div class="card center r">
       <div class="score">
         <svg viewBox="0 0 170 170"><circle class="bgc" cx="85" cy="85" r="70"/><circle class="fgc" id="ring" cx="85" cy="85" r="70"/></svg>
-        <div class="score-num"><span id="sn">0</span><small>/${Q().length}</small></div>
+        <div class="score-num"><span id="sn">0</span><small>/${QUIZ.length}</small></div>
       </div>
       <div class="verdict">${verdict}</div>
       <p>${sub}</p>
@@ -1684,57 +1038,9 @@ function renderResult() {
 }
 renderQuiz();
 
-/* ---- ИИ-консультант ---- */
-const AI_API = "https://ps-bot.ps-bot.workers.dev/api/ask";
-const aiSheet = $("ai-sheet"), aiBack = $("ai-back"), aiMsgs = $("ai-msgs"), aiIn = $("ai-in"), aiSend = $("ai-send");
-function aiOpen(on) {
-  aiSheet.classList.toggle("on", on); aiBack.classList.toggle("on", on); H.tap(on ? "medium" : "light");
-  if (on) setTimeout(() => aiIn.focus(), 400);
-}
-$("ai-fab").addEventListener("click", () => aiOpen(true));
-$("ai-close").addEventListener("click", () => aiOpen(false));
-aiBack.addEventListener("click", () => aiOpen(false));
-function aiAdd(cls, html) {
-  const m = document.createElement("div"); m.className = "msg " + cls; m.innerHTML = html;
-  aiMsgs.appendChild(m); aiMsgs.scrollTop = aiMsgs.scrollHeight; return m;
-}
-function typeOut(el, text, after) {
-  // эффект печати
-  let i = 0; el.textContent = "";
-  const step = () => {
-    i = Math.min(text.length, i + 3); el.textContent = text.slice(0, i); aiMsgs.scrollTop = aiMsgs.scrollHeight;
-    if (i < text.length) requestAnimationFrame(step); else after && after();
-  };
-  step();
-}
-let aiBusy = false;
-async function aiAsk(q) {
-  q = q.trim(); if (!q || aiBusy) return;
-  aiBusy = true; aiSend.disabled = true; aiIn.value = "";
-  aiAdd("me", esc(q));
-  const wait = aiAdd("bot", '<span class="dots"><i></i><i></i><i></i></span>');
-  try {
-    const r = await fetch(AI_API, { method: "POST", headers: { "content-type": "application/json" },
-      body: JSON.stringify({ initData: (tg && tg.initData) || "", q }) });
-    const j = await r.json();
-    if (j.answer) {
-      typeOut(wait, j.answer.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").replace(/ {2,}/g, " ").trim(), () => {
-        const s = document.createElement("small");
-        s.textContent = `Может ошибаться — цены проверяй в магазинах · осталось вопросов сегодня: ${j.left}`;
-        wait.appendChild(s);
-      });
-      H.ok();
-    } else { wait.classList.add("err"); wait.textContent = (j.error || "Что-то пошло не так.").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").trim(); H.err(); }
-  } catch (e) {
-    wait.classList.add("err"); wait.textContent = "Нет связи с консультантом. Проверь интернет и попробуй ещё раз."; H.err();
-  }
-  aiBusy = false; aiSend.disabled = false;
-}
-$("ai-form").addEventListener("submit", e => { e.preventDefault(); aiAsk(aiIn.value); });
-
 /* ---- Режим разработчика ---- */
 const API_BASE = "https://ps-bot.ps-bot.workers.dev/api/";
-const BUILD = "v11 · 2026-11";
+const BUILD = "v12 · перезапуск";
 const apiPost = (path, data) => fetch(API_BASE + path, { method: "POST", headers: { "content-type": "application/json" },
   body: JSON.stringify({ initData: (tg && tg.initData) || "", ...data }) }).then(r => r.json());
 const devSheet = $("dev-sheet");
@@ -1753,7 +1059,7 @@ function renderTeam(devs) {
 function renderStats(s) {
   if (!s || s.error) { $("dev-stats").innerHTML = `<div class="dstat"><b>!</b><span>${esc((s && s.error) || "ошибка")}</span></div>`; return; }
   const items = [
-    [s.users, "пользователей бота"], [`${s.aiToday}/${s.aiLimit}`, "вопросов ИИ сегодня"],
+    [s.users, "пользователей бота"], 
     [s.stars + " ★", "звёзд донатов"], [s.newsPosted, "новостей выложено"],
     [`${s.tipNext}/${s.tipsTotal}`, "следующая фишка"], [s.released ? "вышла" : s.gtaDays + " д", "GTA VI"],
     [s.devs, "разработчиков"], [String(s.kyivHour).padStart(2, "0") + ":00", "время сервера (Киев)"],
@@ -1784,8 +1090,8 @@ devSheet.addEventListener("click", async e => {
     if (l.dataset.local === "device") {
       log.textContent = JSON.stringify({ screen: `${screen.width}x${screen.height}`, viewport: `${innerWidth}x${innerHeight}`, dpr: devicePixelRatio,
         platform: tg && tg.platform, tgVersion: tg && tg.version, colorScheme: tg && tg.colorScheme, ua: navigator.userAgent.slice(0, 90) }, null, 2);
-    } else if (await confirmBox("Сбросить избранное, тест старшего брата и другие локальные данные на этом устройстве?")) {
-      ["ps_favs", "obc", "x360_year"].forEach(k => { try { localStorage.removeItem(k); } catch (err) {} });
+    } else if (await confirmBox("Сбросить избранное и другие локальные данные на этом устройстве?")) {
+      ["ps_favs"].forEach(k => { try { localStorage.removeItem(k); } catch (err) {} });
       log.textContent = "Локальные данные сброшены. Перезапусти приложение.";
     }
     H.tap("medium"); return;
@@ -1795,7 +1101,6 @@ devSheet.addEventListener("click", async e => {
     const on = !t.classList.contains("on"); t.classList.toggle("on", on); H.tap();
     if (t.dataset.t === "fps") { $("fps").style.display = on ? "block" : "none"; if (on) fpsLoop(); }
     if (t.dataset.t === "outline") document.body.classList.toggle("dbg-outline", on);
-    if (t.dataset.t === "x360") { document.body.classList.toggle("x360", on); setTheme(on); }
   }
 });
 let fpsOn = false;
@@ -1810,7 +1115,6 @@ function fpsLoop() {
 }
 $("dev-btn").addEventListener("click", () => {
   devSheet.classList.add("on"); H.tap("heavy");
-  const tx = devSheet.querySelector('.tgl[data-t="x360"]'); tx.classList.toggle("on", document.body.classList.contains("x360"));
   devRun("stats");
 });
 $("dev-close").addEventListener("click", () => { devSheet.classList.remove("on"); H.tap(); });
@@ -1821,248 +1125,6 @@ if (tg && tg.initData) {
     if (r && r.dev) { document.body.classList.add("is-dev"); renderTeam(r.devs); }
   }).catch(() => {});
 }
-$("ai-chips").addEventListener("click", e => { const b = e.target.closest("button"); if (b) aiAsk(b.textContent); });
-
-/* =========================================================
-   ИВЕНТ «ЗИМА ВЫЖИВШИХ» — The Last of Us 1 и 2
-   Сцены идут поэтапно по сюжету; 31 декабря — новогодний финал с зомби
-   ========================================================= */
-const EV_STAGES = [
-  { n: "Карантинная зона", p: "1", t: "Бостон, 20 лет после вспышки. Туман, патрули и споры в воздухе. Путешествие начинается." },
-  { n: "Светлячки", p: "2", t: "Говорят, Светлячки ищут лекарство. Ночью их огоньки видно издалека." },
-  { n: "Метель", p: "3", t: "Зимняя глава: снег по колено, тишина и Элли с луком в руках." },
-  { n: "Весна", p: "6", t: "Снег растаял. Пыльца, молодая листва и мир, который заново зарастает." },
-  { n: "Джексон", p: "4", t: "Заснеженный Джексон: тёплые окна, патрули на лошадях и почти нормальная жизнь." },
-  { n: "Дождь в Сиэтле", p: "5", t: "Сиэтл. Бесконечный дождь, молнии и затопленные улицы." },
-  { n: "Споры", p: "7", t: "Глубже под землю. Воздух густой от спор — без противогаза сюда не ходят." },
-];
-const EV_FACTS = [
-  "The Last of Us вышла 14 июня 2013 года на PS3 — и сразу стала одной из самых важных игр поколения.",
-  "Разработчик обеих частей — студия Naughty Dog. До этого она сделала серию Uncharted.",
-  "Заражение в игре вдохновлено реальным грибом кордицепсом. В природе он заражает насекомых — например, муравьёв.",
-  "Щелкуны почти ничего не видят и ориентируются по звуку — поэтому рядом с ними лучше красться.",
-  "Светлячки — группировка, которая пытается найти лекарство от заражения.",
-  "В зимней главе первой части мы впервые играем за Элли — в снегах, с луком в руках.",
-  "Дополнение Left Behind (2014) рассказывает историю Элли и её подруги Райли.",
-  "В 2014 году вышла The Last of Us Remastered для PS4 — с улучшенной графикой и 60 FPS.",
-  "The Last of Us Part II вышла 19 июня 2020 года на PS4.",
-  "Начало второй части проходит в заснеженном Джексоне — городе выживших в Вайоминге.",
-  "Большая часть Part II проходит в Сиэтле.",
-  "Во второй части Элли играет на гитаре — и ты можешь сам перебирать аккорды на сенсорной панели геймпада.",
-  "The Last of Us Part II стала «Игрой года» на The Game Awards 2020.",
-  "В 2022 году вышел ремейк The Last of Us Part I для PS5 — полностью новая графика.",
-  "В январе 2024 вышла Part II Remastered для PS5 с режимом выживания «Без возврата».",
-  "Сериал The Last of Us от HBO вышел в январе 2023 года.",
-];
-const TLOU_QUIZ = [
-  { q: "В каком году вышла первая The Last of Us?", a: ["2010", "2013", "2016", "2020"], r: 1 },
-  { q: "На какой консоли она вышла изначально?", a: ["PS3", "PS4", "PS5", "Xbox 360"], r: 0 },
-  { q: "Какая студия сделала The Last of Us?", a: ["Rockstar", "Insomniac", "Naughty Dog", "Santa Monica"], r: 2 },
-  { q: "Как зовут заражённых, которые ориентируются по звуку?", a: ["Бегуны", "Щелкуны", "Топляки", "Шаркуны"], r: 1 },
-  { q: "Как называется группировка, которая ищет лекарство?", a: ["Цикады", "Светлячки", "Волки", "Шрамы"], r: 1 },
-  { q: "В каком городе проходит большая часть Part II?", a: ["Бостон", "Питтсбург", "Сиэтл", "Денвер"], r: 2 },
-  { q: "На каком инструменте играет Элли?", a: ["Гитара", "Пианино", "Губная гармошка", "Барабаны"], r: 0 },
-  { q: "Как называется дополнение про Элли и Райли?", a: ["Left Behind", "Grounded", "No Return", "Lost Legacy"], r: 0 },
-];
-const EV_API = "https://ps-bot.ps-bot.workers.dev/event";
-const ev = { on: false, day: 1, nye: false, pal: "1", parts: [], raf: 0, fw: 0, flash: 0, nextFlash: 6000 };
-const evC = $("ev-canvas"), evX = evC.getContext("2d");
-function evSize() { const d = Math.min(devicePixelRatio || 1, 2); evC.width = innerWidth * d; evC.height = innerHeight * d; evC.style.width = innerWidth + "px"; evC.style.height = innerHeight + "px"; evX.setTransform(d, 0, 0, d, 0, 0); }
-evSize(); addEventListener("resize", evSize);
-const rnd = (a, b) => a + Math.random() * (b - a);
-
-function evSpawn(p, grow) {
-  const W = innerWidth, Hh = innerHeight, k = 1 + grow * 1.5; // с каждым днём частиц больше
-  const parts = [];
-  const add = (n, fn) => { for (let i = 0; i < Math.round(n * k); i++) parts.push(fn(i)); };
-  if (p === "1") { add(6, () => ({ t: "fog", x: rnd(0, W), y: rnd(Hh * .3, Hh), r: rnd(140, 260), vx: rnd(-.15, .15), a: rnd(.05, .12) }));
-                   add(40, () => ({ t: "spore", x: rnd(0, W), y: rnd(0, Hh), r: rnd(1, 2.4), vy: rnd(-.25, -.08), w: rnd(0, 6), c: "220,200,140" })); }
-  if (p === "2") add(34, () => ({ t: "fly", x: rnd(0, W), y: rnd(0, Hh), vx: rnd(-.4, .4), vy: rnd(-.4, .4), ph: rnd(0, 6), r: rnd(2, 3.5) }));
-  if (p === "3") add(170, () => ({ t: "snow", x: rnd(0, W), y: rnd(0, Hh), r: rnd(1, 3.2), vy: rnd(2.5, 6), vx: rnd(-3.5, -1.5) }));
-  if (p === "4") { add(70, () => ({ t: "snow", x: rnd(0, W), y: rnd(0, Hh), r: rnd(1, 2.8), vy: rnd(.6, 1.6), vx: rnd(-.4, .4) }));
-                   add(14, () => ({ t: "bokeh", x: rnd(0, W), y: rnd(Hh * .55, Hh), r: rnd(10, 28), ph: rnd(0, 6) })); }
-  if (p === "5") add(160, () => ({ t: "rain", x: rnd(0, W), y: rnd(0, Hh), l: rnd(12, 26), vy: rnd(14, 22) }));
-  if (p === "6") { add(26, () => ({ t: "leaf", x: rnd(0, W), y: rnd(-Hh, Hh), r: rnd(4, 8), vy: rnd(.5, 1.2), a: rnd(0, 6), va: rnd(-.04, .04), c: Math.random() < .3 ? "242,166,194" : "140,207,90" }));
-                   add(40, () => ({ t: "spore", x: rnd(0, W), y: rnd(0, Hh), r: rnd(.8, 1.8), vy: rnd(-.2, -.05), w: rnd(0, 6), c: "255,232,138" })); }
-  if (p === "7") add(110, () => ({ t: "spore", x: rnd(0, W), y: rnd(0, Hh), r: rnd(1.2, 3.6), vy: rnd(-.35, .1), w: rnd(0, 6), c: "245,196,107", glow: true }));
-  if (p === "nye") add(90, () => ({ t: "snow", x: rnd(0, W), y: rnd(0, Hh), r: rnd(1, 3), vy: rnd(.7, 1.8), vx: rnd(-.5, .5) }));
-  return parts;
-}
-function evLoop(t) {
-  if (!ev.on) return;
-  const W = innerWidth, Hh = innerHeight;
-  evX.clearRect(0, 0, W, Hh);
-  for (const q of ev.parts) {
-    if (q.t === "fog") { q.x += q.vx; if (q.x < -q.r) q.x = W + q.r; if (q.x > W + q.r) q.x = -q.r;
-      const g = evX.createRadialGradient(q.x, q.y, 0, q.x, q.y, q.r); g.addColorStop(0, `rgba(190,205,200,${q.a})`); g.addColorStop(1, "rgba(190,205,200,0)");
-      evX.fillStyle = g; evX.fillRect(q.x - q.r, q.y - q.r, q.r * 2, q.r * 2); }
-    else if (q.t === "spore") { q.y += q.vy; q.w += .02; q.x += Math.sin(q.w) * .3; if (q.y < -5) { q.y = Hh + 5; q.x = rnd(0, W); } if (q.y > Hh + 5) q.y = -5;
-      evX.fillStyle = `rgba(${q.c},.75)`; if (q.glow) { evX.shadowBlur = 8; evX.shadowColor = `rgb(${q.c})`; }
-      evX.beginPath(); evX.arc(q.x, q.y, q.r, 0, 6.28); evX.fill(); evX.shadowBlur = 0; }
-    else if (q.t === "fly") { q.ph += .05; q.vx += rnd(-.05, .05); q.vy += rnd(-.05, .05); q.vx = Math.max(-.6, Math.min(.6, q.vx)); q.vy = Math.max(-.6, Math.min(.6, q.vy));
-      q.x = (q.x + q.vx + W) % W; q.y = (q.y + q.vy + Hh) % Hh; const a = .35 + .65 * Math.max(0, Math.sin(q.ph));
-      evX.shadowBlur = 18; evX.shadowColor = "#e7ff6e"; evX.fillStyle = `rgba(231,255,110,${a})`; evX.beginPath(); evX.arc(q.x, q.y, q.r, 0, 6.28); evX.fill(); evX.shadowBlur = 0; }
-    else if (q.t === "snow") { q.y += q.vy; q.x += q.vx; if (q.y > Hh + 5) { q.y = -5; q.x = rnd(0, W + 100); } if (q.x < -10) q.x = W + 10; if (q.x > W + 10) q.x = -10;
-      evX.fillStyle = "rgba(255,255,255,.85)"; evX.beginPath(); evX.arc(q.x, q.y, q.r, 0, 6.28); evX.fill(); }
-    else if (q.t === "bokeh") { q.ph += .02; evX.fillStyle = `rgba(255,170,90,${.12 + .1 * Math.sin(q.ph)})`; evX.beginPath(); evX.arc(q.x, q.y, q.r, 0, 6.28); evX.fill(); }
-    else if (q.t === "rain") { q.y += q.vy; q.x -= q.vy * .15; if (q.y > Hh) { q.y = -q.l; q.x = rnd(0, W + 80); }
-      evX.strokeStyle = "rgba(170,200,230,.45)"; evX.lineWidth = 1.2; evX.beginPath(); evX.moveTo(q.x, q.y); evX.lineTo(q.x - q.l * .15, q.y + q.l); evX.stroke(); }
-    else if (q.t === "leaf") { q.y += q.vy; q.a += q.va; q.x += Math.sin(q.a) * .8; if (q.y > Hh + 10) { q.y = -10; q.x = rnd(0, W); }
-      evX.save(); evX.translate(q.x, q.y); evX.rotate(q.a); evX.fillStyle = `rgba(${q.c},.8)`; evX.beginPath(); evX.ellipse(0, 0, q.r, q.r * .45, 0, 0, 6.28); evX.fill(); evX.restore(); }
-  }
-  // молнии в Сиэтле
-  if (ev.pal === "5" && t - ev.flash > ev.nextFlash) { ev.flash = t; ev.nextFlash = rnd(5000, 9000); document.body.classList.remove("flash"); void document.body.offsetWidth; document.body.classList.add("flash"); H.tap("heavy"); }
-  // салют 31 декабря
-  if (ev.pal === "nye" && t - ev.fw > 2200) { ev.fw = t; FX.burst(rnd(W * .15, W * .85), rnd(Hh * .12, Hh * .4), 46, ["#ffd56b", "#ff5b5b", "#4cd964", "#7ab8ff", "#ffffff"]); }
-  ev.raf = requestAnimationFrame(evLoop);
-}
-
-const ZOMBIE_SVG = `<svg viewBox="0 0 46 78"><g fill="#1b1424">
-  <circle cx="26" cy="17" r="8"/><path d="M18 25 Q26 21 31 27 L32 51 L21 52 Z"/>
-  <path d="M28 30 L45 34 L44 38 L28 36Z"/><path d="M26 33 L43 41 L41 45 L25 39Z"/>
-  <path d="M22 50 L17 77 L23 77 L27 54Z"/><path d="M28 50 L33 77 L38 77 L31 50Z"/></g>
-  <path d="M17 14 Q24 0 37 6 L33 13Z" fill="#d42a2a"/><rect x="16" y="12" width="19" height="4" rx="2" fill="#fff"/>
-  <circle cx="37" cy="6" r="2.8" fill="#fff"/><circle cx="29.5" cy="17" r="1.4" fill="#ffd56b"/></svg>`;
-function evNye(on) {
-  const g = $("garland"), z = $("zombies");
-  if (!on) { g.innerHTML = ""; z.innerHTML = ""; $("nye-count").style.display = "none"; return; }
-  const cols = ["#ff4d4d", "#ffd56b", "#4cd964", "#7ab8ff"];
-  const n = Math.ceil(innerWidth / 30);
-  g.innerHTML = Array.from({ length: n }, (_, i) => { const c = cols[i % 4]; const x = i / (n - 1); const y = 4 + 18 * 4 * x * (1 - x);
-      return `<i style="left:calc(${x * 100}% - 6px);top:${y}px;background:${c};box-shadow:0 0 12px ${c};animation-delay:${(i % 4) * .3}s"></i>`; }).join("");
-  z.innerHTML = Array.from({ length: 4 }, (_, i) => `<div class="zombie" style="animation-duration:${22 + i * 6}s;animation-delay:${-i * 7}s"><div style="transform:scale(${.8 + (i % 2) * .25});transform-origin:50% 100%;width:100%;height:100%">${ZOMBIE_SVG}</div></div>`).join("");
-  $("nye-count").style.display = "grid";
-}
-function nyeTick() {
-  if (!ev.on || ev.pal !== "nye") return;
-  const now = Date.now(), y = new Date(now).getUTCFullYear();
-  let target = Date.UTC(y, 11, 31, 22, 0, 0); // полночь по Киеву (UTC+2)
-  if (now > target) target = Date.UTC(y + 1, 11, 31, 22, 0, 0);
-  const s = Math.max(0, Math.floor((target - now) / 1000));
-  $("ny-h").textContent = pad(Math.floor(s / 3600)); $("ny-m").textContent = pad(Math.floor(s % 3600 / 60)); $("ny-s").textContent = pad(s % 60);
-}
-setInterval(nyeTick, 1000);
-
-function evApply(st) {
-  cancelAnimationFrame(ev.raf);
-  ev.on = !!st.on; ev.day = Math.max(1, st.day || 1); ev.nye = !!st.nye;
-  if (!ev.on) { document.body.classList.remove("ev", "flash"); delete document.body.dataset.ev; evX.clearRect(0, 0, innerWidth, innerHeight); evNye(false); $("sub").textContent = "PS5, PS4, Xbox 360 и GTA VI"; return; }
-  const stage = EV_STAGES[Math.min(ev.day, EV_STAGES.length) - 1];
-  const grow = Math.min(1, (ev.day - 1) / 14);
-  ev.pal = ev.nye ? "nye" : stage.p;
-  document.body.classList.add("ev"); document.body.dataset.ev = ev.pal;
-  document.body.style.setProperty("--grow", ev.nye ? .6 : grow);
-  const name = ev.nye ? "С Новым годом, выжившие!" : stage.n;
-  const text = ev.nye ? "31 декабря: ёлка, гирлянды и зомби в шапках Санты. Даже щелкуны празднуют." : stage.t;
-  $("ev-b-small").textContent = ev.nye ? "ЗИМА ВЫЖИВШИХ · ФИНАЛ" : `ЗИМА ВЫЖИВШИХ · ДЕНЬ ${ev.day}`;
-  $("ev-b-title").textContent = name; $("ev-b-text").textContent = text;
-  $("ev-h-small").textContent = ev.nye ? "31 ДЕКАБРЯ · ДО НОВОГО ГОДА" : `ДЕНЬ ${ev.day} · ЭТАП ${Math.min(ev.day, 7)} ИЗ 7`;
-  $("ev-h-title").textContent = name;
-  $("ev-h-text").textContent = ev.nye ? "Спасибо, что выживал с нами весь декабрь. С наступающим и с Рождеством!" : text + (ev.day < 7 ? " Завтра — следующий этап." : " Мир продолжает зарастать с каждым днём.");
-  $("sub").textContent = ev.nye ? "Новогодний финал · Зима выживших" : `Зима выживших · ${stage.n}`;
-  const door = $("door"), key = "ev_door_" + (ev.nye ? "nye" : ev.day);
-  let opened = false; try { opened = !!localStorage.getItem(key); } catch (e) {}
-  door.classList.toggle("open", opened); door.dataset.key = key;
-  $("door-n").textContent = ev.nye ? "31" : ev.day;
-  $("door-t").textContent = ev.nye ? "ПОДАРОК 31 ДЕКАБРЯ" : `ФАКТ ДНЯ ${ev.day}`;
-  $("door-fact").textContent = ev.nye ? "Ты прошёл всю зиму выживших: от карантинной зоны до спор. Загадай желание — и пусть в новом году у тебя будет больше патронов, чем щелкунов." : EV_FACTS[(ev.day - 1) % EV_FACTS.length];
-  const pastN = Math.min(ev.day - 1, EV_FACTS.length);
-  $("past-title").style.display = pastN ? "" : "none";
-  $("past").innerHTML = Array.from({ length: pastN }, (_, i) => `<div><b>ДЕНЬ ${i + 1} · ${esc(EV_STAGES[Math.min(i + 1, 7) - 1].n)}</b>${esc(EV_FACTS[i])}</div>`).reverse().join("");
-  evNye(ev.nye); nyeTick();
-  ev.parts = evSpawn(ev.pal, grow); ev.raf = requestAnimationFrame(evLoop);
-}
-$("door").addEventListener("click", () => {
-  const d = $("door"); if (d.classList.contains("open")) return;
-  d.classList.add("open"); try { localStorage.setItem(d.dataset.key, "1"); } catch (e) {}
-  const r = d.getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 50, ["#ffd56b", "#e7ff6e", "#ffffff", "#7ab8ff"]); H.ok();
-});
-$("ev-banner").addEventListener("click", () => { $("ev-sheet").classList.add("on"); $("ev-sheet").scrollTop = 0; H.tap("medium"); evQuizRender(); });
-$("ev-close").addEventListener("click", () => { $("ev-sheet").classList.remove("on"); H.tap(); });
-
-// квиз «Насколько ты выживший?»
-let eqi = 0, escore = 0, elock = false;
-function evQuizRender() {
-  const box = $("ev-quiz");
-  if (eqi >= TLOU_QUIZ.length) {
-    const rank = escore === 8 ? "Легенда Джексона" : escore >= 6 ? "Светлячок" : escore >= 4 ? "Охотник" : "Щелкун";
-    box.innerHTML = `<div class="card center"><div class="verdict">${escore} из ${TLOU_QUIZ.length}</div><p>Твоё звание: <b style="color:var(--cyan)">${rank}</b></p></div><button class="btn" id="eq-again">Пройти ещё раз</button>`;
-    if (escore >= 6) FX.burst(innerWidth / 2, innerHeight * .4, 80, ["#ffd56b", "#e7ff6e", "#ffffff"]);
-    return;
-  }
-  const it = TLOU_QUIZ[eqi]; elock = false;
-  box.innerHTML = `<div class="q-top"><span>Вопрос ${eqi + 1} из ${TLOU_QUIZ.length}</span><span>Очки: ${escore}</span></div>
-    <div class="progress"><div style="width:${eqi / TLOU_QUIZ.length * 100}%"></div></div>
-    <div class="quiz-q">${esc(it.q)}</div>
-    ${it.a.map((a, i) => `<button class="answer" data-i="${i}"><svg class="key"><use href="#${SHAPES[i]}"/></svg>${esc(a)}</button>`).join("")}`;
-}
-$("ev-quiz").addEventListener("click", e => {
-  if (e.target.closest("#eq-again")) { eqi = 0; escore = 0; evQuizRender(); return; }
-  const b = e.target.closest(".answer"); if (!b || elock) return;
-  elock = true; const it = TLOU_QUIZ[eqi], pick = +b.dataset.i;
-  $("ev-quiz").querySelectorAll(".answer")[it.r].classList.add("right");
-  if (pick === it.r) { escore++; H.ok(); } else { b.classList.add("wrong"); H.err(); }
-  setTimeout(() => { eqi++; evQuizRender(); }, 900);
-});
-
-// предпросмотр сцен в панели разработчика (только на этом устройстве)
-$("ev-preview").addEventListener("click", e => {
-  const b = e.target.closest("button[data-p]"); if (!b) return;
-  const p = b.dataset.p;
-  if (p === "off") evApply({ on: false });
-  else if (p === "nye") evApply({ on: true, day: 17, nye: true });
-  else { const order = ["1", "2", "3", "6", "4", "5", "7"]; evApply({ on: true, day: order.indexOf(p) + 1, nye: false }); }
-  $("dev-sheet").classList.remove("on"); H.tap("medium");
-});
-
-/* ---------- Что нового ---------- */
-const CHANGELOG = [
-  { v: "v11", d: "ноябрь 2026", t: "Экран «Что нового»", l: [
-    "Новая кнопка «Новое» в шапке — вся история обновлений в одном месте",
-    "Точка на кнопке горит, пока ты не посмотрел свежее обновление" ] },
-  { v: "v10", d: "ноябрь 2026", t: "Готовимся к зиме", l: [
-    "Новогодний ивент «Зима выживших» по The Last of Us 1 и 2",
-    "Каждый день ивента приложение меняется: туман, светлячки, метель, весна, Джексон, дождь в Сиэтле и споры",
-    "Дверца дня с фактом и квиз «Насколько ты выживший?»",
-    "31 декабря — гирлянды, салют, отсчёт до полуночи и зомби в шапках Санты" ] },
-  { v: "v9", d: "ноябрь 2026", t: "ИИ-консультант", l: [
-    "Консультант прямо в приложении: спроси про приставки, игры и цены",
-    "Поддержать проект можно звёздами Telegram или через Монобанк",
-    "Секретный режим разработчика" ] },
-  { v: "v8", d: "ноябрь 2026", t: "Больше Xbox 360", l: [
-    "Отдельный квиз про Xbox 360 в зелёном режиме",
-    "Статья «Old Bro»: что такое Older Brother Core",
-    "Какие диски взять первыми, если только купил Xbox 360",
-    "История обновлений системы Xbox 360" ] },
-  { v: "v7", d: "ноябрь 2026", t: "Зелёный режим", l: [
-    "Переключатель PS / Xbox 360: всё приложение становится зелёным",
-    "Банки газировки на фоне и крутящийся значок X",
-    "Новое название «PS | Xbox Хаб» и новая аватарка" ] },
-  { v: "v5", d: "ноябрь 2026", t: "GTA VI и анимации", l: [
-    "Отсчёт до выхода GTA VI и свежие новости по игре",
-    "Частицы, глитч-заголовок, бегущая строка и анимации на всех экранах" ] },
-  { v: "v1", d: "старт", t: "Запуск", l: [
-    "Новости PlayStation и Xbox, фишки консолей и первый квиз" ] },
-];
-const WN_LAST = CHANGELOG[0].v;
-function wnRender() {
-  $("wn-list").innerHTML = CHANGELOG.map((c, i) => `<div class="wn-item${i ? "" : " latest"}" style="transition-delay:${.12 + i * .08}s">
-    <div class="v"><b>${c.v}</b><span>${esc(c.d)}</span>${i ? "" : "<em>СЕЙЧАС</em>"}</div>
-    <h3>${esc(c.t)}</h3><ul>${c.l.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`).join("");
-}
-wnRender();
-let wnSeen = ""; try { wnSeen = localStorage.getItem("wn_seen") || ""; } catch (e) {}
-$("wn-btn").classList.toggle("fresh", wnSeen !== WN_LAST);
-$("wn-btn").addEventListener("click", () => {
-  wnRender(); $("wn-sheet").scrollTop = 0;
-  requestAnimationFrame(() => $("wn-sheet").classList.add("on"));
-  $("wn-btn").classList.remove("fresh"); try { localStorage.setItem("wn_seen", WN_LAST); } catch (e) {}
-  H.tap("medium");
-});
-$("wn-close").addEventListener("click", () => { $("wn-sheet").classList.remove("on"); H.tap(); });
-
-// узнаём у сервера, идёт ли ивент
-fetch(EV_API, { cache: "no-store" }).then(r => r.json()).then(st => evApply({ on: st.active, day: st.day, nye: st.nye })).catch(() => {});
 </script>
 </body>
 </html>
