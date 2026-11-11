@@ -360,6 +360,15 @@
     box-shadow: 0 10px 30px -6px var(--c1), inset 0 0 0 6px rgba(255,255,255,.25); animation: spin 4s linear infinite; }
   .disc::before { content: ""; position: absolute; inset: 28%; border-radius: 50%; background: radial-gradient(circle, #111 0 30%, #ddd 31% 45%, rgba(255,255,255,.7) 46%); }
   .disc::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: linear-gradient(135deg, rgba(255,255,255,.55), transparent 45%); }
+  .disc.sm { width: 74px; height: 74px; margin: 0; flex: none; }
+  .starter { display: flex; gap: 14px; align-items: center; padding: 14px; margin-bottom: 10px; border-radius: 18px; background: var(--card);
+    border: 1px solid var(--line); cursor: pointer; }
+  .st-body { position: relative; flex: 1; min-width: 0; }
+  .st-body b { display: block; font: 800 15px Unbounded, sans-serif; line-height: 1.25; padding-right: 30px; }
+  .st-body small { color: #b6ff3b; font-size: 12px; font-weight: 700; }
+  .st-body p { margin: 6px 0 0; color: var(--muted); font-size: 13.5px; line-height: 1.45; }
+  .st-n { position: absolute; right: 0; top: -2px; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center;
+    background: #5fbf1a; color: #fff; font: 900 12px Unbounded; }
   .disc-card b { display: block; font-size: 14px; line-height: 1.25; }
   .disc-card small { color: var(--muted); font-size: 12px; }
 
@@ -677,6 +686,21 @@ const TIPS = [
   { cat: "Онлайн", icon: "cast", c: ["#ff8a3d", "#ff4466"], title: "Играй с телефона через Remote Play",
     text: "Можно играть в PS5, когда телевизор занят.",
     how: "Установи PS Remote Play на телефон или ПК и войди в тот же аккаунт. На PS5: Настройки → Система → Дистанционная игра → включить. Лучше всего по Wi‑Fi 5 ГГц." },
+  { cat: "Xbox 360", icon: "refresh", c: ["#7cff2a", "#1e7a00"], title: "Установи игру с диска на HDD",
+    text: "Официально: игра грузится быстрее, привод не гудит.",
+    how: "Вставь диск → на главном экране выбери игру → открой её меню → «Установить». Для запуска диск всё равно нужен, но шума и загрузок станет меньше." },
+  { cat: "Xbox 360", icon: "grid", c: ["#9dff2e", "#2fa800"], title: "Флешка как карта памяти",
+    text: "Обычная USB-флешка заменит карту памяти.",
+    how: "Вставь флешку → Настройки → Система → Память → выбери флешку → «Настроить». Туда можно сохранять профили, сохранения и дополнения." },
+  { cat: "Xbox 360", icon: "laptop", c: ["#5fbf1a", "#0d3a00"], title: "Геймпад не подключается",
+    text: "Пара нажатий — и всё работает.",
+    how: "Нажми кнопку синхронизации на консоли, потом маленькую кнопку сверху на геймпаде. Огоньки покрутятся — и геймпад подключится." },
+  { cat: "Xbox 360", icon: "refresh", c: ["#c8ff3d", "#3a9400"], title: "Очистка кэша от зависаний",
+    text: "Если игры тормозят или зависают.",
+    how: "Настройки → Система → Память → выбери накопитель → нажми Y → «Очистить системный кэш». Сохранения не пропадут." },
+  { cat: "Xbox 360", icon: "battery", c: ["#ff4466", "#7a0a1a"], title: "Как не словить красное кольцо",
+    text: "Главная причина поломки — перегрев.",
+    how: "Не ставь консоль в закрытую тумбу, оставь место сзади и сбоку, протирай решётки от пыли. Не клади ничего сверху на старые белые модели." },
 ];
 
 const SPECS = [
@@ -1137,6 +1161,14 @@ const CONSOLES = {
           text: "Перегрев — главная причина красного кольца. Оставь место сзади и сбоку, протирай решётки от пыли." },
         { tag: "Игры", type: "free", title: "Играй в 360 на новых Xbox",
           text: "Сотни игр Xbox 360 запускаются на Xbox One и Series — часто с лучшей картинкой и стабильным FPS." },
+        { tag: "Тише и быстрее", type: "free", title: "Установи диск на жёсткий диск",
+          text: "Официальная функция: вставь диск, на главном экране выбери игру, открой её меню и нажми «Установить». Игра будет грузиться быстрее, а привод перестанет гудеть. Диск для запуска всё равно нужен." },
+        { tag: "Память", type: "", title: "Флешка вместо карты памяти",
+          text: "Xbox 360 умеет использовать обычную USB-флешку как хранилище: вставь её и в «Настройки → Система → Память» выбери «Настроить». Туда влезут сохранения, профили и дополнения." },
+        { tag: "Геймпад", type: "", title: "Если геймпад не подключается",
+          text: "Нажми маленькую кнопку синхронизации на консоли, а потом — кнопку сверху на геймпаде, рядом с бамперами. Огоньки покрутятся, и геймпад подключится." },
+        { tag: "Кнопка Guide", type: "", title: "Большая кнопка X творит чудеса",
+          text: "Нажми центральную кнопку X на геймпаде прямо в игре — откроется меню: друзья, сообщения, пати-чат и выход на главный экран. Зажми её — можно выключить консоль или геймпад." },
       ] },
     ],
   },
@@ -1153,32 +1185,27 @@ const OBC = [
   ["Красное кольцо смерти", "Самый страшный звук из тумбы"],
 ];
 
-// Лучшие диски по годам: «когда ты впервые купил Xbox 360»
-const ERAS = [
-  { y: ["2005", "2006"], t: "Ты застал самый старт: белый Xbox 360, первые ачивки и звук, который хотелось слышать снова и снова.",
-    d: [["Gears of War", "2006", "#8a1c1c", "#2b2b2b"], ["Oblivion", "2006", "#7a6a3a", "#1d2a3a"], ["Dead Rising", "2006", "#b83a1a", "#3a1a0a"], ["Call of Duty 2", "2005", "#5a6a3a", "#2a2a1a"]] },
-  { y: ["2007", "2008"], t: "Золотая эра: Halo 3 на всю ночь, Liberty City и, возможно, первое красное кольцо.",
-    d: [["Halo 3", "2007", "#2f7a2a", "#0a2a1a"], ["GTA IV", "2008", "#d9a01a", "#2a1a0a"], ["Call of Duty 4", "2007", "#4a5a3a", "#1a1a1a"], ["Fable II", "2008", "#6a3a8a", "#1a0a2a"], ["Mass Effect", "2007", "#1a4a8a", "#0a0a2a"]] },
-  { y: ["2009", "2010"], t: "Расцвет онлайна: лобби MW2, Дикий Запад, баги Skate 3 и Kinect в гостиной.",
-    d: [["Modern Warfare 2", "2009", "#3a4a2a", "#0a0a0a"], ["Red Dead Redemption", "2010", "#a3271a", "#2a0a0a"], ["Skate 3", "2010", "#1a7aaa", "#0a1a2a"], ["Mass Effect 2", "2010", "#1a3a7a", "#0a0a1a"], ["Left 4 Dead 2", "2009", "#8a1a1a", "#1a0a0a"]] },
-  { y: ["2011", "2012"], t: "Эпоха тонкого Xbox 360 S: Скайрим на сотни часов, первые миры в Minecraft и гонки в Колорадо.",
-    d: [["Skyrim", "2011", "#6a6a6a", "#1a1a2a"], ["Minecraft: Xbox 360 Edition", "2012", "#4aaa2a", "#2a1a0a"], ["Forza Horizon", "2012", "#e0601a", "#2a0a2a"], ["Gears of War 3", "2011", "#8a1c1c", "#1a1a1a"], ["Halo 4", "2012", "#1a6a9a", "#0a1a2a"]] },
-  { y: ["2013", "2014", "2015", "2016"], t: "Поздний вход: GTA V, тихий Xbox 360 E и куча дешёвых дисков на любой вкус.",
-    d: [["GTA V", "2013", "#2a8a3a", "#1a1a0a"], ["Minecraft: Xbox 360 Edition", "2012", "#4aaa2a", "#2a1a0a"], ["Red Dead Redemption", "2010", "#a3271a", "#2a0a0a"], ["Skyrim", "2011", "#6a6a6a", "#1a1a2a"]] },
+// «Только купил Xbox 360 — какие диски взять первыми»: [название, жанр, почему, цвет1, цвет2]
+const STARTER = [
+  ["Halo 3", "Шутер · кооп", "Легенда Xbox 360. Сюжет проходится вдвоём на одном экране, а мультиплеер — тот самый вайб старшего брата.", "#2f7a2a", "#0a2a1a"],
+  ["GTA V", "Открытый мир", "Огромный Лос-Сантос и три героя. Лучший способ подготовиться к GTA VI. На 360 — два диска.", "#2a8a3a", "#1a1a0a"],
+  ["Red Dead Redemption", "Вестерн", "Дикий Запад от Rockstar. Многие считают его лучшей игрой поколения.", "#a3271a", "#2a0a0a"],
+  ["Minecraft: Xbox 360 Edition", "Песочница", "Строить вместе с друзьями на разделённом экране — идеально для первой ночи с консолью.", "#4aaa2a", "#2a1a0a"],
+  ["Forza Horizon", "Гонки", "Открытый мир, фестиваль и сотни машин. Заходит даже тем, кто не любит гонки.", "#e0601a", "#2a0a2a"],
+  ["Gears of War 3", "Экшен · кооп", "Мощный экшен с укрытиями. Кампания на двоих — один из лучших коопов на консоли.", "#8a1c1c", "#1a1a1a"],
+  ["Skate 3", "Скейтбординг", "Трюки, угар и знаменитые баги с физикой. Классика для игры с друзьями.", "#1a7aaa", "#0a1a2a"],
+  ["Left 4 Dead 2", "Кооп против зомби", "Вчетвером против орд зомби. Каждая катка — новая история.", "#8a1a1a", "#1a0a0a"],
 ];
-const YEARS = ["2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016"];
-let myYear = null;
-try { myYear = localStorage.getItem("x360_year"); } catch (e) {}
-
-function discsHtml(year) {
-  const era = ERAS.find(e => e.y.includes(year));
-  if (!era) return `<div class="era">Выбери год — покажу диски, которые тогда были у всех.</div>`;
-  return `<div class="era">${esc(era.t)}</div>
-    <div class="discs">${era.d.map((d, i) => `
-      <div class="disc-card" style="animation-delay:${i * 0.08}s">
-        <div class="disc" style="--c1:${d[2]};--c2:${d[3]};animation-duration:${3 + i * 0.6}s"></div>
-        <b>${esc(d[0])}</b><small>${d[1]}</small>
-      </div>`).join("")}</div>`;
+function starterHtml() {
+  return STARTER.map((s, i) => `
+    <div class="starter r">
+      <div class="disc sm" style="--c1:${s[3]};--c2:${s[4]};animation-duration:${3 + (i % 4) * 0.7}s"></div>
+      <div class="st-body">
+        <span class="st-n">${i + 1}</span>
+        <b>${esc(s[0])}</b><small>${esc(s[1])}</small>
+        <p>${esc(s[2])}</p>
+      </div>
+    </div>`).join("");
 }
 
 let curConsole = "ps5";
@@ -1201,11 +1228,9 @@ function renderConsole(key) {
     <div class="specs">${c.specs.map(s => `<div class="spec r"><b data-v="${s.v}" data-suf="${esc(s.suf)}" data-dec="${s.dec || 0}">0${esc(s.suf)}</b><span>${esc(s.l)}</span></div>`).join("")}</div>
     ${c.sections.map(sec => `<div class="section-title">${esc(sec.title)}</div>${sec.items.map(card).join("")}`).join("")}
     ${key === "x360" ? `
-      <div class="section-title">Лучшие диски: когда ты впервые купил Xbox 360?</div>
-      <div class="card r">
-        <div class="years" id="years">${YEARS.map(y => `<button data-y="${y}" class="${y === myYear ? "on" : ""}">${y}</button>`).join("")}</div>
-        <div id="discs">${discsHtml(myYear)}</div>
-      </div>
+      <div class="section-title">Только купил Xbox 360? Какие диски взять первыми</div>
+      ${starterHtml()}
+      <div class="card r"><span class="tag free">Совет</span><h3>Бери диски б/у</h3><p>Диски для Xbox 360 на барахолках и OLX стоят недорого. Проверяй, чтобы на рабочей стороне не было глубоких царапин, и смотри, чтобы был регион PAL. Многие из этих игр работают и на Xbox One / Series.</p></div>
       <div class="section-title" id="obc-anchor">Older brother core</div>
       <div class="card r obc-meter"><b id="obc-pct">0%</b><span id="obc-txt">Отмечай, что было у тебя</span><div class="obc-bar"><div id="obc-bar"></div></div></div>
       <div id="obc-list">${OBC.map((o, i) => `
@@ -1226,16 +1251,8 @@ function updateObc(fx) {
   if (fx && pct === 100) { const r = $("obc-pct").getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 90, ["#b6ff3b", "#6be000", "#e8ffd0", "#2fa800"]); H.ok(); }
 }
 $("console-view").addEventListener("click", e => {
-  const yb = e.target.closest("#years button");
-  if (yb) {
-    myYear = yb.dataset.y;
-    try { localStorage.setItem("x360_year", myYear); } catch (err) {}
-    $("years").querySelectorAll("button").forEach(x => x.classList.toggle("on", x === yb));
-    $("discs").innerHTML = discsHtml(myYear);
-    const r = yb.getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 22, ["#b6ff3b", "#6be000", "#e8ffd0"]);
-    H.tap("medium");
-    return;
-  }
+  const st = e.target.closest(".starter");
+  if (st) { const d = st.querySelector(".disc"); d.style.animationDuration = "0.6s"; setTimeout(() => d.style.animationDuration = "", 900); H.tap(); return; }
   const it = e.target.closest(".obc-item"); if (!it) return;
   const i = +it.dataset.o, on = !obc.includes(i);
   obc = on ? [...obc, i] : obc.filter(x => x !== i);
@@ -1267,6 +1284,8 @@ function setTheme(x) {
   const m = $("mark").querySelector("i"); m.classList.remove("swap"); void m.offsetWidth; m.classList.add("swap");
   // квиз переключается на вопросы про Xbox / обратно
   qi = 0; score = 0; renderQuiz();
+  // фишки: в зелёном режиме сразу показываем фишки Xbox 360
+  tipCat = x ? "Xbox 360" : "Все"; renderChips(); renderTips();
   // вкладка GTA VI ↔ статья Older Brother Core
   const gb = navBtns[1];
   gb.innerHTML = x ? '<svg><use href="#i-cup"/></svg>Old Bro' : '<svg><use href="#i-fire"/></svg>GTA VI';
