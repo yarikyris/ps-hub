@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>PS Хаб</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root {
+    --bg: #0b1020;
+    --card: #141b33;
+    --card2: #1b2445;
+    --text: #eef1fb;
+    --muted: #9aa5c7;
+    --accent: #3d7bff;
+    --accent2: #7a5cff;
+    --green: #2fd18b;
+    --red: #ff5a6e;
+    --border: rgba(255,255,255,.08);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 15px; }
+  body { padding-bottom: 84px; min-height: 100vh; }
+
+  header { padding: 20px 16px 8px;
+    background: radial-gradient(120% 140% at 0% 0%, rgba(61,123,255,.35), transparent 60%),
+                radial-gradient(120% 140% at 100% 0%, rgba(122,92,255,.30), transparent 60%); }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-icon { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
+    background: linear-gradient(135deg, var(--accent), var(--accent2)); font-size: 18px; letter-spacing: -2px; }
+  .logo h1 { margin: 0; font-size: 20px; }
+  .logo p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+
+  main { padding: 8px 16px; }
+  .section-title { font-size: 13px; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--muted); margin: 18px 4px 10px; }
+
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 14px; margin-bottom: 10px; }
+  .card h3 { margin: 0 0 6px; font-size: 16px; line-height: 1.3; }
+  .card p { margin: 0; color: var(--muted); line-height: 1.45; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px;
+    border-radius: 999px; margin-bottom: 8px; background: rgba(61,123,255,.18); color: #8fb2ff; }
+  .tag.hot { background: rgba(255,90,110,.18); color: #ff8fa0; }
+  .tag.free { background: rgba(47,209,139,.18); color: #6ff0b6; }
+  .tag.hw { background: rgba(122,92,255,.2); color: #b8a6ff; }
+
+  .tip { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
+  .tip .emoji { font-size: 24px; flex: none; width: 40px; height: 40px; display: grid; place-items: center;
+    background: var(--card2); border-radius: 12px; }
+  .tip .body { flex: 1; min-width: 0; }
+  .tip .how { display: none; margin-top: 10px; padding: 10px 12px; background: var(--card2);
+    border-radius: 10px; color: var(--text); font-size: 14px; line-height: 1.5; }
+  .tip.open .how { display: block; }
+  .fav { background: none; border: 0; font-size: 20px; padding: 0 0 0 4px; cursor: pointer; color: var(--muted); }
+
+  .search { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text); font-size: 15px; outline: none; }
+  .search:focus { border-color: var(--accent); }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0 2px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--border);
+    background: var(--card); color: var(--muted); font-size: 13px; cursor: pointer; }
+  .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .spec { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
+  .spec b { display: block; font-size: 18px; margin-bottom: 2px; }
+  .spec span { color: var(--muted); font-size: 12px; }
+
+  .quiz-q { font-size: 18px; font-weight: 600; margin: 4px 0 14px; line-height: 1.35; }
+  .answer { width: 100%; text-align: left; padding: 14px; margin-bottom: 8px; border-radius: 12px;
+    border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 15px; cursor: pointer; }
+  .answer.right { background: rgba(47,209,139,.2); border-color: var(--green); }
+  .answer.wrong { background: rgba(255,90,110,.2); border-color: var(--red); }
+  .progress { height: 6px; background: var(--card2); border-radius: 99px; overflow: hidden; margin-bottom: 14px; }
+  .progress div { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width .3s; }
+  .btn { width: 100%; padding: 14px; border: 0; border-radius: 12px; font-size: 16px; font-weight: 600;
+    background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; cursor: pointer; margin-top: 6px; }
+  .big { font-size: 48px; text-align: center; margin: 10px 0; }
+  .center { text-align: center; }
+  .empty { text-align: center; color: var(--muted); padding: 30px 10px; }
+
+  nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; background: rgba(11,16,32,.92);
+    backdrop-filter: blur(12px); border-top: 1px solid var(--border); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); }
+  nav button { flex: 1; background: none; border: 0; color: var(--muted); font-size: 11px; padding: 6px 0;
+    display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; }
+  nav button .i { font-size: 21px; }
+  nav button.active { color: #fff; }
+  nav button.active .i { transform: scale(1.12); }
+
+  .page { display: none; animation: fade .25s ease; }
+  .page.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">△○</div>
+    <div>
+      <h1>PS Хаб</h1>
+      <p>Новости, фишки и секреты PS5</p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- НОВОСТИ -->
+  <section class="page active" id="page-news">
+    <div class="section-title">Свежие новости</div>
+    <div id="news-list"></div>
+  </section>
+
+  <!-- ФИШКИ -->
+  <section class="page" id="page-tips">
+    <div class="section-title">Фишки и лайфхаки</div>
+    <input class="search" id="tip-search" placeholder="🔍 Поиск: скриншот, зарядка, звук…">
+    <div class="chips" id="tip-chips"></div>
+    <div style="height:10px"></div>
+    <div id="tips-list"></div>
+  </section>
+
+  <!-- ОСОБЕННОСТИ -->
+  <section class="page" id="page-features">
+    <div class="section-title">PS5 в цифрах</div>
+    <div class="specs" id="specs"></div>
+    <div class="section-title">Особенности</div>
+    <div id="features-list"></div>
+  </section>
+
+  <!-- КВИЗ -->
+  <section class="page" id="page-quiz">
+    <div class="section-title">Насколько ты знаешь PlayStation?</div>
+    <div id="quiz"></div>
+  </section>
+</main>
+
+<nav>
+  <button class="active" data-page="news"><span class="i">📰</span>Новости</button>
+  <button data-page="tips"><span class="i">💡</span>Фишки</button>
+  <button data-page="features"><span class="i">🎮</span>Особенности</button>
+  <button data-page="quiz"><span class="i">🏆</span>Квиз</button>
+</nav>
+
+<script>
+/* =========================================================
+   КОНТЕНТ — редактируй здесь. Новости меняй раз в неделю.
+   ========================================================= */
+
+const NEWS = [
+  { tag: "Скидки", type: "hot", date: "Ноябрь 2026",
+    title: "Чёрная пятница в PS Store",
+    text: "Стартовала распродажа Black Friday 2026: скидки на 2000+ игр. Самое время закрыть вишлист." },
+  { tag: "PS Plus", type: "free", date: "3–30 ноября",
+    title: "Бесплатные игры PS Plus в ноябре",
+    text: "Подписчики Essential могут забрать Dead Island 2, Tomb Raider IV–VI Remastered и Monster Train 2. Успей добавить в библиотеку до 30 ноября." },
+  { tag: "Пробная версия", type: "free", date: "Ноябрь 2026",
+    title: "007 First Light: час игры бесплатно",
+    text: "Подписчики PS Plus Premium могут попробовать новую игру про Бонда от IO Interactive — пробная версия на 1 час." },
+  { tag: "Железо", type: "hw", date: "Ноябрь 2026",
+    title: "PS5 продано почти 98 миллионов",
+    text: "Sony сообщила, что поставки PS5 достигли 97,9 млн консолей по всему миру." },
+  { tag: "PS6", type: "hw", date: "Ноябрь 2026",
+    title: "PS6 разрабатывается по плану",
+    text: "Финансовый директор Sony заявил, что разработка следующей консоли идёт по графику. Дату пока не называют." },
+  { tag: "Аксессуары", type: "", date: "Февраль 2027",
+    title: "Новые геймпады Prism Collection",
+    text: "Sony показала новую серию DualSense в стиле «Prism». Предзаказ уже открыт, в продаже — 4 февраля 2027." },
+  { tag: "Обновление", type: "", date: "Ноябрь 2026",
+    title: "Новая прошивка PS5",
+    text: "Вышло системное обновление с исправлениями безопасности. Включи автообновление, чтобы не пропускать." },
+];
+
+const TIPS = [
+  { cat: "Скриншоты", e: "📸", title: "Скриншот одним нажатием",
+    text: "Кнопка Create умеет делать скрин без меню.",
+    how: "Настройки → Снимки и трансляции → Снимки → Сочетания клавиш для кнопки «Создать» → выбери «Лёгкие снимки экрана». Теперь короткое нажатие = скриншот." },
+  { cat: "Скриншоты", e: "🎬", title: "Запиши то, что уже случилось",
+    text: "PS5 постоянно пишет последние минуты игры.",
+    how: "Нажми Create → «Сохранить недавний геймплей». Можно сохранить последние 15 секунд — 1 час (длительность меняется в настройках снимков)." },
+  { cat: "Геймпад", e: "🔋", title: "Заряжай геймпад в режиме покоя",
+    text: "Консоль может заряжать DualSense, когда ты спишь.",
+    how: "Настройки → Система → Энергосбережение → Функции в режиме покоя → «Подавать питание на порты USB» → 3 часа или «Всегда»." },
+  { cat: "Геймпад", e: "📳", title: "Сделай вибрацию тише",
+    text: "Если курки слишком тугие или вибрация мешает.",
+    how: "Настройки → Аксессуары → Контроллеры → «Интенсивность вибрации» и «Интенсивность эффекта триггеров». Ставь «Слабая» или «Выкл.»." },
+  { cat: "Геймпад", e: "🎤", title: "Секрет кнопки микрофона",
+    text: "Она умеет больше, чем просто выключать микрофон.",
+    how: "Короткое нажатие — выключить микрофон. Если ЗАЖАТЬ кнопку на секунду — выключится весь звук игры. Нажми снова, чтобы вернуть." },
+  { cat: "Геймпад", e: "💻", title: "Подключи DualSense к ПК или телефону",
+    text: "Геймпад работает по Bluetooth почти везде.",
+    how: "Зажми кнопки Create и PS одновременно, пока световая полоса не начнёт часто мигать. Затем выбери «DualSense Wireless Controller» в Bluetooth на устройстве." },
+  { cat: "Система", e: "🙈", title: "Скрой спойлеры",
+    text: "Чтобы подсказки и трофеи не раскрыли сюжет.",
+    how: "Настройки → Сохранённые данные и настройки игр/приложений → Предупреждения о спойлерах → включи скрытие." },
+  { cat: "Система", e: "⚙️", title: "Пресеты для всех игр",
+    text: "Настрой режим графики один раз — и он будет в каждой игре.",
+    how: "Настройки → Сохранённые данные и настройки игр/приложений → Пресеты игр. Выбери «Режим производительности» (больше FPS) или «Режим разрешения» (красивее), а ещё инверсию камеры." },
+  { cat: "Система", e: "🧹", title: "Если PS5 тормозит",
+    text: "Безопасный режим помогает почистить кэш.",
+    how: "Выключи консоль полностью. Зажми кнопку питания, пока не услышишь второй сигнал (~7 сек). Подключи геймпад кабелем → «Очистить кэш и перестроить базу данных». Сохранения не удаляются." },
+  { cat: "Система", e: "🎛", title: "Настрой Центр управления",
+    text: "Убери лишнее из меню по кнопке PS.",
+    how: "Нажми PS → в нижнем меню нажми Options → перетаскивай и убирай иконки как удобно." },
+  { cat: "Онлайн", e: "📱", title: "Качай игры с телефона",
+    text: "Купил игру в школе — дома она уже скачана.",
+    how: "Установи приложение PlayStation App. На консоли: Энергосбережение → Функции в режиме покоя → «Оставаться подключённым к интернету». Теперь покупки из приложения качаются сами." },
+  { cat: "Онлайн", e: "📺", title: "Играй с телефона через Remote Play",
+    text: "Можно играть в PS5, когда телевизор занят.",
+    how: "Установи PS Remote Play на телефон или ПК, войди в тот же аккаунт. На PS5: Настройки → Система → Дистанционная игра → включить. Лучше по Wi‑Fi 5 ГГц." },
+];
+
+const SPECS = [
+  { v: "SSD", l: "Загрузки за секунды" },
+  { v: "4K", l: "До 120 кадров/с" },
+  { v: "3D", l: "Звук Tempest 3D Audio" },
+  { v: "98 млн", l: "Консолей продано" },
+];
+
+const FEATURES = [
+  { tag: "DualSense", type: "hw", title: "Тактильная отдача",
+    text: "Вместо обычной вибрации — точные моторчики. Ты чувствуешь дождь, песок под ногами и разные поверхности." },
+  { tag: "DualSense", type: "hw", title: "Адаптивные триггеры",
+    text: "Курки R2/L2 меняют сопротивление: тугая тетива лука, заедание оружия, педаль тормоза." },
+  { tag: "Скорость", type: "", title: "Сверхбыстрый SSD",
+    text: "Загрузки, которые на PS4 шли минуту, на PS5 часто занимают пару секунд." },
+  { tag: "PS5 Pro", type: "hot", title: "Что умеет PS5 Pro",
+    text: "Мощнее видеокарта, апскейлинг PSSR для чёткой картинки при высоком FPS, 2 ТБ памяти и Wi‑Fi 7." },
+  { tag: "Аксессуары", type: "", title: "DualSense Edge",
+    text: "Про-геймпад: задние кнопки, сменные стики, профили настроек и регулировка хода курков." },
+  { tag: "Аксессуары", type: "", title: "PlayStation Portal",
+    text: "Портативный экран с геймпадом для Remote Play — играешь в свою PS5 по Wi‑Fi в другой комнате." },
+  { tag: "Подписка", type: "free", title: "PS Plus: Essential, Extra, Premium",
+    text: "Essential — онлайн и игры каждый месяц. Extra — каталог сотен игр. Premium — классика, пробные версии и облачный стриминг." },
+  { tag: "Совместимость", type: "", title: "Игры с PS4 работают",
+    text: "Почти все игры PS4 запускаются на PS5, а некоторые даже получают бесплатное улучшение." },
+];
+
+const QUIZ = [
+  { q: "Как называется геймпад PS5?", a: ["DualShock 5", "DualSense", "PlayPad", "SenseShock"], r: 1 },
+  { q: "Что произойдёт, если зажать кнопку микрофона на DualSense?", a: ["Выключится консоль", "Выключится весь звук игры", "Откроется чат", "Сделается скриншот"], r: 1 },
+  { q: "Как зовут маленького робота — героя игры, которая встроена в каждую PS5?", a: ["Astro", "Ratchet", "Clank", "Sackboy"], r: 0 },
+  { q: "Какой уровень PS Plus даёт облачный стриминг?", a: ["Essential", "Extra", "Premium", "Никакой"], r: 2 },
+  { q: "Как называется технология апскейлинга в PS5 Pro?", a: ["DLSS", "FSR", "PSSR", "XeSS"], r: 2 },
+  { q: "Какие четыре символа на кнопках PlayStation?", a: ["△ ○ ✕ □", "A B X Y", "★ ♥ ♦ ♣", "1 2 3 4"], r: 0 },
+  { q: "Как подключить DualSense к ПК по Bluetooth?", a: ["Зажать PS + Options", "Зажать Create + PS", "Нажать R3 + L3", "Никак"], r: 1 },
+];
+
+/* =========================================================
+   ЛОГИКА ПРИЛОЖЕНИЯ
+   ========================================================= */
+const tg = window.Telegram && window.Telegram.WebApp;
+if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor("#0b1020"); tg.setBackgroundColor("#0b1020"); } catch (e) {} }
+const haptic = (t = "light") => { try { tg.HapticFeedback.impactOccurred(t); } catch (e) {} };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+// Навигация
+document.querySelectorAll("nav button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll("nav button").forEach(x => x.classList.toggle("active", x === b));
+  document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === "page-" + b.dataset.page));
+  window.scrollTo(0, 0);
+  haptic();
+}));
+
+// Новости
+document.getElementById("news-list").innerHTML = NEWS.map(n => `
+  <div class="card">
+    <span class="tag ${n.type}">${esc(n.tag)} · ${esc(n.date)}</span>
+    <h3>${esc(n.title)}</h3>
+    <p>${esc(n.text)}</p>
+  </div>`).join("");
+
+// Избранное (запоминается на устройстве)
+let favs = [];
+try { favs = JSON.parse(localStorage.getItem("ps_favs") || "[]"); } catch (e) {}
+const saveFavs = () => { try { localStorage.setItem("ps_favs", JSON.stringify(favs)); } catch (e) {} };
+
+// Фишки
+let tipCat = "Все";
+const cats = ["Все", "⭐ Избранное", ...new Set(TIPS.map(t => t.cat))];
+const chipsEl = document.getElementById("tip-chips");
+function renderChips() {
+  chipsEl.innerHTML = cats.map(c => `<button class="chip ${c === tipCat ? "active" : ""}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+}
+chipsEl.addEventListener("click", e => {
+  const c = e.target.closest(".chip"); if (!c) return;
+  tipCat = c.dataset.c; renderChips(); renderTips(); haptic();
+});
+function renderTips() {
+  const q = document.getElementById("tip-search").value.trim().toLowerCase();
+  const list = TIPS.map((t, i) => ({ ...t, i })).filter(t =>
+    (tipCat === "Все" || t.cat === tipCat || (tipCat === "⭐ Избранное" && favs.includes(t.i))) &&
+    (!q || (t.title + t.text + t.how).toLowerCase().includes(q)));
+  document.getElementById("tips-list").innerHTML = list.length ? list.map(t => `
+    <div class="card tip" data-i="${t.i}">
+      <div class="emoji">${t.e}</div>
+      <div class="body">
+        <h3>${esc(t.title)}</h3>
+        <p>${esc(t.text)}</p>
+        <div class="how">👉 ${esc(t.how)}</div>
+      </div>
+      <button class="fav" data-f="${t.i}">${favs.includes(t.i) ? "⭐" : "☆"}</button>
+    </div>`).join("") : `<div class="empty">Ничего не нашлось 🤷</div>`;
+}
+document.getElementById("tips-list").addEventListener("click", e => {
+  const f = e.target.closest(".fav");
+  if (f) {
+    const i = +f.dataset.f;
+    favs = favs.includes(i) ? favs.filter(x => x !== i) : [...favs, i];
+    saveFavs(); renderTips(); haptic("medium"); return;
+  }
+  const card = e.target.closest(".tip");
+  if (card) { card.classList.toggle("open"); haptic(); }
+});
+document.getElementById("tip-search").addEventListener("input", renderTips);
+renderChips(); renderTips();
+
+// Особенности
+document.getElementById("specs").innerHTML = SPECS.map(s => `<div class="spec"><b>${esc(s.v)}</b><span>${esc(s.l)}</span></div>`).join("");
+document.getElementById("features-list").innerHTML = FEATURES.map(f => `
+  <div class="card">
+    <span class="tag ${f.type}">${esc(f.tag)}</span>
+    <h3>${esc(f.title)}</h3>
+    <p>${esc(f.text)}</p>
+  </div>`).join("");
+
+// Квиз
+let qi = 0, score = 0, locked = false;
+const quizEl = document.getElementById("quiz");
+function renderQuiz() {
+  if (qi >= QUIZ.length) {
+    const pct = score / QUIZ.length;
+    const verdict = pct === 1 ? ["🏆", "Легенда PlayStation!"] : pct >= .6 ? ["🎮", "Опытный геймер!"] : ["🐣", "Есть куда расти — загляни в «Фишки»"];
+    quizEl.innerHTML = `
+      <div class="card center">
+        <div class="big">${verdict[0]}</div>
+        <h3>${score} из ${QUIZ.length}</h3>
+        <p>${verdict[1]}</p>
+      </div>
+      <button class="btn" id="q-again">Пройти ещё раз</button>
+      ${tg && tg.initData ? `<button class="btn" id="q-share" style="background:var(--card2)">Отправить результат в бот</button>` : ""}`;
+    document.getElementById("q-again").onclick = () => { qi = 0; score = 0; renderQuiz(); };
+    const share = document.getElementById("q-share");
+    if (share) share.onclick = () => tg.sendData(JSON.stringify({ quiz: score, total: QUIZ.length }));
+    try { tg.HapticFeedback.notificationOccurred("success"); } catch (e) {}
+    return;
+  }
+  const item = QUIZ[qi];
+  locked = false;
+  quizEl.innerHTML = `
+    <div class="progress"><div style="width:${qi / QUIZ.length * 100}%"></div></div>
+    <p style="color:var(--muted);margin:0">Вопрос ${qi + 1} из ${QUIZ.length}</p>
+    <div class="quiz-q">${esc(item.q)}</div>
+    ${item.a.map((a, i) => `<button class="answer" data-i="${i}">${esc(a)}</button>`).join("")}`;
+}
+quizEl.addEventListener("click", e => {
+  const b = e.target.closest(".answer"); if (!b || locked) return;
+  locked = true;
+  const item = QUIZ[qi], pick = +b.dataset.i;
+  quizEl.querySelectorAll(".answer")[item.r].classList.add("right");
+  if (pick === item.r) { score++; try { tg.HapticFeedback.notificationOccurred("success"); } catch (e) {} }
+  else { b.classList.add("wrong"); try { tg.HapticFeedback.notificationOccurred("error"); } catch (e) {} }
+  setTimeout(() => { qi++; renderQuiz(); }, 1000);
+});
+renderQuiz();
+</script>
+</body>
+</html>
