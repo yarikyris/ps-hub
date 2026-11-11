@@ -2,229 +2,424 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>PS Хаб</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0b1020;
-    --card: #141b33;
-    --card2: #1b2445;
-    --text: #eef1fb;
-    --muted: #9aa5c7;
-    --accent: #3d7bff;
-    --accent2: #7a5cff;
-    --green: #2fd18b;
-    --red: #ff5a6e;
-    --border: rgba(255,255,255,.08);
+    --bg: #05070f;
+    --bg2: #0a0f22;
+    --card: rgba(20, 28, 58, .62);
+    --card-solid: #121a38;
+    --line: rgba(140, 170, 255, .14);
+    --text: #f1f4ff;
+    --muted: #8e9ac2;
+    --blue: #2f6bff;
+    --cyan: #23d5ff;
+    --violet: #8b5cff;
+    --pink: #ff3d8b;
+    --green: #22e39a;
+    --red: #ff4466;
+    --tri: #2ee6a8; --cir: #ff4d6d; --crs: #5b8cff; --sqr: #e86bff;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { margin: 0; background: var(--bg); color: var(--text);
-    font-family: -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 15px; }
-  body { padding-bottom: 84px; min-height: 100vh; }
+    font-family: Manrope, -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 15px; overflow-x: hidden; }
+  body { padding-bottom: 96px; min-height: 100vh; }
+  h1, h2, h3, .display { font-family: Unbounded, Manrope, sans-serif; }
+  svg { display: block; }
 
-  header { padding: 20px 16px 8px;
-    background: radial-gradient(120% 140% at 0% 0%, rgba(61,123,255,.35), transparent 60%),
-                radial-gradient(120% 140% at 100% 0%, rgba(122,92,255,.30), transparent 60%); }
-  .logo { display: flex; align-items: center; gap: 10px; }
-  .logo-icon { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
-    background: linear-gradient(135deg, var(--accent), var(--accent2)); font-size: 18px; letter-spacing: -2px; }
-  .logo h1 { margin: 0; font-size: 20px; }
-  .logo p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+  /* ---------- Фон: частицы ---------- */
+  #bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  .glow { position: fixed; z-index: 0; pointer-events: none; border-radius: 50%; filter: blur(70px); opacity: .55;
+    animation: drift 14s ease-in-out infinite alternate; }
+  .glow.a { width: 340px; height: 340px; background: var(--blue); top: -120px; left: -120px; }
+  .glow.b { width: 300px; height: 300px; background: var(--violet); top: 30%; right: -160px; animation-delay: -5s; }
+  .glow.c { width: 260px; height: 260px; background: var(--pink); bottom: -120px; left: 10%; opacity: .25; animation-delay: -9s; }
+  @keyframes drift { to { transform: translate(60px, 80px) scale(1.25); } }
+  .app { position: relative; z-index: 1; }
 
-  main { padding: 8px 16px; }
-  .section-title { font-size: 13px; text-transform: uppercase; letter-spacing: .06em;
-    color: var(--muted); margin: 18px 4px 10px; }
+  /* ---------- Заставка ---------- */
+  #intro { position: fixed; inset: 0; z-index: 100; background: var(--bg); display: grid; place-items: center;
+    transition: clip-path .9s cubic-bezier(.77,0,.18,1); clip-path: circle(150% at 50% 50%); }
+  #intro.out { clip-path: circle(0% at 50% 50%); }
+  .intro-shapes { display: flex; gap: 18px; }
+  .intro-shapes svg { width: 54px; height: 54px; overflow: visible; }
+  .intro-shapes path, .intro-shapes circle, .intro-shapes rect, .intro-shapes line {
+    fill: none; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 200; stroke-dashoffset: 200; animation: draw .7s cubic-bezier(.6,0,.2,1) forwards; }
+  .intro-shapes svg:nth-child(1) * { stroke: var(--tri); animation-delay: .05s; }
+  .intro-shapes svg:nth-child(2) * { stroke: var(--cir); animation-delay: .2s; }
+  .intro-shapes svg:nth-child(3) * { stroke: var(--crs); animation-delay: .35s; }
+  .intro-shapes svg:nth-child(4) * { stroke: var(--sqr); animation-delay: .5s; }
+  .intro-shapes svg { animation: pop .5s cubic-bezier(.3,1.6,.5,1) both; }
+  .intro-shapes svg:nth-child(2) { animation-delay: .15s; } .intro-shapes svg:nth-child(3) { animation-delay: .3s; } .intro-shapes svg:nth-child(4) { animation-delay: .45s; }
+  #intro.blast .intro-shapes svg { animation: blast .6s cubic-bezier(.7,0,.3,1) forwards; }
+  #intro.blast .intro-shapes svg:nth-child(1) { --dx: -160px; --dy: -220px; --r: -200deg; }
+  #intro.blast .intro-shapes svg:nth-child(2) { --dx: 170px; --dy: -200px; --r: 240deg; }
+  #intro.blast .intro-shapes svg:nth-child(3) { --dx: -180px; --dy: 230px; --r: 180deg; }
+  #intro.blast .intro-shapes svg:nth-child(4) { --dx: 160px; --dy: 240px; --r: -260deg; }
+  .intro-title { position: absolute; top: calc(50% + 50px); left: 0; right: 0; text-align: center;
+    font-family: Unbounded; font-weight: 900; font-size: 30px; letter-spacing: .12em; opacity: 0;
+    animation: titleIn .6s .75s cubic-bezier(.2,.9,.3,1.2) forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes pop { from { transform: scale(0) rotate(-90deg); } to { transform: none; } }
+  @keyframes blast { to { transform: translate(var(--dx), var(--dy)) rotate(var(--r)) scale(2.4); opacity: 0; } }
+  @keyframes titleIn { 0% { opacity: 0; transform: scale(1.8); filter: blur(12px); letter-spacing: .6em; }
+    100% { opacity: 1; transform: none; filter: none; letter-spacing: .12em; } }
 
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px;
-    padding: 14px; margin-bottom: 10px; }
-  .card h3 { margin: 0 0 6px; font-size: 16px; line-height: 1.3; }
-  .card p { margin: 0; color: var(--muted); line-height: 1.45; }
-  .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px;
-    border-radius: 999px; margin-bottom: 8px; background: rgba(61,123,255,.18); color: #8fb2ff; }
-  .tag.hot { background: rgba(255,90,110,.18); color: #ff8fa0; }
-  .tag.free { background: rgba(47,209,139,.18); color: #6ff0b6; }
-  .tag.hw { background: rgba(122,92,255,.2); color: #b8a6ff; }
+  /* ---------- Шапка ---------- */
+  header { padding: 22px 16px 6px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark { width: 46px; height: 46px; border-radius: 14px; position: relative; flex: none;
+    background: conic-gradient(from 0deg, var(--tri), var(--cir), var(--crs), var(--sqr), var(--tri));
+    animation: spin 6s linear infinite; padding: 2px; }
+  .brand-mark i { position: absolute; inset: 2px; border-radius: 12px; background: var(--bg2); display: grid; place-items: center; }
+  .brand-mark svg { width: 24px; height: 24px; animation: spin 6s linear infinite reverse; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .brand h1 { margin: 0; font-size: 22px; font-weight: 900; letter-spacing: .02em; position: relative; }
+  .brand p { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
+  .glitch { position: relative; display: inline-block; }
+  .glitch::before, .glitch::after { content: attr(data-text); position: absolute; inset: 0; opacity: 0; }
+  .glitch.on::before { color: var(--cyan); animation: g1 .35s steps(2) both; opacity: .9; }
+  .glitch.on::after { color: var(--pink); animation: g2 .35s steps(2) both; opacity: .9; }
+  @keyframes g1 { 0% { transform: translate(-4px, 1px); clip-path: inset(0 0 60% 0); }
+    50% { transform: translate(3px, -2px); clip-path: inset(40% 0 20% 0); } 100% { transform: translate(-2px, 0); clip-path: inset(70% 0 0 0); } }
+  @keyframes g2 { 0% { transform: translate(4px, -1px); clip-path: inset(50% 0 10% 0); }
+    50% { transform: translate(-3px, 2px); clip-path: inset(0 0 70% 0); } 100% { transform: translate(2px, 1px); clip-path: inset(20% 0 50% 0); } }
 
-  .tip { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
-  .tip .emoji { font-size: 24px; flex: none; width: 40px; height: 40px; display: grid; place-items: center;
-    background: var(--card2); border-radius: 12px; }
-  .tip .body { flex: 1; min-width: 0; }
-  .tip .how { display: none; margin-top: 10px; padding: 10px 12px; background: var(--card2);
-    border-radius: 10px; color: var(--text); font-size: 14px; line-height: 1.5; }
-  .tip.open .how { display: block; }
-  .fav { background: none; border: 0; font-size: 20px; padding: 0 0 0 4px; cursor: pointer; color: var(--muted); }
+  /* Бегущая строка */
+  .ticker { margin: 14px 0 0; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    background: rgba(47,107,255,.08); white-space: nowrap; mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+  .ticker-track { display: inline-flex; gap: 34px; padding: 9px 0; animation: tick 32s linear infinite;
+    font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #b9c6ff; }
+  .ticker-track span { display: inline-flex; align-items: center; gap: 10px; }
+  .ticker-track span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+  @keyframes tick { to { transform: translateX(-50%); } }
 
-  .search { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border);
-    background: var(--card); color: var(--text); font-size: 15px; outline: none; }
-  .search:focus { border-color: var(--accent); }
-  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0 2px; scrollbar-width: none; }
+  main { padding: 6px 16px; perspective: 1200px; }
+  .section-title { font-family: Unbounded; font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .14em; color: var(--muted); margin: 20px 2px 12px; display: flex; align-items: center; gap: 10px; }
+  .section-title::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--line), transparent); }
+
+  /* ---------- Карточки ---------- */
+  .card { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+    padding: 16px; margin-bottom: 12px; overflow: hidden; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    transform-style: preserve-3d; transition: transform .25s ease, border-color .3s; will-change: transform; }
+  .card::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+    background: radial-gradient(400px circle at var(--gx, 50%) var(--gy, 50%), rgba(120,160,255,.22), transparent 45%); }
+  .card.tilt::before { opacity: 1; }
+  .card::after { content: ""; position: absolute; top: 0; left: -60%; width: 40%; height: 100%; pointer-events: none;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,.09), transparent); transform: skewX(-20deg); }
+  .card.reveal::after { animation: shine 1.1s .25s ease forwards; }
+  @keyframes shine { to { left: 130%; } }
+  .card h3 { margin: 0 0 8px; font-size: 15px; font-weight: 700; line-height: 1.35; }
+  .card p { margin: 0; color: var(--muted); line-height: 1.55; }
+
+  .r { opacity: 0; transform: translateY(40px) rotateX(-28deg) scale(.94); filter: blur(8px); }
+  .r.reveal { animation: rise .75s cubic-bezier(.16,1,.3,1) forwards; animation-delay: var(--d, 0s); }
+  @keyframes rise { to { opacity: 1; transform: none; filter: none; } }
+
+  .tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: .04em;
+    padding: 4px 10px; border-radius: 999px; margin-bottom: 10px; background: rgba(47,107,255,.16); color: #9ab8ff;
+    border: 1px solid rgba(47,107,255,.3); }
+  .tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 8px currentColor;
+    animation: blink 1.6s ease-in-out infinite; }
+  @keyframes blink { 50% { opacity: .25; } }
+  .tag.hot { background: rgba(255,61,139,.14); color: #ff7fb0; border-color: rgba(255,61,139,.35); }
+  .tag.free { background: rgba(34,227,154,.12); color: #5ff2bd; border-color: rgba(34,227,154,.32); }
+  .tag.hw { background: rgba(139,92,255,.16); color: #bba4ff; border-color: rgba(139,92,255,.38); }
+  .news-num { position: absolute; right: 14px; top: 10px; font-family: Unbounded; font-weight: 900; font-size: 40px;
+    color: transparent; -webkit-text-stroke: 1px rgba(140,170,255,.18); }
+
+  /* ---------- Фишки ---------- */
+  .search-wrap { position: relative; }
+  .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--muted); }
+  .search { width: 100%; padding: 14px 14px 14px 42px; border-radius: 16px; border: 1px solid var(--line);
+    background: var(--card); color: var(--text); font: inherit; outline: none; transition: border-color .3s, box-shadow .3s; }
+  .search:focus { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(47,107,255,.2), 0 0 30px rgba(47,107,255,.3); }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0 4px; scrollbar-width: none; }
   .chips::-webkit-scrollbar { display: none; }
-  .chip { flex: none; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--border);
-    background: var(--card); color: var(--muted); font-size: 13px; cursor: pointer; }
-  .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .chip { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--card); color: var(--muted); font: 600 13px Manrope, sans-serif; cursor: pointer;
+    transition: all .3s cubic-bezier(.3,1.5,.5,1); }
+  .chip svg { width: 14px; height: 14px; }
+  .chip.active { background: linear-gradient(135deg, var(--blue), var(--violet)); border-color: transparent; color: #fff;
+    transform: scale(1.06); box-shadow: 0 6px 24px rgba(47,107,255,.45); }
 
+  .tip { display: flex; gap: 14px; align-items: flex-start; cursor: pointer; }
+  .ico { flex: none; width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; color: #fff;
+    background: linear-gradient(135deg, var(--c1, var(--blue)), var(--c2, var(--violet))); box-shadow: 0 8px 22px -6px var(--c1, var(--blue));
+    transition: transform .5s cubic-bezier(.3,1.6,.5,1); }
+  .ico svg { width: 22px; height: 22px; }
+  .tip.open .ico { transform: rotate(-12deg) scale(1.12); }
+  .tip .body { flex: 1; min-width: 0; }
+  .how { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s cubic-bezier(.2,.9,.3,1), margin .45s; }
+  .how > div { overflow: hidden; }
+  .how-in { padding: 12px 14px; border-radius: 14px; background: rgba(5,7,15,.55); border: 1px solid var(--line);
+    font-size: 14px; line-height: 1.6; border-left: 3px solid var(--cyan); }
+  .tip.open .how { grid-template-rows: 1fr; margin-top: 12px; }
+  .fav { background: none; border: 0; padding: 4px; cursor: pointer; color: var(--muted); flex: none; }
+  .fav svg { width: 22px; height: 22px; transition: transform .4s cubic-bezier(.3,1.8,.5,1); }
+  .fav.on { color: #ffcc33; }
+  .fav.on svg { fill: #ffcc33; filter: drop-shadow(0 0 8px rgba(255,204,51,.7)); }
+  .fav.pulse svg { animation: starPop .5s cubic-bezier(.3,1.8,.5,1); }
+  @keyframes starPop { 0% { transform: scale(.3) rotate(-90deg); } 100% { transform: none; } }
+  .chev { width: 18px; height: 18px; color: var(--muted); transition: transform .4s; margin-top: 4px; }
+  .tip.open .chev { transform: rotate(180deg); color: var(--cyan); }
+
+  /* ---------- Особенности ---------- */
   .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .spec { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
-  .spec b { display: block; font-size: 18px; margin-bottom: 2px; }
+  .spec { position: relative; overflow: hidden; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px 14px; }
+  .spec b { display: block; font-family: Unbounded; font-size: 24px; font-weight: 900; margin-bottom: 4px;
+    background: linear-gradient(90deg, #fff, var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .spec span { color: var(--muted); font-size: 12px; }
+  .spec::after { content: ""; position: absolute; right: -20px; bottom: -20px; width: 70px; height: 70px; border-radius: 50%;
+    border: 2px solid var(--line); animation: ring 3s ease-in-out infinite; }
+  @keyframes ring { 50% { transform: scale(1.3); opacity: .3; } }
 
-  .quiz-q { font-size: 18px; font-weight: 600; margin: 4px 0 14px; line-height: 1.35; }
-  .answer { width: 100%; text-align: left; padding: 14px; margin-bottom: 8px; border-radius: 12px;
-    border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 15px; cursor: pointer; }
-  .answer.right { background: rgba(47,209,139,.2); border-color: var(--green); }
-  .answer.wrong { background: rgba(255,90,110,.2); border-color: var(--red); }
-  .progress { height: 6px; background: var(--card2); border-radius: 99px; overflow: hidden; margin-bottom: 14px; }
-  .progress div { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width .3s; }
-  .btn { width: 100%; padding: 14px; border: 0; border-radius: 12px; font-size: 16px; font-weight: 600;
-    background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; cursor: pointer; margin-top: 6px; }
-  .big { font-size: 48px; text-align: center; margin: 10px 0; }
+  /* ---------- Квиз ---------- */
+  .quiz-q { font-family: Unbounded; font-size: 18px; font-weight: 700; margin: 6px 0 16px; line-height: 1.4; }
+  .answer { position: relative; overflow: hidden; width: 100%; text-align: left; padding: 16px 16px 16px 52px; margin-bottom: 10px;
+    border-radius: 16px; border: 1px solid var(--line); background: var(--card); color: var(--text); font: 600 15px Manrope, sans-serif;
+    cursor: pointer; transition: transform .2s, border-color .3s, background .3s; }
+  .answer:active { transform: scale(.97); }
+  .answer .key { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 26px; height: 26px; }
+  .answer.right { background: rgba(34,227,154,.16); border-color: var(--green); box-shadow: 0 0 30px rgba(34,227,154,.35);
+    animation: bump .5s cubic-bezier(.3,1.8,.5,1); }
+  .answer.wrong { background: rgba(255,68,102,.16); border-color: var(--red); animation: shake .45s; }
+  @keyframes bump { 40% { transform: scale(1.05); } }
+  @keyframes shake { 20%, 60% { transform: translateX(-10px); } 40%, 80% { transform: translateX(10px); } }
+  .q-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; font-weight: 600; }
+  .progress { height: 8px; background: rgba(255,255,255,.06); border-radius: 99px; overflow: hidden; margin: 10px 0 18px; }
+  .progress div { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--cyan), var(--blue), var(--violet), var(--pink));
+    background-size: 300% 100%; animation: flow 2s linear infinite; transition: width .6s cubic-bezier(.2,.9,.3,1); box-shadow: 0 0 16px var(--blue); }
+  @keyframes flow { to { background-position: 300% 0; } }
+  .btn { position: relative; overflow: hidden; width: 100%; padding: 16px; border: 0; border-radius: 16px; font: 700 15px Unbounded, sans-serif;
+    background: linear-gradient(135deg, var(--blue), var(--violet)); color: #fff; cursor: pointer; margin-top: 10px;
+    box-shadow: 0 10px 30px -8px rgba(47,107,255,.7); }
+  .btn.ghost { background: var(--card); border: 1px solid var(--line); box-shadow: none; }
+  .score { display: grid; place-items: center; margin: 10px 0 6px; position: relative; }
+  .score svg { width: 170px; height: 170px; transform: rotate(-90deg); }
+  .score circle { fill: none; stroke-width: 10; }
+  .score .bgc { stroke: rgba(255,255,255,.07); }
+  .score .fgc { stroke: url(#sg); stroke-linecap: round; stroke-dasharray: 440; stroke-dashoffset: 440;
+    transition: stroke-dashoffset 1.6s cubic-bezier(.2,.9,.3,1); filter: drop-shadow(0 0 10px rgba(47,107,255,.8)); }
+  .score-num { position: absolute; font-family: Unbounded; font-weight: 900; font-size: 40px; }
+  .score-num small { font-size: 16px; color: var(--muted); }
   .center { text-align: center; }
+  .verdict { font-family: Unbounded; font-size: 18px; font-weight: 700; margin: 8px 0 4px; }
   .empty { text-align: center; color: var(--muted); padding: 30px 10px; }
 
-  nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; background: rgba(11,16,32,.92);
-    backdrop-filter: blur(12px); border-top: 1px solid var(--border); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); }
-  nav button { flex: 1; background: none; border: 0; color: var(--muted); font-size: 11px; padding: 6px 0;
-    display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; }
-  nav button .i { font-size: 21px; }
-  nav button.active { color: #fff; }
-  nav button.active .i { transform: scale(1.12); }
+  #flash { position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: 0; }
+  #flash.red { animation: flashA .5s; background: radial-gradient(circle, transparent 40%, rgba(255,68,102,.45)); }
+  #flash.green { animation: flashA .5s; background: radial-gradient(circle, transparent 40%, rgba(34,227,154,.35)); }
+  @keyframes flashA { 0% { opacity: 1; } 100% { opacity: 0; } }
+  body.shake .app { animation: shake .4s; }
+  #fx { position: fixed; inset: 0; z-index: 95; pointer-events: none; }
 
-  .page { display: none; animation: fade .25s ease; }
-  .page.active { display: block; }
-  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .ripple { position: absolute; border-radius: 50%; transform: scale(0); background: rgba(255,255,255,.28);
+    animation: rip .6s ease-out forwards; pointer-events: none; }
+  @keyframes rip { to { transform: scale(4); opacity: 0; } }
+
+  /* ---------- Навигация ---------- */
+  nav { position: fixed; left: 12px; right: 12px; bottom: calc(10px + env(safe-area-inset-bottom)); z-index: 50; display: flex;
+    background: rgba(12,17,38,.78); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--line); border-radius: 22px; padding: 6px; box-shadow: 0 20px 50px -10px rgba(0,0,0,.8); }
+  .pill { position: absolute; top: 6px; bottom: 6px; left: 6px; border-radius: 16px; z-index: 0;
+    background: linear-gradient(135deg, var(--blue), var(--violet)); box-shadow: 0 6px 24px rgba(47,107,255,.55);
+    transition: transform .55s cubic-bezier(.5,1.6,.4,.9), width .3s; }
+  nav button { position: relative; z-index: 1; flex: 1; background: none; border: 0; color: var(--muted);
+    font: 700 10.5px Manrope, sans-serif; padding: 8px 0 6px; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    cursor: pointer; transition: color .3s; }
+  nav button svg { width: 22px; height: 22px; transition: transform .45s cubic-bezier(.3,1.8,.5,1); }
+  nav button.active { color: #fff; }
+  nav button.active svg { transform: translateY(-2px) scale(1.15); }
+
+  .page { display: none; }
+  .page.active { display: block; animation: pageIn .6s cubic-bezier(.16,1,.3,1); }
+  @keyframes pageIn { from { opacity: 0; transform: translateX(var(--dir, 40px)) skewX(-6deg); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    .r { opacity: 1; transform: none; filter: none; }
+  }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">
-    <div class="logo-icon">△○</div>
-    <div>
-      <h1>PS Хаб</h1>
-      <p>Новости, фишки и секреты PS5</p>
-    </div>
+<!-- Иконки -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="sg" x1="0" x2="1"><stop offset="0" stop-color="#23d5ff"/><stop offset=".5" stop-color="#2f6bff"/><stop offset="1" stop-color="#ff3d8b"/></linearGradient>
+  </defs>
+  <symbol id="i-news" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M8 9h5M8 13h5M8 17h3"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+  <symbol id="i-pad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10a5 5 0 0 1 4.9 6l-.6 3a3 3 0 0 1-5.3 1.2L14.5 15h-5L8 17.2A3 3 0 0 1 2.7 16l-.6-3A5 5 0 0 1 7 7z"/><path d="M7 10v4M5 12h4"/><circle cx="16" cy="11" r=".6" fill="currentColor"/><circle cx="18" cy="13" r=".6" fill="currentColor"/></symbol>
+  <symbol id="i-cup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3M12 14v4M8 21h8M9 18h6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+  <symbol id="i-film" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3z"/></symbol>
+  <symbol id="i-battery" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="2" y="7" width="17" height="10" rx="2"/><path d="M22 11v2M10 9l-2 3h4l-2 3"/></symbol>
+  <symbol id="i-wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h2l2-5 3 10 3-14 3 14 3-10 2 5h2"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l18 18M10.6 6.1A10 10 0 0 1 12 6c5 0 9 6 9 6a17 17 0 0 1-3 3.5M6.5 7.6C4.2 9.2 3 12 3 12s4 6 9 6a9 9 0 0 0 3.5-.7"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.7-4M4 4v4h4M4 13a8 8 0 0 0 14.7 4M20 20v-4h-4"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M12 7v7M9 11l3 3 3-3"/></symbol>
+  <symbol id="i-cast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
+  <symbol id="s-tri" viewBox="0 0 24 24" fill="none" stroke="#2ee6a8" stroke-width="2.5" stroke-linejoin="round"><path d="M12 4 21 19H3z"/></symbol>
+  <symbol id="s-cir" viewBox="0 0 24 24" fill="none" stroke="#ff4d6d" stroke-width="2.5"><circle cx="12" cy="12" r="8"/></symbol>
+  <symbol id="s-crs" viewBox="0 0 24 24" fill="none" stroke="#5b8cff" stroke-width="2.5" stroke-linecap="round"><path d="m5 5 14 14M19 5 5 19"/></symbol>
+  <symbol id="s-sqr" viewBox="0 0 24 24" fill="none" stroke="#e86bff" stroke-width="2.5" stroke-linejoin="round"><rect x="4.5" y="4.5" width="15" height="15"/></symbol>
+</svg>
+
+<div id="intro">
+  <div class="intro-shapes">
+    <svg viewBox="0 0 54 54"><path d="M27 6 50 46H4z"/></svg>
+    <svg viewBox="0 0 54 54"><circle cx="27" cy="27" r="21"/></svg>
+    <svg viewBox="0 0 54 54"><line x1="8" y1="8" x2="46" y2="46"/><line x1="46" y1="8" x2="8" y2="46"/></svg>
+    <svg viewBox="0 0 54 54"><rect x="7" y="7" width="40" height="40"/></svg>
   </div>
-</header>
+  <div class="intro-title">PS ХАБ</div>
+</div>
 
-<main>
-  <!-- НОВОСТИ -->
-  <section class="page active" id="page-news">
-    <div class="section-title">Свежие новости</div>
-    <div id="news-list"></div>
-  </section>
+<canvas id="bg"></canvas>
+<div class="glow a"></div><div class="glow b"></div><div class="glow c"></div>
+<canvas id="fx"></canvas>
+<div id="flash"></div>
 
-  <!-- ФИШКИ -->
-  <section class="page" id="page-tips">
-    <div class="section-title">Фишки и лайфхаки</div>
-    <input class="search" id="tip-search" placeholder="🔍 Поиск: скриншот, зарядка, звук…">
-    <div class="chips" id="tip-chips"></div>
-    <div style="height:10px"></div>
-    <div id="tips-list"></div>
-  </section>
+<div class="app">
+  <header>
+    <div class="brand">
+      <div class="brand-mark"><i><svg viewBox="0 0 24 24"><use href="#s-tri"/></svg></i></div>
+      <div>
+        <h1><span class="glitch" id="title" data-text="PS ХАБ">PS ХАБ</span></h1>
+        <p>Новости, фишки и секреты PS5</p>
+      </div>
+    </div>
+  </header>
+  <div class="ticker"><div class="ticker-track" id="ticker"></div></div>
 
-  <!-- ОСОБЕННОСТИ -->
-  <section class="page" id="page-features">
-    <div class="section-title">PS5 в цифрах</div>
-    <div class="specs" id="specs"></div>
-    <div class="section-title">Особенности</div>
-    <div id="features-list"></div>
-  </section>
+  <main>
+    <section class="page active" id="page-news">
+      <div class="section-title">Свежие новости</div>
+      <div id="news-list"></div>
+    </section>
 
-  <!-- КВИЗ -->
-  <section class="page" id="page-quiz">
-    <div class="section-title">Насколько ты знаешь PlayStation?</div>
-    <div id="quiz"></div>
-  </section>
-</main>
+    <section class="page" id="page-tips">
+      <div class="section-title">Фишки и лайфхаки</div>
+      <div class="search-wrap">
+        <svg><use href="#i-search"/></svg>
+        <input class="search" id="tip-search" placeholder="Поиск: скриншот, зарядка, звук">
+      </div>
+      <div class="chips" id="tip-chips"></div>
+      <div style="height:10px"></div>
+      <div id="tips-list"></div>
+    </section>
 
-<nav>
-  <button class="active" data-page="news"><span class="i">📰</span>Новости</button>
-  <button data-page="tips"><span class="i">💡</span>Фишки</button>
-  <button data-page="features"><span class="i">🎮</span>Особенности</button>
-  <button data-page="quiz"><span class="i">🏆</span>Квиз</button>
+    <section class="page" id="page-features">
+      <div class="section-title">PS5 в цифрах</div>
+      <div class="specs" id="specs"></div>
+      <div class="section-title">Особенности</div>
+      <div id="features-list"></div>
+    </section>
+
+    <section class="page" id="page-quiz">
+      <div class="section-title">Проверь себя</div>
+      <div id="quiz"></div>
+    </section>
+  </main>
+</div>
+
+<nav id="nav">
+  <div class="pill" id="pill"></div>
+  <button class="active" data-page="news"><svg><use href="#i-news"/></svg>Новости</button>
+  <button data-page="tips"><svg><use href="#i-bolt"/></svg>Фишки</button>
+  <button data-page="features"><svg><use href="#i-pad"/></svg>Особенности</button>
+  <button data-page="quiz"><svg><use href="#i-cup"/></svg>Квиз</button>
 </nav>
 
 <script>
 /* =========================================================
-   КОНТЕНТ — редактируй здесь. Новости меняй раз в неделю.
+   КОНТЕНТ — редактируй здесь
+   type: "" (синий), "hot" (розовый), "free" (зелёный), "hw" (фиолетовый)
    ========================================================= */
-
 const NEWS = [
-  { tag: "Скидки", type: "hot", date: "Ноябрь 2026",
-    title: "Чёрная пятница в PS Store",
+  { tag: "Скидки", type: "hot", date: "Ноябрь 2026", title: "Чёрная пятница в PS Store",
     text: "Стартовала распродажа Black Friday 2026: скидки на 2000+ игр. Самое время закрыть вишлист." },
-  { tag: "PS Plus", type: "free", date: "3–30 ноября",
-    title: "Бесплатные игры PS Plus в ноябре",
+  { tag: "PS Plus", type: "free", date: "3–30 ноября", title: "Бесплатные игры PS Plus в ноябре",
     text: "Подписчики Essential могут забрать Dead Island 2, Tomb Raider IV–VI Remastered и Monster Train 2. Успей добавить в библиотеку до 30 ноября." },
-  { tag: "Пробная версия", type: "free", date: "Ноябрь 2026",
-    title: "007 First Light: час игры бесплатно",
+  { tag: "Пробная версия", type: "free", date: "Ноябрь 2026", title: "007 First Light: час игры бесплатно",
     text: "Подписчики PS Plus Premium могут попробовать новую игру про Бонда от IO Interactive — пробная версия на 1 час." },
-  { tag: "Железо", type: "hw", date: "Ноябрь 2026",
-    title: "PS5 продано почти 98 миллионов",
+  { tag: "Железо", type: "hw", date: "Ноябрь 2026", title: "PS5 продано почти 98 миллионов",
     text: "Sony сообщила, что поставки PS5 достигли 97,9 млн консолей по всему миру." },
-  { tag: "PS6", type: "hw", date: "Ноябрь 2026",
-    title: "PS6 разрабатывается по плану",
+  { tag: "PS6", type: "hw", date: "Ноябрь 2026", title: "PS6 разрабатывается по плану",
     text: "Финансовый директор Sony заявил, что разработка следующей консоли идёт по графику. Дату пока не называют." },
-  { tag: "Аксессуары", type: "", date: "Февраль 2027",
-    title: "Новые геймпады Prism Collection",
+  { tag: "Аксессуары", type: "", date: "Февраль 2027", title: "Новые геймпады Prism Collection",
     text: "Sony показала новую серию DualSense в стиле «Prism». Предзаказ уже открыт, в продаже — 4 февраля 2027." },
-  { tag: "Обновление", type: "", date: "Ноябрь 2026",
-    title: "Новая прошивка PS5",
+  { tag: "Обновление", type: "", date: "Ноябрь 2026", title: "Новая прошивка PS5",
     text: "Вышло системное обновление с исправлениями безопасности. Включи автообновление, чтобы не пропускать." },
 ];
 
+// icon — одна из иконок выше: camera, film, battery, wave, mic, laptop, eye, sliders, refresh, grid, phone, cast
 const TIPS = [
-  { cat: "Скриншоты", e: "📸", title: "Скриншот одним нажатием",
+  { cat: "Скриншоты", icon: "camera", c: ["#23d5ff", "#2f6bff"], title: "Скриншот одним нажатием",
     text: "Кнопка Create умеет делать скрин без меню.",
-    how: "Настройки → Снимки и трансляции → Снимки → Сочетания клавиш для кнопки «Создать» → выбери «Лёгкие снимки экрана». Теперь короткое нажатие = скриншот." },
-  { cat: "Скриншоты", e: "🎬", title: "Запиши то, что уже случилось",
+    how: "Настройки → Снимки и трансляции → Снимки → Сочетания клавиш для кнопки «Создать» → «Лёгкие снимки экрана». Теперь короткое нажатие = скриншот." },
+  { cat: "Скриншоты", icon: "film", c: ["#ff3d8b", "#8b5cff"], title: "Запиши то, что уже случилось",
     text: "PS5 постоянно пишет последние минуты игры.",
-    how: "Нажми Create → «Сохранить недавний геймплей». Можно сохранить последние 15 секунд — 1 час (длительность меняется в настройках снимков)." },
-  { cat: "Геймпад", e: "🔋", title: "Заряжай геймпад в режиме покоя",
-    text: "Консоль может заряжать DualSense, когда ты спишь.",
+    how: "Нажми Create → «Сохранить недавний геймплей». Можно сохранить от 15 секунд до 1 часа (длительность меняется в настройках снимков)." },
+  { cat: "Геймпад", icon: "battery", c: ["#22e39a", "#16a5a5"], title: "Заряжай геймпад в режиме покоя",
+    text: "Консоль может заряжать DualSense, пока ты спишь.",
     how: "Настройки → Система → Энергосбережение → Функции в режиме покоя → «Подавать питание на порты USB» → 3 часа или «Всегда»." },
-  { cat: "Геймпад", e: "📳", title: "Сделай вибрацию тише",
+  { cat: "Геймпад", icon: "wave", c: ["#ffb020", "#ff3d8b"], title: "Сделай вибрацию тише",
     text: "Если курки слишком тугие или вибрация мешает.",
     how: "Настройки → Аксессуары → Контроллеры → «Интенсивность вибрации» и «Интенсивность эффекта триггеров». Ставь «Слабая» или «Выкл.»." },
-  { cat: "Геймпад", e: "🎤", title: "Секрет кнопки микрофона",
+  { cat: "Геймпад", icon: "mic", c: ["#ff4466", "#ff8a3d"], title: "Секрет кнопки микрофона",
     text: "Она умеет больше, чем просто выключать микрофон.",
-    how: "Короткое нажатие — выключить микрофон. Если ЗАЖАТЬ кнопку на секунду — выключится весь звук игры. Нажми снова, чтобы вернуть." },
-  { cat: "Геймпад", e: "💻", title: "Подключи DualSense к ПК или телефону",
+    how: "Короткое нажатие — выключить микрофон. Если зажать кнопку на секунду — выключится весь звук игры. Нажми снова, чтобы вернуть." },
+  { cat: "Геймпад", icon: "laptop", c: ["#5b8cff", "#23d5ff"], title: "DualSense на ПК или телефоне",
     text: "Геймпад работает по Bluetooth почти везде.",
-    how: "Зажми кнопки Create и PS одновременно, пока световая полоса не начнёт часто мигать. Затем выбери «DualSense Wireless Controller» в Bluetooth на устройстве." },
-  { cat: "Система", e: "🙈", title: "Скрой спойлеры",
+    how: "Зажми Create и PS одновременно, пока световая полоса не начнёт часто мигать. Затем выбери «DualSense Wireless Controller» в Bluetooth на устройстве." },
+  { cat: "Система", icon: "eye", c: ["#8b5cff", "#e86bff"], title: "Скрой спойлеры",
     text: "Чтобы подсказки и трофеи не раскрыли сюжет.",
     how: "Настройки → Сохранённые данные и настройки игр/приложений → Предупреждения о спойлерах → включи скрытие." },
-  { cat: "Система", e: "⚙️", title: "Пресеты для всех игр",
+  { cat: "Система", icon: "sliders", c: ["#2f6bff", "#8b5cff"], title: "Пресеты для всех игр",
     text: "Настрой режим графики один раз — и он будет в каждой игре.",
-    how: "Настройки → Сохранённые данные и настройки игр/приложений → Пресеты игр. Выбери «Режим производительности» (больше FPS) или «Режим разрешения» (красивее), а ещё инверсию камеры." },
-  { cat: "Система", e: "🧹", title: "Если PS5 тормозит",
+    how: "Настройки → Сохранённые данные и настройки игр/приложений → Пресеты игр. «Режим производительности» — больше FPS, «Режим разрешения» — красивее. Там же инверсия камеры." },
+  { cat: "Система", icon: "refresh", c: ["#23d5ff", "#22e39a"], title: "Если PS5 тормозит",
     text: "Безопасный режим помогает почистить кэш.",
-    how: "Выключи консоль полностью. Зажми кнопку питания, пока не услышишь второй сигнал (~7 сек). Подключи геймпад кабелем → «Очистить кэш и перестроить базу данных». Сохранения не удаляются." },
-  { cat: "Система", e: "🎛", title: "Настрой Центр управления",
+    how: "Выключи консоль полностью. Зажми кнопку питания до второго сигнала (около 7 секунд). Подключи геймпад кабелем → «Очистить кэш и перестроить базу данных». Сохранения не удаляются." },
+  { cat: "Система", icon: "grid", c: ["#e86bff", "#ff3d8b"], title: "Настрой Центр управления",
     text: "Убери лишнее из меню по кнопке PS.",
     how: "Нажми PS → в нижнем меню нажми Options → перетаскивай и убирай иконки как удобно." },
-  { cat: "Онлайн", e: "📱", title: "Качай игры с телефона",
+  { cat: "Онлайн", icon: "phone", c: ["#22e39a", "#2f6bff"], title: "Качай игры с телефона",
     text: "Купил игру в школе — дома она уже скачана.",
-    how: "Установи приложение PlayStation App. На консоли: Энергосбережение → Функции в режиме покоя → «Оставаться подключённым к интернету». Теперь покупки из приложения качаются сами." },
-  { cat: "Онлайн", e: "📺", title: "Играй с телефона через Remote Play",
+    how: "Установи PlayStation App. На консоли: Энергосбережение → Функции в режиме покоя → «Оставаться подключённым к интернету». Покупки из приложения будут качаться сами." },
+  { cat: "Онлайн", icon: "cast", c: ["#ff8a3d", "#ff4466"], title: "Играй с телефона через Remote Play",
     text: "Можно играть в PS5, когда телевизор занят.",
-    how: "Установи PS Remote Play на телефон или ПК, войди в тот же аккаунт. На PS5: Настройки → Система → Дистанционная игра → включить. Лучше по Wi‑Fi 5 ГГц." },
+    how: "Установи PS Remote Play на телефон или ПК и войди в тот же аккаунт. На PS5: Настройки → Система → Дистанционная игра → включить. Лучше всего по Wi‑Fi 5 ГГц." },
 ];
 
 const SPECS = [
-  { v: "SSD", l: "Загрузки за секунды" },
-  { v: "4K", l: "До 120 кадров/с" },
-  { v: "3D", l: "Звук Tempest 3D Audio" },
-  { v: "98 млн", l: "Консолей продано" },
+  { v: 120, suf: " FPS", l: "Максимум кадров в секунду" },
+  { v: 4, suf: "K", l: "Разрешение картинки" },
+  { v: 2, suf: " ТБ", l: "Память в PS5 Pro" },
+  { v: 97.9, suf: " млн", l: "Консолей продано", dec: 1 },
 ];
 
 const FEATURES = [
   { tag: "DualSense", type: "hw", title: "Тактильная отдача",
     text: "Вместо обычной вибрации — точные моторчики. Ты чувствуешь дождь, песок под ногами и разные поверхности." },
   { tag: "DualSense", type: "hw", title: "Адаптивные триггеры",
-    text: "Курки R2/L2 меняют сопротивление: тугая тетива лука, заедание оружия, педаль тормоза." },
+    text: "Курки R2 и L2 меняют сопротивление: тугая тетива лука, заедание оружия, педаль тормоза." },
   { tag: "Скорость", type: "", title: "Сверхбыстрый SSD",
     text: "Загрузки, которые на PS4 шли минуту, на PS5 часто занимают пару секунд." },
   { tag: "PS5 Pro", type: "hot", title: "Что умеет PS5 Pro",
@@ -236,135 +431,317 @@ const FEATURES = [
   { tag: "Подписка", type: "free", title: "PS Plus: Essential, Extra, Premium",
     text: "Essential — онлайн и игры каждый месяц. Extra — каталог сотен игр. Premium — классика, пробные версии и облачный стриминг." },
   { tag: "Совместимость", type: "", title: "Игры с PS4 работают",
-    text: "Почти все игры PS4 запускаются на PS5, а некоторые даже получают бесплатное улучшение." },
+    text: "Почти все игры PS4 запускаются на PS5, а некоторые получают бесплатное улучшение." },
 ];
 
 const QUIZ = [
   { q: "Как называется геймпад PS5?", a: ["DualShock 5", "DualSense", "PlayPad", "SenseShock"], r: 1 },
-  { q: "Что произойдёт, если зажать кнопку микрофона на DualSense?", a: ["Выключится консоль", "Выключится весь звук игры", "Откроется чат", "Сделается скриншот"], r: 1 },
-  { q: "Как зовут маленького робота — героя игры, которая встроена в каждую PS5?", a: ["Astro", "Ratchet", "Clank", "Sackboy"], r: 0 },
+  { q: "Что будет, если зажать кнопку микрофона на DualSense?", a: ["Выключится консоль", "Выключится весь звук игры", "Откроется чат", "Сделается скриншот"], r: 1 },
+  { q: "Как зовут робота — героя игры, встроенной в каждую PS5?", a: ["Astro", "Ratchet", "Clank", "Sackboy"], r: 0 },
   { q: "Какой уровень PS Plus даёт облачный стриминг?", a: ["Essential", "Extra", "Premium", "Никакой"], r: 2 },
-  { q: "Как называется технология апскейлинга в PS5 Pro?", a: ["DLSS", "FSR", "PSSR", "XeSS"], r: 2 },
-  { q: "Какие четыре символа на кнопках PlayStation?", a: ["△ ○ ✕ □", "A B X Y", "★ ♥ ♦ ♣", "1 2 3 4"], r: 0 },
+  { q: "Как называется апскейлинг в PS5 Pro?", a: ["DLSS", "FSR", "PSSR", "XeSS"], r: 2 },
+  { q: "Какие фигуры нарисованы на кнопках PlayStation?", a: ["Треугольник, круг, крест, квадрат", "A, B, X, Y", "Звезда, сердце, ромб, трефа", "1, 2, 3, 4"], r: 0 },
   { q: "Как подключить DualSense к ПК по Bluetooth?", a: ["Зажать PS + Options", "Зажать Create + PS", "Нажать R3 + L3", "Никак"], r: 1 },
 ];
 
 /* =========================================================
-   ЛОГИКА ПРИЛОЖЕНИЯ
+   ДВИЖОК
    ========================================================= */
 const tg = window.Telegram && window.Telegram.WebApp;
-if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor("#0b1020"); tg.setBackgroundColor("#0b1020"); } catch (e) {} }
-const haptic = (t = "light") => { try { tg.HapticFeedback.impactOccurred(t); } catch (e) {} };
+if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor("#05070f"); tg.setBackgroundColor("#05070f"); } catch (e) {} }
+const H = {
+  tap: (t = "light") => { try { tg.HapticFeedback.impactOccurred(t); } catch (e) {} },
+  ok: () => { try { tg.HapticFeedback.notificationOccurred("success"); } catch (e) {} },
+  err: () => { try { tg.HapticFeedback.notificationOccurred("error"); } catch (e) {} },
+};
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const $ = id => document.getElementById(id);
+const SHAPES = ["s-tri", "s-cir", "s-crs", "s-sqr"];
+const SHAPE_COLORS = ["#2ee6a8", "#ff4d6d", "#5b8cff", "#e86bff"];
 
-// Навигация
-document.querySelectorAll("nav button").forEach(b => b.addEventListener("click", () => {
-  document.querySelectorAll("nav button").forEach(x => x.classList.toggle("active", x === b));
+/* ---- Заставка ---- */
+(function intro() {
+  const el = $("intro");
+  const ms = reduce ? 0 : 1500;
+  setTimeout(() => { el.classList.add("blast"); H.tap("heavy"); }, ms);
+  setTimeout(() => el.classList.add("out"), ms + 250);
+  setTimeout(() => { el.remove(); revealAll(); }, ms + 1100);
+})();
+
+/* ---- Фон: летающие фигуры ---- */
+(function bg() {
+  const c = $("bg"), x = c.getContext("2d");
+  let W, Hh, dpr = Math.min(devicePixelRatio || 1, 2), mx = 0, my = 0, tx = 0, ty = 0;
+  const N = 26, P = [];
+  function size() { W = innerWidth; Hh = innerHeight; c.width = W * dpr; c.height = Hh * dpr; c.style.width = W + "px"; c.style.height = Hh + "px"; x.setTransform(dpr, 0, 0, dpr, 0, 0); }
+  size(); addEventListener("resize", size);
+  for (let i = 0; i < N; i++) P.push({ x: Math.random() * W, y: Math.random() * Hh, z: .3 + Math.random() * .9,
+    s: 6 + Math.random() * 12, t: i % 4, a: Math.random() * 6.28, va: (Math.random() - .5) * .02,
+    vx: (Math.random() - .5) * .25, vy: -.15 - Math.random() * .35 });
+  addEventListener("pointermove", e => { tx = (e.clientX / W - .5) * 30; ty = (e.clientY / Hh - .5) * 30; });
+  addEventListener("deviceorientation", e => { if (e.gamma != null) { tx = e.gamma * .8; ty = (e.beta - 45) * .5; } });
+  function shape(p) {
+    x.save(); x.translate(p.x + mx * p.z, p.y + my * p.z); x.rotate(p.a);
+    x.strokeStyle = SHAPE_COLORS[p.t]; x.globalAlpha = .18 + p.z * .25; x.lineWidth = 1.6; x.beginPath();
+    const s = p.s * p.z * 1.4;
+    if (p.t === 0) { x.moveTo(0, -s); x.lineTo(s * .87, s * .5); x.lineTo(-s * .87, s * .5); x.closePath(); }
+    else if (p.t === 1) { x.arc(0, 0, s * .8, 0, 6.28); }
+    else if (p.t === 2) { x.moveTo(-s * .7, -s * .7); x.lineTo(s * .7, s * .7); x.moveTo(s * .7, -s * .7); x.lineTo(-s * .7, s * .7); }
+    else { x.rect(-s * .7, -s * .7, s * 1.4, s * 1.4); }
+    x.stroke(); x.restore();
+  }
+  function loop() {
+    x.clearRect(0, 0, W, Hh);
+    mx += (tx - mx) * .05; my += (ty - my) * .05;
+    for (const p of P) {
+      p.x += p.vx * p.z; p.y += p.vy * p.z; p.a += p.va;
+      if (p.y < -30) { p.y = Hh + 30; p.x = Math.random() * W; }
+      if (p.x < -30) p.x = W + 30; if (p.x > W + 30) p.x = -30;
+      shape(p);
+    }
+    // линии между близкими фигурами
+    x.lineWidth = .6;
+    for (let i = 0; i < N; i++) for (let j = i + 1; j < N; j++) {
+      const a = P[i], b = P[j], dx = a.x - b.x, dy = a.y - b.y, d = dx * dx + dy * dy;
+      if (d < 9000) { x.globalAlpha = (1 - d / 9000) * .18; x.strokeStyle = "#5b8cff"; x.beginPath();
+        x.moveTo(a.x + mx * a.z, a.y + my * a.z); x.lineTo(b.x + mx * b.z, b.y + my * b.z); x.stroke(); }
+    }
+    x.globalAlpha = 1;
+    if (!reduce) requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+/* ---- Взрыв частиц (квиз, избранное) ---- */
+const FX = (function () {
+  const c = $("fx"), x = c.getContext("2d"); let parts = [], running = false;
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  function size() { c.width = innerWidth * dpr; c.height = innerHeight * dpr; c.style.width = innerWidth + "px"; c.style.height = innerHeight + "px"; x.setTransform(dpr, 0, 0, dpr, 0, 0); }
+  size(); addEventListener("resize", size);
+  function burst(px, py, n = 40, colors = SHAPE_COLORS) {
+    if (reduce) return;
+    for (let i = 0; i < n; i++) {
+      const ang = Math.random() * 6.28, sp = 3 + Math.random() * 9;
+      parts.push({ x: px, y: py, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp - 3, life: 1,
+        t: i % 4, s: 4 + Math.random() * 7, a: Math.random() * 6.28, va: (Math.random() - .5) * .4, col: colors[i % colors.length] });
+    }
+    if (!running) { running = true; requestAnimationFrame(tick); }
+  }
+  function tick() {
+    x.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(p => p.life > 0);
+    for (const p of parts) {
+      p.x += p.vx; p.y += p.vy; p.vy += .28; p.vx *= .98; p.a += p.va; p.life -= .018;
+      x.save(); x.translate(p.x, p.y); x.rotate(p.a); x.globalAlpha = Math.max(p.life, 0);
+      x.strokeStyle = p.col; x.lineWidth = 2.2; x.beginPath(); const s = p.s;
+      if (p.t === 0) { x.moveTo(0, -s); x.lineTo(s, s); x.lineTo(-s, s); x.closePath(); }
+      else if (p.t === 1) x.arc(0, 0, s, 0, 6.28);
+      else if (p.t === 2) { x.moveTo(-s, -s); x.lineTo(s, s); x.moveTo(s, -s); x.lineTo(-s, s); }
+      else x.rect(-s, -s, s * 2, s * 2);
+      x.stroke(); x.restore();
+    }
+    if (parts.length) requestAnimationFrame(tick); else { running = false; x.clearRect(0, 0, innerWidth, innerHeight); }
+  }
+  return { burst };
+})();
+function flash(kind) { const f = $("flash"); f.className = ""; void f.offsetWidth; f.className = kind; }
+function shakeScreen() { document.body.classList.remove("shake"); void document.body.offsetWidth; document.body.classList.add("shake"); }
+
+/* ---- Глитч заголовка ---- */
+setInterval(() => { if (reduce) return; const t = $("title"); t.classList.add("on"); setTimeout(() => t.classList.remove("on"), 380); }, 3800);
+
+/* ---- Бегущая строка ---- */
+const tickerItems = NEWS.map(n => `<span>${esc(n.title)}</span>`).join("");
+$("ticker").innerHTML = tickerItems + tickerItems;
+
+/* ---- Появление при прокрутке + 3D-наклон ---- */
+let introDone = false;
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting && introDone) { e.target.classList.add("reveal"); io.unobserve(e.target); }
+}), { threshold: .12 });
+function watch(root) {
+  root.querySelectorAll(".r").forEach((el, i) => { el.style.setProperty("--d", (i % 8) * 0.07 + "s"); io.observe(el); });
+  root.querySelectorAll(".card, .spec").forEach(tilt);
+}
+function revealAll() { introDone = true; document.querySelectorAll(".page.active .r").forEach(el => { io.unobserve(el); io.observe(el); }); }
+function tilt(el) {
+  if (reduce || el._tilt) return; el._tilt = true;
+  el.addEventListener("pointermove", e => {
+    const r = el.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+    el.style.transform = `rotateY(${(px - .5) * 14}deg) rotateX(${(.5 - py) * 14}deg) translateZ(10px)`;
+    el.style.setProperty("--gx", px * 100 + "%"); el.style.setProperty("--gy", py * 100 + "%"); el.classList.add("tilt");
+  });
+  el.addEventListener("pointerleave", () => { el.style.transform = ""; el.classList.remove("tilt"); });
+}
+
+/* ---- Рябь при нажатии ---- */
+document.addEventListener("pointerdown", e => {
+  const t = e.target.closest(".card, .chip, .answer, .btn, nav button"); if (!t || reduce) return;
+  const host = t.matches("nav button") ? t : t;
+  const r = host.getBoundingClientRect(), s = Math.max(r.width, r.height);
+  const rp = document.createElement("span"); rp.className = "ripple";
+  rp.style.cssText = `width:${s}px;height:${s}px;left:${e.clientX - r.left - s / 2}px;top:${e.clientY - r.top - s / 2}px`;
+  if (getComputedStyle(host).position === "static") host.style.position = "relative";
+  host.style.overflow = "hidden"; host.appendChild(rp); setTimeout(() => rp.remove(), 650);
+});
+
+/* ---- Навигация ---- */
+const navBtns = [...document.querySelectorAll("nav button")];
+let cur = 0;
+function movePill(i) {
+  const b = navBtns[i], pill = $("pill");
+  pill.style.width = b.offsetWidth + "px";
+  pill.style.transform = `translateX(${b.offsetLeft - 6}px)`;
+}
+navBtns.forEach((b, i) => b.addEventListener("click", () => {
+  if (i === cur) return;
+  document.documentElement.style.setProperty("--dir", (i > cur ? 60 : -60) + "px");
+  cur = i; navBtns.forEach(x => x.classList.toggle("active", x === b)); movePill(i);
   document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === "page-" + b.dataset.page));
-  window.scrollTo(0, 0);
-  haptic();
+  window.scrollTo({ top: 0 });
+  const page = $("page-" + b.dataset.page);
+  page.querySelectorAll(".r").forEach(el => el.classList.remove("reveal"));
+  requestAnimationFrame(() => page.querySelectorAll(".r").forEach(el => { io.unobserve(el); io.observe(el); }));
+  if (b.dataset.page === "features") countUp();
+  H.tap("medium");
 }));
+addEventListener("resize", () => movePill(cur));
+requestAnimationFrame(() => movePill(0));
 
-// Новости
-document.getElementById("news-list").innerHTML = NEWS.map(n => `
-  <div class="card">
+/* ---- Новости ---- */
+$("news-list").innerHTML = NEWS.map((n, i) => `
+  <div class="card r">
+    <div class="news-num">${String(i + 1).padStart(2, "0")}</div>
     <span class="tag ${n.type}">${esc(n.tag)} · ${esc(n.date)}</span>
     <h3>${esc(n.title)}</h3>
     <p>${esc(n.text)}</p>
   </div>`).join("");
+watch($("news-list"));
 
-// Избранное (запоминается на устройстве)
+/* ---- Фишки ---- */
 let favs = [];
 try { favs = JSON.parse(localStorage.getItem("ps_favs") || "[]"); } catch (e) {}
 const saveFavs = () => { try { localStorage.setItem("ps_favs", JSON.stringify(favs)); } catch (e) {} };
-
-// Фишки
 let tipCat = "Все";
-const cats = ["Все", "⭐ Избранное", ...new Set(TIPS.map(t => t.cat))];
-const chipsEl = document.getElementById("tip-chips");
+const FAV = "Избранное";
+const cats = ["Все", FAV, ...new Set(TIPS.map(t => t.cat))];
 function renderChips() {
-  chipsEl.innerHTML = cats.map(c => `<button class="chip ${c === tipCat ? "active" : ""}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+  $("tip-chips").innerHTML = cats.map(c => `<button class="chip ${c === tipCat ? "active" : ""}" data-c="${esc(c)}">${c === FAV ? '<svg><use href="#i-star"/></svg>' : ""}${esc(c)}</button>`).join("");
 }
-chipsEl.addEventListener("click", e => {
+$("tip-chips").addEventListener("click", e => {
   const c = e.target.closest(".chip"); if (!c) return;
-  tipCat = c.dataset.c; renderChips(); renderTips(); haptic();
+  tipCat = c.dataset.c; renderChips(); renderTips(); H.tap();
 });
 function renderTips() {
-  const q = document.getElementById("tip-search").value.trim().toLowerCase();
+  const q = $("tip-search").value.trim().toLowerCase();
   const list = TIPS.map((t, i) => ({ ...t, i })).filter(t =>
-    (tipCat === "Все" || t.cat === tipCat || (tipCat === "⭐ Избранное" && favs.includes(t.i))) &&
+    (tipCat === "Все" || t.cat === tipCat || (tipCat === FAV && favs.includes(t.i))) &&
     (!q || (t.title + t.text + t.how).toLowerCase().includes(q)));
-  document.getElementById("tips-list").innerHTML = list.length ? list.map(t => `
-    <div class="card tip" data-i="${t.i}">
-      <div class="emoji">${t.e}</div>
+  $("tips-list").innerHTML = list.length ? list.map(t => `
+    <div class="card tip r" data-i="${t.i}">
+      <div class="ico" style="--c1:${t.c[0]};--c2:${t.c[1]}"><svg><use href="#i-${t.icon}"/></svg></div>
       <div class="body">
         <h3>${esc(t.title)}</h3>
         <p>${esc(t.text)}</p>
-        <div class="how">👉 ${esc(t.how)}</div>
+        <div class="how"><div><div class="how-in">${esc(t.how)}</div></div></div>
       </div>
-      <button class="fav" data-f="${t.i}">${favs.includes(t.i) ? "⭐" : "☆"}</button>
-    </div>`).join("") : `<div class="empty">Ничего не нашлось 🤷</div>`;
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+        <button class="fav ${favs.includes(t.i) ? "on" : ""}" data-f="${t.i}" aria-label="В избранное"><svg><use href="#i-star"/></svg></button>
+        <svg class="chev"><use href="#i-chev"/></svg>
+      </div>
+    </div>`).join("") : `<div class="empty">Ничего не нашлось</div>`;
+  watch($("tips-list"));
+  if (introDone) $("tips-list").querySelectorAll(".r").forEach(el => { io.unobserve(el); io.observe(el); });
 }
-document.getElementById("tips-list").addEventListener("click", e => {
+$("tips-list").addEventListener("click", e => {
   const f = e.target.closest(".fav");
   if (f) {
-    const i = +f.dataset.f;
-    favs = favs.includes(i) ? favs.filter(x => x !== i) : [...favs, i];
-    saveFavs(); renderTips(); haptic("medium"); return;
+    const i = +f.dataset.f, on = !favs.includes(i);
+    favs = on ? [...favs, i] : favs.filter(x => x !== i); saveFavs();
+    f.classList.toggle("on", on); f.classList.remove("pulse"); void f.offsetWidth; f.classList.add("pulse");
+    if (on) { const r = f.getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 18, ["#ffcc33", "#ffe08a", "#ff9f1a"]); }
+    H.tap("medium");
+    if (tipCat === FAV && !on) renderTips();
+    return;
   }
   const card = e.target.closest(".tip");
-  if (card) { card.classList.toggle("open"); haptic(); }
+  if (card) { card.classList.toggle("open"); H.tap(); }
 });
-document.getElementById("tip-search").addEventListener("input", renderTips);
+$("tip-search").addEventListener("input", renderTips);
 renderChips(); renderTips();
 
-// Особенности
-document.getElementById("specs").innerHTML = SPECS.map(s => `<div class="spec"><b>${esc(s.v)}</b><span>${esc(s.l)}</span></div>`).join("");
-document.getElementById("features-list").innerHTML = FEATURES.map(f => `
-  <div class="card">
+/* ---- Особенности ---- */
+$("specs").innerHTML = SPECS.map((s, i) => `<div class="spec r"><b data-v="${s.v}" data-suf="${esc(s.suf)}" data-dec="${s.dec || 0}">0${esc(s.suf)}</b><span>${esc(s.l)}</span></div>`).join("");
+$("features-list").innerHTML = FEATURES.map(f => `
+  <div class="card r">
     <span class="tag ${f.type}">${esc(f.tag)}</span>
     <h3>${esc(f.title)}</h3>
     <p>${esc(f.text)}</p>
   </div>`).join("");
+watch($("page-features"));
+function countUp() {
+  document.querySelectorAll(".spec b").forEach(b => {
+    const v = +b.dataset.v, dec = +b.dataset.dec, suf = b.dataset.suf, t0 = performance.now(), dur = reduce ? 1 : 1400;
+    (function step(t) {
+      const k = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - k, 4);
+      b.textContent = (v * e).toFixed(dec).replace(".", ",") + suf;
+      if (k < 1) requestAnimationFrame(step);
+    })(t0);
+  });
+}
 
-// Квиз
+/* ---- Квиз ---- */
 let qi = 0, score = 0, locked = false;
-const quizEl = document.getElementById("quiz");
+const quizEl = $("quiz");
 function renderQuiz() {
-  if (qi >= QUIZ.length) {
-    const pct = score / QUIZ.length;
-    const verdict = pct === 1 ? ["🏆", "Легенда PlayStation!"] : pct >= .6 ? ["🎮", "Опытный геймер!"] : ["🐣", "Есть куда расти — загляни в «Фишки»"];
-    quizEl.innerHTML = `
-      <div class="card center">
-        <div class="big">${verdict[0]}</div>
-        <h3>${score} из ${QUIZ.length}</h3>
-        <p>${verdict[1]}</p>
-      </div>
-      <button class="btn" id="q-again">Пройти ещё раз</button>
-      ${tg && tg.initData ? `<button class="btn" id="q-share" style="background:var(--card2)">Отправить результат в бот</button>` : ""}`;
-    document.getElementById("q-again").onclick = () => { qi = 0; score = 0; renderQuiz(); };
-    const share = document.getElementById("q-share");
-    if (share) share.onclick = () => tg.sendData(JSON.stringify({ quiz: score, total: QUIZ.length }));
-    try { tg.HapticFeedback.notificationOccurred("success"); } catch (e) {}
-    return;
-  }
-  const item = QUIZ[qi];
-  locked = false;
+  if (qi >= QUIZ.length) return renderResult();
+  const item = QUIZ[qi]; locked = false;
   quizEl.innerHTML = `
+    <div class="q-top"><span>Вопрос ${qi + 1} из ${QUIZ.length}</span><span>Очки: ${score}</span></div>
     <div class="progress"><div style="width:${qi / QUIZ.length * 100}%"></div></div>
-    <p style="color:var(--muted);margin:0">Вопрос ${qi + 1} из ${QUIZ.length}</p>
-    <div class="quiz-q">${esc(item.q)}</div>
-    ${item.a.map((a, i) => `<button class="answer" data-i="${i}">${esc(a)}</button>`).join("")}`;
+    <div class="quiz-q r">${esc(item.q)}</div>
+    ${item.a.map((a, i) => `<button class="answer r" data-i="${i}"><svg class="key"><use href="#${SHAPES[i]}"/></svg>${esc(a)}</button>`).join("")}`;
+  quizEl.querySelectorAll(".r").forEach((el, i) => { el.style.setProperty("--d", i * 0.08 + "s"); requestAnimationFrame(() => el.classList.add("reveal")); });
 }
 quizEl.addEventListener("click", e => {
-  const b = e.target.closest(".answer"); if (!b || locked) return;
-  locked = true;
-  const item = QUIZ[qi], pick = +b.dataset.i;
-  quizEl.querySelectorAll(".answer")[item.r].classList.add("right");
-  if (pick === item.r) { score++; try { tg.HapticFeedback.notificationOccurred("success"); } catch (e) {} }
-  else { b.classList.add("wrong"); try { tg.HapticFeedback.notificationOccurred("error"); } catch (e) {} }
-  setTimeout(() => { qi++; renderQuiz(); }, 1000);
+  const b = e.target.closest(".answer");
+  if (b && !locked) {
+    locked = true;
+    const item = QUIZ[qi], pick = +b.dataset.i, right = quizEl.querySelectorAll(".answer")[item.r];
+    right.classList.add("right");
+    if (pick === item.r) {
+      score++; H.ok(); flash("green");
+      const r = b.getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 44);
+    } else { b.classList.add("wrong"); H.err(); flash("red"); shakeScreen(); }
+    setTimeout(() => { qi++; renderQuiz(); }, 1100);
+    return;
+  }
+  if (e.target.closest("#q-again")) { qi = 0; score = 0; renderQuiz(); H.tap("medium"); }
+  if (e.target.closest("#q-share")) tg.sendData(JSON.stringify({ quiz: score, total: QUIZ.length }));
 });
+function renderResult() {
+  const pct = score / QUIZ.length;
+  const verdict = pct === 1 ? "Легенда PlayStation" : pct >= .6 ? "Опытный геймер" : "Есть куда расти";
+  const sub = pct === 1 ? "Ни одной ошибки. Респект." : pct >= .6 ? "Почти идеально. Загляни в «Фишки» и добей до максимума." : "Прочитай «Фишки» и попробуй ещё раз.";
+  quizEl.innerHTML = `
+    <div class="card center r">
+      <div class="score">
+        <svg viewBox="0 0 170 170"><circle class="bgc" cx="85" cy="85" r="70"/><circle class="fgc" id="ring" cx="85" cy="85" r="70"/></svg>
+        <div class="score-num"><span id="sn">0</span><small>/${QUIZ.length}</small></div>
+      </div>
+      <div class="verdict">${verdict}</div>
+      <p>${sub}</p>
+    </div>
+    <button class="btn r" id="q-again">Пройти ещё раз</button>
+    ${tg && tg.initData ? `<button class="btn ghost r" id="q-share">Отправить результат в бот</button>` : ""}`;
+  quizEl.querySelectorAll(".r").forEach((el, i) => { el.style.setProperty("--d", i * 0.1 + "s"); requestAnimationFrame(() => el.classList.add("reveal")); });
+  setTimeout(() => {
+    $("ring").style.strokeDashoffset = 440 - 440 * pct;
+    let n = 0; const iv = setInterval(() => { if (n >= score) return clearInterval(iv); $("sn").textContent = ++n; H.tap(); }, 1400 / Math.max(score, 1));
+    if (pct >= .6) { H.ok(); setTimeout(() => { FX.burst(innerWidth / 2, innerHeight * .35, 90); FX.burst(innerWidth * .2, innerHeight * .5, 40); FX.burst(innerWidth * .8, innerHeight * .5, 40); }, 900); }
+  }, 300);
+}
 renderQuiz();
 </script>
 </body>
