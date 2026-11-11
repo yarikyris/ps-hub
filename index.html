@@ -324,6 +324,45 @@
   .obc-item.on .box svg { opacity: 1; transform: none; }
   .obc-item b { display: block; font-size: 15px; } .obc-item small { color: var(--muted); font-size: 12.5px; }
 
+  /* ---------- Xbox: квиз, статья OBC, диски ---------- */
+  .answer .xk { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; border-radius: 50%;
+    display: grid; place-items: center; font: 900 14px Unbounded; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.5);
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,.25), inset 0 3px 4px rgba(255,255,255,.35); }
+  body.x360 .gta-banner { display: none; }
+
+  .obc-hero { position: relative; overflow: hidden; border-radius: 26px; padding: 30px 20px 26px; margin-top: 6px;
+    background: radial-gradient(120% 90% at 80% 0%, #6be000 0%, #1e7a00 40%, #062a02 100%); }
+  .obc-hero .orb { right: -36px; top: -36px; width: 190px; height: 190px; }
+  .obc-hero small { position: relative; z-index: 1; font: 800 11px Unbounded; letter-spacing: .2em; color: #e8ffd0; opacity: .85; }
+  .obc-hero h2 { position: relative; z-index: 1; margin: 10px 0 8px; font: 900 34px/1.05 Unbounded; max-width: 80%;
+    text-shadow: 0 0 30px rgba(200,255,61,.6); }
+  .obc-hero p { position: relative; z-index: 1; margin: 0; max-width: 78%; line-height: 1.5; color: #f2ffe9; }
+  .art p { margin: 0 0 10px; color: var(--text); opacity: .88; line-height: 1.65; }
+  .art p:last-child { margin-bottom: 0; }
+  .vibe { display: flex; flex-wrap: wrap; gap: 8px; }
+  .vibe span { padding: 8px 12px; border-radius: 999px; background: rgba(157,255,46,.12); border: 1px solid rgba(157,255,46,.35);
+    font: 700 13px Manrope, sans-serif; color: #dfffc0; animation: vibeIn .5s cubic-bezier(.3,1.6,.5,1) both; }
+  @keyframes vibeIn { from { transform: scale(0) rotate(-10deg); opacity: 0; } }
+  .btn.lime { background: linear-gradient(135deg, #9dff2e, #2fa800); color: #062a02; box-shadow: 0 10px 30px -8px rgba(157,255,46,.7); }
+
+  .years { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .years button { padding: 12px 0; border-radius: 14px; border: 1px solid var(--line); background: var(--card); color: var(--text);
+    font: 800 14px Unbounded, sans-serif; cursor: pointer; transition: all .3s cubic-bezier(.3,1.6,.5,1); }
+  .years button.on { background: linear-gradient(135deg, #9dff2e, #2fa800); color: #062a02; transform: scale(1.08); box-shadow: 0 6px 22px rgba(157,255,46,.5); }
+  .era { margin: 12px 0 4px; padding: 14px 16px; border-radius: 16px; background: rgba(157,255,46,.1); border: 1px solid rgba(157,255,46,.3);
+    line-height: 1.5; font-weight: 600; }
+  .discs { display: flex; gap: 12px; overflow-x: auto; padding: 8px 2px 14px; scrollbar-width: none; scroll-snap-type: x mandatory; }
+  .discs::-webkit-scrollbar { display: none; }
+  .disc-card { flex: none; width: 150px; scroll-snap-align: start; text-align: center; animation: discIn .6s cubic-bezier(.2,1.4,.4,1) both; }
+  @keyframes discIn { from { opacity: 0; transform: translateY(30px) rotate(-8deg); } }
+  .disc { width: 130px; height: 130px; margin: 0 auto 10px; border-radius: 50%; position: relative;
+    background: conic-gradient(from 0deg, var(--c1), #fff 12%, var(--c2) 25%, #c9f 38%, var(--c1) 50%, #fff 62%, var(--c2) 75%, #9ff 88%, var(--c1));
+    box-shadow: 0 10px 30px -6px var(--c1), inset 0 0 0 6px rgba(255,255,255,.25); animation: spin 4s linear infinite; }
+  .disc::before { content: ""; position: absolute; inset: 28%; border-radius: 50%; background: radial-gradient(circle, #111 0 30%, #ddd 31% 45%, rgba(255,255,255,.7) 46%); }
+  .disc::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: linear-gradient(135deg, rgba(255,255,255,.55), transparent 45%); }
+  .disc-card b { display: block; font-size: 14px; line-height: 1.25; }
+  .disc-card small { color: var(--muted); font-size: 12px; }
+
   /* ---------- GTA VI ---------- */
   .gta-banner { position: relative; overflow: hidden; border-radius: 22px; padding: 18px; margin: 14px 0 4px; cursor: pointer;
     background: linear-gradient(120deg, #ff3d8b, #ff7a3d 45%, #8b5cff); box-shadow: 0 18px 40px -14px rgba(255,61,139,.8);
@@ -510,6 +549,37 @@
       </div>
     </section>
 
+    <section class="page" id="page-obc">
+      <div class="obc-hero r">
+        <div class="orb"></div>
+        <small>СТАТЬЯ</small>
+        <h2>Older Brother Core</h2>
+        <p>Что это такое и почему по этому скучают все, кто застал Xbox 360</p>
+      </div>
+      <div class="section-title">Что это такое</div>
+      <div class="card r art">
+        <p><b>Older Brother Core</b> — «вайб старшего брата». Так в соцсетях называют атмосферу конца 2000-х и начала 2010-х: комнату старшего брата, где гудит Xbox 360, на столе гарнитура и газировка, а из колонок слышно пати-чат.</p>
+        <p>Это не одна вещь, а целое настроение: игры, звуки, предметы и привычки, которые младшие братья и сёстры видели из-за плеча и мечтали, когда им дадут поиграть.</p>
+      </div>
+      <div class="section-title">Откуда пошло</div>
+      <div class="card r art">
+        <p>Тренд разошёлся в TikTok: люди выкладывали ролики с меню Xbox 360, звуком ачивки, лобби Call of Duty и подписью вроде «это комната моего старшего брата в 2010». В комментариях тысячи людей писали: «у нас было точно так же».</p>
+        <p>Сработала ностальгия: те, кто был младшим тогда, сейчас выросли — и захотели вернуть то чувство.</p>
+      </div>
+      <div class="section-title">Признаки вайба</div>
+      <div class="card r"><div class="vibe" id="vibe"></div></div>
+      <div class="section-title">Почему это цепляет</div>
+      <div class="card r art">
+        <p>Тогда игры были «событием»: диск покупали один раз и играли в него месяцами. Онлайн ощущался как магия — голоса друзей в гарнитуре, первые клановые войны, ночные катки на выходных.</p>
+        <p>А ещё у старшего брата всегда было то, чего не было у тебя, — и именно поэтому это так запомнилось.</p>
+      </div>
+      <div class="section-title">Как поймать вайб сегодня</div>
+      <div class="card r art">
+        <p>Многие игры Xbox 360 работают на Xbox One и Xbox Series благодаря обратной совместимости. Собери друзей, включи пати-чат, поставь на стол зелёную газировку — и вайб вернётся.</p>
+      </div>
+      <button class="btn lime r" id="obc-test">Пройти тест: был ли ты старшим братом?</button>
+    </section>
+
     <section class="page" id="page-tips">
       <div class="section-title">Фишки и лайфхаки</div>
       <div class="search-wrap">
@@ -658,6 +728,20 @@ const GTA_TIMELINE = [
   { when: "Июнь 2026", title: "Открыты предзаказы", text: "Standard и Ultimate издания.", st: "ok" },
   { when: "19 ноября 2026", title: "Релиз", text: "PS5 и Xbox Series X|S.", st: "now" },
 ];
+
+// Квиз для режима Xbox 360
+const QUIZ_X360 = [
+  { q: "В каком году вышел Xbox 360?", a: ["2001", "2005", "2008", "2013"], r: 1 },
+  { q: "Что значили три красных огня вокруг кнопки?", a: ["Идёт обновление", "Поломка — «красное кольцо смерти»", "Новое достижение", "Режим сна"], r: 1 },
+  { q: "На какой консоли впервые появились достижения и Gamerscore?", a: ["PS3", "Wii", "Xbox 360", "Nintendo DS"], r: 2 },
+  { q: "Как называлась камера, чтобы играть движениями тела?", a: ["Kinect", "EyeToy", "PlayStation Move", "Wii Remote"], r: 0 },
+  { q: "Какая буква на зелёной кнопке геймпада Xbox?", a: ["X", "Y", "B", "A"], r: 3 },
+  { q: "Как назывался онлайн-сервис Xbox 360?", a: ["PlayStation Network", "Xbox Live", "Steam", "Origin"], r: 1 },
+  { q: "Какая модель вышла в 2010 году — тонкая и чёрная?", a: ["Xbox 360 E", "Xbox One", "Xbox 360 S", "Xbox Series S"], r: 2 },
+  { q: "В какой игре 2007 года главный герой — Мастер Чиф?", a: ["Halo 3", "Gears of War", "Fable II", "Forza 2"], r: 0 },
+];
+const Q = () => document.body.classList.contains("x360") ? QUIZ_X360 : QUIZ;
+const XBTN = [["A", "#5fbf1a"], ["B", "#e0372b"], ["X", "#2f6bff"], ["Y", "#f5b800"]];
 
 const QUIZ = [
   { q: "Когда выходит GTA VI?", a: ["26 мая 2026", "19 ноября 2026", "1 января 2027", "Уже вышла"], r: 1 },
@@ -846,9 +930,10 @@ navBtns.forEach((b, i) => b.addEventListener("click", () => {
   if (i === cur) return;
   document.documentElement.style.setProperty("--dir", (i > cur ? 60 : -60) + "px");
   cur = i; navBtns.forEach(x => x.classList.toggle("active", x === b)); movePill(i);
-  document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === "page-" + b.dataset.page));
+  const pid = b.dataset.page === "gta" && document.body.classList.contains("x360") ? "obc" : b.dataset.page;
+  document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === "page-" + pid));
   window.scrollTo({ top: 0 });
-  const page = $("page-" + b.dataset.page);
+  const page = $("page-" + pid);
   page.querySelectorAll(".r").forEach(el => el.classList.remove("reveal"));
   requestAnimationFrame(() => page.querySelectorAll(".r").forEach(el => { io.unobserve(el); io.observe(el); }));
   if (b.dataset.page === "features") countUp();
@@ -1035,6 +1120,16 @@ const CONSOLES = {
         { tag: "История", type: "", title: "Три версии и 11 лет выпуска",
           text: "Первая белая (2005), чёрная тонкая S (2010) и E (2013). Производство остановили в 2016 году." },
       ] },
+      { title: "Прошивки: как это было", items: [
+        { tag: "Легенда СНГ", type: "hot", title: "«Прошитый» Xbox 360",
+          text: "В странах СНГ Xbox 360 очень часто продавали уже прошитыми. Из-за этого консоль стала народной: диски с играми стоили копейки, и у старшего брата их была целая стопка." },
+        { tag: "LT / LT+", type: "", title: "Прошивка привода",
+          text: "Самый первый способ: меняли прошивку DVD-привода, чтобы консоль запускала записанные диски. Microsoft с каждым обновлением системы закрывала лазейки, а моддеры выпускали новые версии." },
+        { tag: "JTAG и RGH", type: "hw", title: "Freeboot",
+          text: "Позже появились JTAG (около 2009) и RGH — Reset Glitch Hack (2011). Они позволяли запускать на консоли любые программы и игры прямо с жёсткого диска. Такие Xbox называли «фрибут»." },
+        { tag: "Бан", type: "hot", title: "Миллион консолей без онлайна",
+          text: "В ноябре 2009 Microsoft разом отключила от Xbox Live около миллиона модифицированных консолей. Прошивка всегда была против правил — прошитый Xbox мог навсегда лишиться онлайна." },
+      ] },
       { title: "Фишки Xbox 360", items: [
         { tag: "Ремонт", type: "", title: "Очистка кэша",
           text: "Настройки → Система → Память → выбери накопитель → нажми Y → «Очистить системный кэш». Помогает от зависаний." },
@@ -1058,6 +1153,34 @@ const OBC = [
   ["Красное кольцо смерти", "Самый страшный звук из тумбы"],
 ];
 
+// Лучшие диски по годам: «когда ты впервые купил Xbox 360»
+const ERAS = [
+  { y: ["2005", "2006"], t: "Ты застал самый старт: белый Xbox 360, первые ачивки и звук, который хотелось слышать снова и снова.",
+    d: [["Gears of War", "2006", "#8a1c1c", "#2b2b2b"], ["Oblivion", "2006", "#7a6a3a", "#1d2a3a"], ["Dead Rising", "2006", "#b83a1a", "#3a1a0a"], ["Call of Duty 2", "2005", "#5a6a3a", "#2a2a1a"]] },
+  { y: ["2007", "2008"], t: "Золотая эра: Halo 3 на всю ночь, Liberty City и, возможно, первое красное кольцо.",
+    d: [["Halo 3", "2007", "#2f7a2a", "#0a2a1a"], ["GTA IV", "2008", "#d9a01a", "#2a1a0a"], ["Call of Duty 4", "2007", "#4a5a3a", "#1a1a1a"], ["Fable II", "2008", "#6a3a8a", "#1a0a2a"], ["Mass Effect", "2007", "#1a4a8a", "#0a0a2a"]] },
+  { y: ["2009", "2010"], t: "Расцвет онлайна: лобби MW2, Дикий Запад, баги Skate 3 и Kinect в гостиной.",
+    d: [["Modern Warfare 2", "2009", "#3a4a2a", "#0a0a0a"], ["Red Dead Redemption", "2010", "#a3271a", "#2a0a0a"], ["Skate 3", "2010", "#1a7aaa", "#0a1a2a"], ["Mass Effect 2", "2010", "#1a3a7a", "#0a0a1a"], ["Left 4 Dead 2", "2009", "#8a1a1a", "#1a0a0a"]] },
+  { y: ["2011", "2012"], t: "Эпоха тонкого Xbox 360 S: Скайрим на сотни часов, первые миры в Minecraft и гонки в Колорадо.",
+    d: [["Skyrim", "2011", "#6a6a6a", "#1a1a2a"], ["Minecraft: Xbox 360 Edition", "2012", "#4aaa2a", "#2a1a0a"], ["Forza Horizon", "2012", "#e0601a", "#2a0a2a"], ["Gears of War 3", "2011", "#8a1c1c", "#1a1a1a"], ["Halo 4", "2012", "#1a6a9a", "#0a1a2a"]] },
+  { y: ["2013", "2014", "2015", "2016"], t: "Поздний вход: GTA V, тихий Xbox 360 E и куча дешёвых дисков на любой вкус.",
+    d: [["GTA V", "2013", "#2a8a3a", "#1a1a0a"], ["Minecraft: Xbox 360 Edition", "2012", "#4aaa2a", "#2a1a0a"], ["Red Dead Redemption", "2010", "#a3271a", "#2a0a0a"], ["Skyrim", "2011", "#6a6a6a", "#1a1a2a"]] },
+];
+const YEARS = ["2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016"];
+let myYear = null;
+try { myYear = localStorage.getItem("x360_year"); } catch (e) {}
+
+function discsHtml(year) {
+  const era = ERAS.find(e => e.y.includes(year));
+  if (!era) return `<div class="era">Выбери год — покажу диски, которые тогда были у всех.</div>`;
+  return `<div class="era">${esc(era.t)}</div>
+    <div class="discs">${era.d.map((d, i) => `
+      <div class="disc-card" style="animation-delay:${i * 0.08}s">
+        <div class="disc" style="--c1:${d[2]};--c2:${d[3]};animation-duration:${3 + i * 0.6}s"></div>
+        <b>${esc(d[0])}</b><small>${d[1]}</small>
+      </div>`).join("")}</div>`;
+}
+
 let curConsole = "ps5";
 let obc = [];
 try { obc = JSON.parse(localStorage.getItem("obc") || "[]"); } catch (e) {}
@@ -1078,7 +1201,12 @@ function renderConsole(key) {
     <div class="specs">${c.specs.map(s => `<div class="spec r"><b data-v="${s.v}" data-suf="${esc(s.suf)}" data-dec="${s.dec || 0}">0${esc(s.suf)}</b><span>${esc(s.l)}</span></div>`).join("")}</div>
     ${c.sections.map(sec => `<div class="section-title">${esc(sec.title)}</div>${sec.items.map(card).join("")}`).join("")}
     ${key === "x360" ? `
-      <div class="section-title">Older brother core</div>
+      <div class="section-title">Лучшие диски: когда ты впервые купил Xbox 360?</div>
+      <div class="card r">
+        <div class="years" id="years">${YEARS.map(y => `<button data-y="${y}" class="${y === myYear ? "on" : ""}">${y}</button>`).join("")}</div>
+        <div id="discs">${discsHtml(myYear)}</div>
+      </div>
+      <div class="section-title" id="obc-anchor">Older brother core</div>
       <div class="card r obc-meter"><b id="obc-pct">0%</b><span id="obc-txt">Отмечай, что было у тебя</span><div class="obc-bar"><div id="obc-bar"></div></div></div>
       <div id="obc-list">${OBC.map((o, i) => `
         <div class="obc-item r ${obc.includes(i) ? "on" : ""}" data-o="${i}">
@@ -1098,6 +1226,16 @@ function updateObc(fx) {
   if (fx && pct === 100) { const r = $("obc-pct").getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 90, ["#b6ff3b", "#6be000", "#e8ffd0", "#2fa800"]); H.ok(); }
 }
 $("console-view").addEventListener("click", e => {
+  const yb = e.target.closest("#years button");
+  if (yb) {
+    myYear = yb.dataset.y;
+    try { localStorage.setItem("x360_year", myYear); } catch (err) {}
+    $("years").querySelectorAll("button").forEach(x => x.classList.toggle("on", x === yb));
+    $("discs").innerHTML = discsHtml(myYear);
+    const r = yb.getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 22, ["#b6ff3b", "#6be000", "#e8ffd0"]);
+    H.tap("medium");
+    return;
+  }
   const it = e.target.closest(".obc-item"); if (!it) return;
   const i = +it.dataset.o, on = !obc.includes(i);
   obc = on ? [...obc, i] : obc.filter(x => x !== i);
@@ -1127,8 +1265,29 @@ function setTheme(x) {
   try { tg.setHeaderColor(x ? "#020a02" : "#05070f"); tg.setBackgroundColor(x ? "#020a02" : "#05070f"); } catch (e) {}
   $("title").textContent = x ? "XBOX 360" : "PS | XBOX"; $("title").dataset.text = $("title").textContent;
   const m = $("mark").querySelector("i"); m.classList.remove("swap"); void m.offsetWidth; m.classList.add("swap");
+  // квиз переключается на вопросы про Xbox / обратно
+  qi = 0; score = 0; renderQuiz();
+  // вкладка GTA VI ↔ статья Older Brother Core
+  const gb = navBtns[1];
+  gb.innerHTML = x ? '<svg><use href="#i-cup"/></svg>Old Bro' : '<svg><use href="#i-fire"/></svg>GTA VI';
+  movePill(cur);
+  const active = document.querySelector(".page.active");
+  if (active && (active.id === "page-gta" || active.id === "page-obc")) {
+    document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === (x ? "page-obc" : "page-gta")));
+  }
 }
 renderConsole("ps5");
+
+/* ---- Статья Older Brother Core ---- */
+const VIBE = ["Xbox 360 с гудящим вентилятором", "Звук получения ачивки", "Пати-чат до 3 ночи", "Игровая гарнитура", "Зелёная газировка",
+  "Halo 3", "Лобби Modern Warfare 2", "Баги Skate 3", "Minecraft на разделённом экране", "Стопка дисков у телевизора",
+  "Летсплеи на YouTube", "Красное кольцо смерти", "Kinect в гостиной", "«Дай поиграть!»"];
+$("vibe").innerHTML = VIBE.map((v, i) => `<span style="animation-delay:${i * 0.05}s">${esc(v)}</span>`).join("");
+watch($("page-obc"));
+$("obc-test").addEventListener("click", () => {
+  navBtns[3].click();
+  setTimeout(() => { const a = $("obc-anchor"); if (a) a.scrollIntoView({ behavior: "smooth", block: "start" }); }, 450);
+});
 
 function countUp() {
   document.querySelectorAll("#console-view .spec b").forEach(b => {
@@ -1145,20 +1304,22 @@ function countUp() {
 let qi = 0, score = 0, locked = false;
 const quizEl = $("quiz");
 function renderQuiz() {
-  if (qi >= QUIZ.length) return renderResult();
-  const item = QUIZ[qi]; locked = false;
+  if (qi >= Q().length) return renderResult();
+  const item = Q()[qi]; locked = false;
   quizEl.innerHTML = `
-    <div class="q-top"><span>Вопрос ${qi + 1} из ${QUIZ.length}</span><span>Очки: ${score}</span></div>
-    <div class="progress"><div style="width:${qi / QUIZ.length * 100}%"></div></div>
+    <div class="q-top"><span>Вопрос ${qi + 1} из ${Q().length}</span><span>Очки: ${score}</span></div>
+    <div class="progress"><div style="width:${qi / Q().length * 100}%"></div></div>
     <div class="quiz-q r">${esc(item.q)}</div>
-    ${item.a.map((a, i) => `<button class="answer r" data-i="${i}"><svg class="key"><use href="#${SHAPES[i]}"/></svg>${esc(a)}</button>`).join("")}`;
+    ${item.a.map((a, i) => `<button class="answer r" data-i="${i}">${document.body.classList.contains("x360")
+      ? `<span class="key xk" style="background:${XBTN[i][1]}">${XBTN[i][0]}</span>`
+      : `<svg class="key"><use href="#${SHAPES[i]}"/></svg>`}${esc(a)}</button>`).join("")}`;
   quizEl.querySelectorAll(".r").forEach((el, i) => { el.style.setProperty("--d", i * 0.08 + "s"); requestAnimationFrame(() => el.classList.add("reveal")); });
 }
 quizEl.addEventListener("click", e => {
   const b = e.target.closest(".answer");
   if (b && !locked) {
     locked = true;
-    const item = QUIZ[qi], pick = +b.dataset.i, right = quizEl.querySelectorAll(".answer")[item.r];
+    const item = Q()[qi], pick = +b.dataset.i, right = quizEl.querySelectorAll(".answer")[item.r];
     right.classList.add("right");
     if (pick === item.r) {
       score++; H.ok(); flash("green");
@@ -1168,17 +1329,18 @@ quizEl.addEventListener("click", e => {
     return;
   }
   if (e.target.closest("#q-again")) { qi = 0; score = 0; renderQuiz(); H.tap("medium"); }
-  if (e.target.closest("#q-share")) tg.sendData(JSON.stringify({ quiz: score, total: QUIZ.length }));
+  if (e.target.closest("#q-share")) tg.sendData(JSON.stringify({ quiz: score, total: Q().length }));
 });
 function renderResult() {
-  const pct = score / QUIZ.length;
-  const verdict = pct === 1 ? "Легенда PlayStation" : pct >= .6 ? "Опытный геймер" : "Есть куда расти";
+  const pct = score / Q().length;
+  const xb = document.body.classList.contains("x360");
+  const verdict = pct === 1 ? (xb ? "Легенда Xbox 360" : "Легенда PlayStation") : pct >= .6 ? (xb ? "Настоящий старший брат" : "Опытный геймер") : "Есть куда расти";
   const sub = pct === 1 ? "Ни одной ошибки. Респект." : pct >= .6 ? "Почти идеально. Загляни в «Фишки» и добей до максимума." : "Прочитай «Фишки» и попробуй ещё раз.";
   quizEl.innerHTML = `
     <div class="card center r">
       <div class="score">
         <svg viewBox="0 0 170 170"><circle class="bgc" cx="85" cy="85" r="70"/><circle class="fgc" id="ring" cx="85" cy="85" r="70"/></svg>
-        <div class="score-num"><span id="sn">0</span><small>/${QUIZ.length}</small></div>
+        <div class="score-num"><span id="sn">0</span><small>/${Q().length}</small></div>
       </div>
       <div class="verdict">${verdict}</div>
       <p>${sub}</p>
