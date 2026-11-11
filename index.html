@@ -372,6 +372,45 @@
   .disc-card b { display: block; font-size: 14px; line-height: 1.25; }
   .disc-card small { color: var(--muted); font-size: 12px; }
 
+  /* ---------- ИИ-консультант ---------- */
+  .ai-fab { position: fixed; right: 16px; bottom: calc(96px + env(safe-area-inset-bottom)); z-index: 60; width: 60px; height: 60px; border-radius: 50%;
+    border: 0; cursor: pointer; display: grid; place-items: center; font-size: 28px;
+    background: linear-gradient(135deg, var(--blue), var(--violet)); box-shadow: 0 10px 30px -6px var(--blue);
+    animation: fabIn .7s 1.8s cubic-bezier(.3,1.6,.5,1) both, fabBob 3s 2.5s ease-in-out infinite; }
+  .ai-fab::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--cyan); animation: fabRing 2s ease-out infinite; }
+  .ai-fab span { position: absolute; top: -4px; right: -4px; background: var(--pink); color: #fff; font: 800 10px Unbounded; padding: 3px 6px; border-radius: 999px; }
+  @keyframes fabIn { from { transform: scale(0) rotate(-180deg); } }
+  @keyframes fabBob { 50% { transform: translateY(-6px); } }
+  @keyframes fabRing { from { transform: scale(.9); opacity: .9; } to { transform: scale(1.5); opacity: 0; } }
+  .ai-back { position: fixed; inset: 0; z-index: 70; background: rgba(0,0,0,.55); opacity: 0; pointer-events: none; transition: opacity .35s; backdrop-filter: blur(4px); }
+  .ai-back.on { opacity: 1; pointer-events: auto; }
+  .ai-sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 75; height: 82vh; display: flex; flex-direction: column;
+    background: var(--bg2); border-radius: 26px 26px 0 0; border-top: 1px solid var(--line); box-shadow: 0 -20px 60px rgba(0,0,0,.6);
+    transform: translateY(105%); transition: transform .55s cubic-bezier(.2,1.1,.3,1); }
+  .ai-sheet.on { transform: none; }
+  .ai-head { display: flex; align-items: center; gap: 12px; padding: 16px; border-bottom: 1px solid var(--line); }
+  .ai-ava { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; font-size: 24px; background: linear-gradient(135deg, var(--blue), var(--violet)); }
+  .ai-head b { display: block; font: 800 15px Unbounded; } .ai-head small { color: var(--green); font-size: 12px; font-weight: 700; }
+  .ai-close { margin-left: auto; width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--text); font-size: 20px; cursor: pointer; }
+  .ai-msgs { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+  .msg { max-width: 86%; padding: 12px 14px; border-radius: 18px; line-height: 1.5; font-size: 14.5px; white-space: pre-wrap; animation: msgIn .4s cubic-bezier(.3,1.4,.5,1); }
+  .msg.bot { background: var(--card); border: 1px solid var(--line); border-bottom-left-radius: 6px; align-self: flex-start; }
+  .msg.me { background: linear-gradient(135deg, var(--blue), var(--violet)); color: #fff; border-bottom-right-radius: 6px; align-self: flex-end; }
+  .msg.err { border-color: var(--red); }
+  .msg small { display: block; margin-top: 8px; color: var(--muted); font-size: 11.5px; }
+  @keyframes msgIn { from { opacity: 0; transform: translateY(12px) scale(.95); } }
+  .dots { display: inline-flex; gap: 5px; } .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); animation: dot 1s infinite; }
+  .dots i:nth-child(2) { animation-delay: .15s; } .dots i:nth-child(3) { animation-delay: .3s; }
+  @keyframes dot { 50% { transform: translateY(-6px); background: var(--cyan); } }
+  .ai-chips { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 10px; scrollbar-width: none; }
+  .ai-chips::-webkit-scrollbar { display: none; }
+  .ai-chips button { flex: none; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--text); font: 600 12.5px Manrope; cursor: pointer; }
+  .ai-form { display: flex; gap: 8px; padding: 10px 16px calc(14px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); }
+  .ai-form input { flex: 1; min-width: 0; padding: 13px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--card); color: var(--text); font: inherit; outline: none; }
+  .ai-form input:focus { border-color: var(--blue); }
+  .ai-form button { width: 48px; border: 0; border-radius: 14px; background: linear-gradient(135deg, var(--blue), var(--violet)); color: #fff; font-size: 20px; cursor: pointer; }
+  .ai-form button:disabled { opacity: .5; }
+
   /* ---------- GTA VI ---------- */
   .gta-banner { position: relative; overflow: hidden; border-radius: 22px; padding: 18px; margin: 14px 0 4px; cursor: pointer;
     background: linear-gradient(120deg, #ff3d8b, #ff7a3d 45%, #8b5cff); box-shadow: 0 18px 40px -14px rgba(255,61,139,.8);
@@ -455,6 +494,9 @@
     <linearGradient id="sg" x1="0" x2="1"><stop offset="0" stop-color="#23d5ff"/><stop offset=".5" stop-color="#2f6bff"/><stop offset="1" stop-color="#ff3d8b"/></linearGradient>
   </defs>
   <symbol id="i-news" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M8 9h5M8 13h5M8 17h3"/></symbol>
+  <symbol id="i-bot" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="4"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="14" r="1.4" fill="#fff"/><circle cx="15" cy="14" r="1.4" fill="#fff"/><path d="M2 13v3M22 13v3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24" fill="#fff"><path d="M3 20.5 21.5 12 3 3.5 3 10l12 2-12 2z"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
   <symbol id="i-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4 0 7-2.7 7-7 0-3.5-2.2-6-4-8 0 2.5-1.3 4-3 4 .5-3-1-6-4-9 0 4-5 7-5 12 0 4.3 3 8 9 8z"/><path d="M12 22c-2 0-3.5-1.5-3.5-3.5S10 15 12 13c2 2 3.5 3.5 3.5 5.5S14 22 12 22z"/></symbol>
   <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
@@ -615,6 +657,31 @@
       <div id="quiz"></div>
     </section>
   </main>
+</div>
+
+<button class="ai-fab" id="ai-fab" aria-label="ИИ-консультант"><svg width="30" height="30"><use href="#i-bot"/></svg><span>ИИ</span></button>
+<div class="ai-back" id="ai-back"></div>
+<div class="ai-sheet" id="ai-sheet">
+  <div class="ai-head">
+    <div class="ai-ava"><svg width="26" height="26"><use href="#i-bot"/></svg></div>
+    <div><b>Консультант</b><small>онлайн · приставки и цены</small></div>
+    <button class="ai-close" id="ai-close" aria-label="Закрыть"><svg width="18" height="18"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="ai-msgs" id="ai-msgs">
+    <div class="msg bot">Привет! Я консультант PS | Xbox Хаб.
+Помогу выбрать приставку, игры и подскажу, на что смотреть при покупке. Спрашивай!<small>Цены называю примерно — точные проверяй в магазинах и на OLX.</small></div>
+  </div>
+  <div class="ai-chips" id="ai-chips">
+    <button>PS5 или Xbox Series S?</button>
+    <button>Стоит ли брать PS4 сейчас?</button>
+    <button>Какие диски к Xbox 360?</button>
+    <button>Что проверить у б/у приставки?</button>
+    <button>Сколько стоит PS5?</button>
+  </div>
+  <form class="ai-form" id="ai-form">
+    <input id="ai-in" maxlength="500" placeholder="Спроси про приставки или цены…" autocomplete="off">
+    <button id="ai-send" aria-label="Отправить"><svg width="22" height="22" style="margin:auto"><use href="#i-send"/></svg></button>
+  </form>
 </div>
 
 <nav id="nav">
@@ -1374,6 +1441,55 @@ function renderResult() {
   }, 300);
 }
 renderQuiz();
+
+/* ---- ИИ-консультант ---- */
+const AI_API = "https://ps-bot.ps-bot.workers.dev/api/ask";
+const aiSheet = $("ai-sheet"), aiBack = $("ai-back"), aiMsgs = $("ai-msgs"), aiIn = $("ai-in"), aiSend = $("ai-send");
+function aiOpen(on) {
+  aiSheet.classList.toggle("on", on); aiBack.classList.toggle("on", on); H.tap(on ? "medium" : "light");
+  if (on) setTimeout(() => aiIn.focus(), 400);
+}
+$("ai-fab").addEventListener("click", () => aiOpen(true));
+$("ai-close").addEventListener("click", () => aiOpen(false));
+aiBack.addEventListener("click", () => aiOpen(false));
+function aiAdd(cls, html) {
+  const m = document.createElement("div"); m.className = "msg " + cls; m.innerHTML = html;
+  aiMsgs.appendChild(m); aiMsgs.scrollTop = aiMsgs.scrollHeight; return m;
+}
+function typeOut(el, text, after) {
+  // эффект печати
+  let i = 0; el.textContent = "";
+  const step = () => {
+    i = Math.min(text.length, i + 3); el.textContent = text.slice(0, i); aiMsgs.scrollTop = aiMsgs.scrollHeight;
+    if (i < text.length) requestAnimationFrame(step); else after && after();
+  };
+  step();
+}
+let aiBusy = false;
+async function aiAsk(q) {
+  q = q.trim(); if (!q || aiBusy) return;
+  aiBusy = true; aiSend.disabled = true; aiIn.value = "";
+  aiAdd("me", esc(q));
+  const wait = aiAdd("bot", '<span class="dots"><i></i><i></i><i></i></span>');
+  try {
+    const r = await fetch(AI_API, { method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ initData: (tg && tg.initData) || "", q }) });
+    const j = await r.json();
+    if (j.answer) {
+      typeOut(wait, j.answer.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").replace(/ {2,}/g, " ").trim(), () => {
+        const s = document.createElement("small");
+        s.textContent = `Может ошибаться — цены проверяй в магазинах · осталось вопросов сегодня: ${j.left}`;
+        wait.appendChild(s);
+      });
+      H.ok();
+    } else { wait.classList.add("err"); wait.textContent = (j.error || "Что-то пошло не так.").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").trim(); H.err(); }
+  } catch (e) {
+    wait.classList.add("err"); wait.textContent = "Нет связи с консультантом. Проверь интернет и попробуй ещё раз."; H.err();
+  }
+  aiBusy = false; aiSend.disabled = false;
+}
+$("ai-form").addEventListener("submit", e => { e.preventDefault(); aiAsk(aiIn.value); });
+$("ai-chips").addEventListener("click", e => { const b = e.target.closest("button"); if (b) aiAsk(b.textContent); });
 </script>
 </body>
 </html>
