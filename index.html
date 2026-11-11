@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<title>PS Хаб</title>
+<title>PS | Xbox Хаб</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -78,6 +78,16 @@
     animation: spin 6s linear infinite; padding: 2px; }
   .brand-mark i { position: absolute; inset: 2px; border-radius: 12px; background: var(--bg2); display: grid; place-items: center; }
   .brand-mark svg { width: 24px; height: 24px; animation: spin 6s linear infinite reverse; }
+  .brand-mark .bx { display: none; width: 34px; height: 34px; border-radius: 50%; place-items: center; position: relative;
+    background: radial-gradient(circle at 35% 28%, #fff 0 6%, #dcff9e 14%, #7fd81e 45%, #2c7d00 80%, #0d3a00);
+    box-shadow: 0 0 16px rgba(150,255,40,.8); font: 900 17px/1 Unbounded; color: #fff; text-shadow: 0 1px 2px rgba(0,50,0,.8);
+    animation: spin 6s linear infinite reverse; }
+  .brand-mark .bx small { position: absolute; bottom: -3px; right: -8px; font: 800 8px Unbounded; background: #0d3a00;
+    border: 1px solid #9dff00; color: #c8ff3d; padding: 1px 3px; border-radius: 5px; text-shadow: none; }
+  body.x360 .brand-mark .ps { display: none; }
+  body.x360 .brand-mark .bx { display: grid; }
+  .brand-mark i.swap { animation: swapMark .7s cubic-bezier(.3,1.6,.5,1); }
+  @keyframes swapMark { 0% { transform: scale(.2) rotate(-180deg); } 100% { transform: none; } }
   @keyframes spin { to { transform: rotate(360deg); } }
   .brand h1 { margin: 0; font-size: 22px; font-weight: 900; letter-spacing: .02em; position: relative; }
   .brand p { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
@@ -242,6 +252,67 @@
   .page.active { display: block; animation: pageIn .6s cubic-bezier(.16,1,.3,1); }
   @keyframes pageIn { from { opacity: 0; transform: translateX(var(--dir, 40px)) skewX(-6deg); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
 
+  /* ---------- Тема Xbox 360 (older brother core) ---------- */
+  body, .glow, .card, .spec, nav, .chip, .search { transition: background-color .8s, background .8s, border-color .8s, color .8s; }
+  body.x360 {
+    --bg: #020a02; --bg2: #071a05; --card: rgba(18, 46, 12, .62); --line: rgba(170, 255, 110, .18);
+    --text: #f2ffe9; --muted: #a3c795; --blue: #5fd400; --violet: #1e8a00; --cyan: #c8ff3d; --pink: #9dff00;
+    --tri: #b6ff3b; --cir: #6be000; --crs: #e8ffd0; --sqr: #2fa800;
+  }
+  body.x360 .glow.a { background: #4cc400; } body.x360 .glow.b { background: #1e8a00; } body.x360 .glow.c { background: #c8ff3d; opacity: .3; }
+  body.x360 .card, body.x360 .spec { box-shadow: inset 0 1px 0 rgba(255,255,255,.08); }
+  body.x360 .glitch.on::before { color: #c8ff3d; } body.x360 .glitch.on::after { color: #ffffff; }
+  #wipe { position: fixed; inset: 0; z-index: 80; pointer-events: none; clip-path: circle(0% at var(--wx, 50%) var(--wy, 50%)); opacity: 1; }
+  #wipe.go { animation: wipe .9s cubic-bezier(.7,0,.2,1) forwards; }
+  @keyframes wipe { 0% { clip-path: circle(0% at var(--wx) var(--wy)); opacity: 1; } 55% { clip-path: circle(150% at var(--wx) var(--wy)); opacity: 1; }
+    100% { clip-path: circle(150% at var(--wx) var(--wy)); opacity: 0; } }
+
+  .seg { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); background: var(--card); border: 1px solid var(--line);
+    border-radius: 18px; padding: 4px; margin: 16px 0 4px; }
+  .seg button { position: relative; z-index: 1; background: none; border: 0; color: var(--muted); font: 700 13px Unbounded, sans-serif;
+    padding: 12px 0; cursor: pointer; transition: color .3s; }
+  .seg button.on { color: #fff; }
+  .seg-ind { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / 3); border-radius: 14px;
+    background: linear-gradient(135deg, var(--blue), var(--violet)); box-shadow: 0 6px 22px -4px var(--blue);
+    transition: transform .55s cubic-bezier(.5,1.6,.4,.9), background .6s; }
+
+  .con-hero { position: relative; overflow: hidden; border-radius: 24px; padding: 24px 18px 22px; margin: 12px 0 4px;
+    background: linear-gradient(135deg, var(--h1), var(--h2)); border: 1px solid rgba(255,255,255,.12); }
+  .con-hero h2 { position: relative; z-index: 1; margin: 0; font: 900 34px/1.05 Unbounded; letter-spacing: -.01em; }
+  .con-hero p { position: relative; z-index: 1; margin: 8px 0 0; max-width: 64%; opacity: .9; line-height: 1.45; font-size: 14px; }
+  .con-hero .ghost { position: absolute; right: -10px; bottom: -26px; font: 900 110px Unbounded; color: rgba(255,255,255,.08); animation: floatL 5s ease-in-out infinite; }
+  .orb { position: absolute; right: -24px; top: -24px; width: 160px; height: 160px; border-radius: 50%;
+    background: radial-gradient(circle at 34% 28%, #fff 0 5%, #e6ffb0 11%, #8ee62a 38%, #3a9400 70%, #0f3a00 100%);
+    box-shadow: 0 0 70px rgba(150,255,40,.75), inset -12px -16px 34px rgba(0,0,0,.45); animation: orbPulse 2.4s ease-in-out infinite; }
+  .orb::before { content: ""; position: absolute; inset: 22%; border-radius: 50%; border: 6px solid rgba(255,255,255,.85);
+    border-left-color: transparent; border-right-color: transparent; transform: rotate(45deg); animation: spin 5s linear infinite; }
+  .orb::after { content: ""; position: absolute; left: 18%; top: 10%; width: 46%; height: 26%; border-radius: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,.75), transparent); transform: rotate(-18deg); }
+  @keyframes orbPulse { 50% { box-shadow: 0 0 110px rgba(170,255,60,.95), inset -12px -16px 34px rgba(0,0,0,.45); transform: scale(1.05); } }
+  .blades { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .blades i { position: absolute; top: -20%; width: 34px; height: 140%; background: linear-gradient(180deg, transparent, rgba(255,255,255,.18), transparent);
+    transform: skewX(-22deg); animation: blade 3.2s linear infinite; }
+  .blades i:nth-child(2) { animation-delay: -1.1s; width: 18px; } .blades i:nth-child(3) { animation-delay: -2.2s; width: 52px; }
+  @keyframes blade { from { left: -20%; } to { left: 120%; } }
+
+  .obc-meter { text-align: center; padding: 18px 10px 14px; }
+  .obc-meter b { display: block; font: 900 46px Unbounded; background: linear-gradient(180deg, #fff, var(--cyan));
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .obc-meter span { color: var(--muted); font-size: 13px; }
+  .obc-bar { height: 10px; border-radius: 99px; background: rgba(255,255,255,.07); overflow: hidden; margin-top: 12px; }
+  .obc-bar div { height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--violet), var(--blue), var(--cyan));
+    box-shadow: 0 0 18px var(--blue); transition: width .6s cubic-bezier(.2,.9,.3,1); }
+  .obc-item { display: flex; gap: 14px; align-items: center; padding: 14px; border-radius: 16px; background: var(--card);
+    border: 1px solid var(--line); margin-bottom: 8px; cursor: pointer; transition: transform .25s, border-color .3s, background .3s; }
+  .obc-item:active { transform: scale(.97); }
+  .obc-item .box { flex: none; width: 28px; height: 28px; border-radius: 9px; border: 2px solid var(--blue); display: grid; place-items: center;
+    transition: all .35s cubic-bezier(.3,1.8,.5,1); }
+  .obc-item .box svg { width: 16px; height: 16px; opacity: 0; transform: scale(0) rotate(-45deg); transition: all .35s cubic-bezier(.3,1.8,.5,1); }
+  .obc-item.on { border-color: var(--blue); background: rgba(95,212,0,.12); }
+  .obc-item.on .box { background: var(--blue); box-shadow: 0 0 16px var(--blue); }
+  .obc-item.on .box svg { opacity: 1; transform: none; }
+  .obc-item b { display: block; font-size: 15px; } .obc-item small { color: var(--muted); font-size: 12.5px; }
+
   /* ---------- GTA VI ---------- */
   .gta-banner { position: relative; overflow: hidden; border-radius: 22px; padding: 18px; margin: 14px 0 4px; cursor: pointer;
     background: linear-gradient(120deg, #ff3d8b, #ff7a3d 45%, #8b5cff); box-shadow: 0 18px 40px -14px rgba(255,61,139,.8);
@@ -325,6 +396,7 @@
     <linearGradient id="sg" x1="0" x2="1"><stop offset="0" stop-color="#23d5ff"/><stop offset=".5" stop-color="#2f6bff"/><stop offset="1" stop-color="#ff3d8b"/></linearGradient>
   </defs>
   <symbol id="i-news" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M8 9h5M8 13h5M8 17h3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
   <symbol id="i-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4 0 7-2.7 7-7 0-3.5-2.2-6-4-8 0 2.5-1.3 4-3 4 .5-3-1-6-4-9 0 4-5 7-5 12 0 4.3 3 8 9 8z"/><path d="M12 22c-2 0-3.5-1.5-3.5-3.5S10 15 12 13c2 2 3.5 3.5 3.5 5.5S14 22 12 22z"/></symbol>
   <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
   <symbol id="i-pad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10a5 5 0 0 1 4.9 6l-.6 3a3 3 0 0 1-5.3 1.2L14.5 15h-5L8 17.2A3 3 0 0 1 2.7 16l-.6-3A5 5 0 0 1 7 7z"/><path d="M7 10v4M5 12h4"/><circle cx="16" cy="11" r=".6" fill="currentColor"/><circle cx="18" cy="13" r=".6" fill="currentColor"/></symbol>
@@ -357,21 +429,22 @@
     <svg viewBox="0 0 54 54"><line x1="8" y1="8" x2="46" y2="46"/><line x1="46" y1="8" x2="8" y2="46"/></svg>
     <svg viewBox="0 0 54 54"><rect x="7" y="7" width="40" height="40"/></svg>
   </div>
-  <div class="intro-title">PS ХАБ</div>
+  <div class="intro-title">PS | XBOX</div>
 </div>
 
 <canvas id="bg"></canvas>
 <div class="glow a"></div><div class="glow b"></div><div class="glow c"></div>
 <canvas id="fx"></canvas>
 <div id="flash"></div>
+<div id="wipe"></div>
 
 <div class="app">
   <header>
     <div class="brand">
-      <div class="brand-mark"><i><svg viewBox="0 0 24 24"><use href="#s-tri"/></svg></i></div>
+      <div class="brand-mark" id="mark"><i><svg class="ps" viewBox="0 0 24 24"><use href="#s-tri"/></svg><span class="bx">X<small>360</small></span></i></div>
       <div>
-        <h1><span class="glitch" id="title" data-text="PS ХАБ">PS ХАБ</span></h1>
-        <p>Новости, фишки и секреты PS5</p>
+        <h1><span class="glitch" id="title" data-text="PS | XBOX">PS | XBOX</span></h1>
+        <p>PS5, PS4, Xbox 360 и GTA VI</p>
       </div>
     </div>
   </header>
@@ -438,10 +511,13 @@
     </section>
 
     <section class="page" id="page-features">
-      <div class="section-title">PS5 в цифрах</div>
-      <div class="specs" id="specs"></div>
-      <div class="section-title">Особенности</div>
-      <div id="features-list"></div>
+      <div class="seg" id="seg">
+        <div class="seg-ind" id="seg-ind"></div>
+        <button class="on" data-c="ps5">PS5</button>
+        <button data-c="ps4">PS4</button>
+        <button data-c="x360">Xbox 360</button>
+      </div>
+      <div id="console-view"></div>
     </section>
 
     <section class="page" id="page-quiz">
@@ -456,7 +532,7 @@
   <button class="active" data-page="news"><svg><use href="#i-news"/></svg>Новости</button>
   <button data-page="gta"><svg><use href="#i-fire"/></svg>GTA VI</button>
   <button data-page="tips"><svg><use href="#i-bolt"/></svg>Фишки</button>
-  <button data-page="features"><svg><use href="#i-pad"/></svg>Особенности</button>
+  <button data-page="features"><svg><use href="#i-pad"/></svg>Консоли</button>
   <button data-page="quiz"><svg><use href="#i-cup"/></svg>Квиз</button>
 </nav>
 
@@ -621,7 +697,28 @@ const SHAPE_COLORS = ["#2ee6a8", "#ff4d6d", "#5b8cff", "#e86bff"];
     vx: (Math.random() - .5) * .25, vy: -.15 - Math.random() * .35 });
   addEventListener("pointermove", e => { tx = (e.clientX / W - .5) * 30; ty = (e.clientY / Hh - .5) * 30; });
   addEventListener("deviceorientation", e => { if (e.gamma != null) { tx = e.gamma * .8; ty = (e.beta - 45) * .5; } });
+  function can(p) {
+    // банка лаймовой газировки (без логотипов)
+    const s = p.s * p.z * 2.2, w = s * .62, h = s * 1.2;
+    x.save(); x.translate(p.x + mx * p.z, p.y + my * p.z); x.rotate(Math.sin(p.a) * .5);
+    x.globalAlpha = .35 + p.z * .35;
+    const g = x.createLinearGradient(-w / 2, 0, w / 2, 0);
+    g.addColorStop(0, "#1f6b00"); g.addColorStop(.35, "#8ee62a"); g.addColorStop(.55, "#d9ff8a"); g.addColorStop(1, "#2a8a00");
+    x.fillStyle = g; x.beginPath(); x.roundRect(-w / 2, -h / 2, w, h, w * .18); x.fill();
+    x.fillStyle = "#cfd8c8"; x.fillRect(-w / 2 + 1, -h / 2, w - 2, h * .08); x.fillRect(-w / 2 + 1, h / 2 - h * .07, w - 2, h * .07);
+    x.fillStyle = "rgba(10,40,0,.7)"; x.fillRect(-w / 2, -h * .12, w, h * .26);
+    x.strokeStyle = "#ff3b2f"; x.lineWidth = Math.max(1, s * .05); x.beginPath(); x.moveTo(-w * .3, h * .02); x.quadraticCurveTo(0, -h * .1, w * .3, h * .02); x.stroke();
+    x.restore();
+  }
+  function bubble(p) {
+    const r = p.s * p.z * .55;
+    x.save(); x.translate(p.x + mx * p.z, p.y + my * p.z); x.globalAlpha = .25 + p.z * .35;
+    x.strokeStyle = "#c8ff3d"; x.lineWidth = 1.4; x.beginPath(); x.arc(0, 0, r, 0, 6.28); x.stroke();
+    x.fillStyle = "rgba(220,255,160,.6)"; x.beginPath(); x.arc(-r * .35, -r * .35, r * .25, 0, 6.28); x.fill();
+    x.restore();
+  }
   function shape(p) {
+    if (document.body.classList.contains("x360")) { return (p.t === 0 || p.t === 2) && p.z > .6 ? can(p) : bubble(p); }
     x.save(); x.translate(p.x + mx * p.z, p.y + my * p.z); x.rotate(p.a);
     x.strokeStyle = SHAPE_COLORS[p.t]; x.globalAlpha = .18 + p.z * .25; x.lineWidth = 1.6; x.beginPath();
     const s = p.s * p.z * 1.4;
@@ -848,21 +945,186 @@ $("tips-list").addEventListener("click", e => {
 $("tip-search").addEventListener("input", renderTips);
 renderChips(); renderTips();
 
-/* ---- Особенности ---- */
-$("specs").innerHTML = SPECS.map((s, i) => `<div class="spec r"><b data-v="${s.v}" data-suf="${esc(s.suf)}" data-dec="${s.dec || 0}">0${esc(s.suf)}</b><span>${esc(s.l)}</span></div>`).join("");
-$("features-list").innerHTML = FEATURES.map(f => `
-  <div class="card r">
-    <span class="tag ${f.type}">${esc(f.tag)}</span>
-    <h3>${esc(f.title)}</h3>
-    <p>${esc(f.text)}</p>
-  </div>`).join("");
-watch($("page-features"));
+/* ---- Консоли: PS5 / PS4 / Xbox 360 ---- */
+const CONSOLES = {
+  ps5: {
+    title: "PS5", sub: "Текущее поколение PlayStation. SSD, DualSense и PS5 Pro.", h: ["#1d3fb8", "#3a1a8a"],
+    specs: SPECS,
+    sections: [{ title: "Особенности", items: FEATURES }],
+  },
+  ps4: {
+    title: "PS4", sub: "Легенда 2013 года. До сих пор есть почти у всех.", h: ["#0a2a7a", "#06123a"],
+    specs: [
+      { v: 2013, suf: "", l: "Год выхода" },
+      { v: 117, suf: "+ млн", l: "Продано консолей" },
+      { v: 8, suf: " ГБ", l: "Оперативная память" },
+      { v: 4, suf: "K", l: "Картинка у PS4 Pro" },
+    ],
+    sections: [
+      { title: "Новости PS4", items: [
+        { tag: "Обновление", type: "", title: "Прошивка PS4 14.02",
+          text: "4 ноября Sony выпустила неожиданное обновление для PS4. По данным PlayStation LifeStyle, оно мешает взлому и модам." },
+        { tag: "Игры", type: "free", title: "PS4 ещё получает игры",
+          text: "Крупные издатели почти ушли, но небольшие игры — в основном цифровые — до сих пор выходят на PS4." },
+        { tag: "GTA VI", type: "hot", title: "GTA VI на PS4 не будет",
+          text: "Игра выходит только на PS5 и Xbox Series X|S. На PS4 остаётся GTA V." },
+        { tag: "Апгрейд", type: "hw", title: "Игры PS4 работают на PS5",
+          text: "Почти вся библиотека PS4 запускается на PS5, а сохранения можно перенести. Диски тоже подходят, если у PS5 есть дисковод." },
+      ] },
+      { title: "Факты", items: [
+        { tag: "Кнопка Share", type: "", title: "Именно PS4 придумала кнопку Share",
+          text: "Скриншоты, видео и стримы прямо с геймпада — впервые появились на DualShock 4." },
+        { tag: "Pro и Slim", type: "hw", title: "Три версии консоли",
+          text: "Оригинальная PS4 (2013), тонкая Slim и мощная PS4 Pro (обе в 2016). Pro выводит картинку в 4K." },
+        { tag: "VR", type: "", title: "Первый VR от PlayStation",
+          text: "Шлем PlayStation VR вышел в 2016 году именно для PS4." },
+        { tag: "Продажи", type: "free", title: "Больше 117 миллионов",
+          text: "PS4 — одна из самых продаваемых консолей в истории PlayStation." },
+      ] },
+      { title: "Фишки PS4", items: [
+        { tag: "Скриншоты", type: "", title: "Скриншот одним нажатием",
+          text: "Настройки → Настройки общего доступа и трансляций → Настройки кнопки SHARE → «Простые снимки экрана»." },
+        { tag: "Скорость", type: "hw", title: "Поставь SSD вместо HDD",
+          text: "Замена жёсткого диска на SSD заметно ускоряет загрузки. Диск меняется своими руками за 10 минут." },
+        { tag: "Ремонт", type: "", title: "Если PS4 тормозит",
+          text: "Выключи консоль, зажми кнопку питания до второго сигнала → «Перестроить базу данных». Сохранения не удалятся." },
+        { tag: "PS4 Pro", type: "hot", title: "Режим Boost",
+          text: "На PS4 Pro: Настройки → Система → Режим «Буст». Старые игры будут работать плавнее." },
+      ] },
+    ],
+  },
+  x360: {
+    title: "XBOX 360", sub: "2005 год. Пати-чат, Halo 3 и ночи без сна. Older brother core.", h: ["#1e7a00", "#062a02"], orb: true,
+    specs: [
+      { v: 2005, suf: "", l: "Год выхода" },
+      { v: 84, suf: " млн", l: "Продано консолей" },
+      { v: 512, suf: " МБ", l: "Оперативная память" },
+      { v: 3, suf: "", l: "Модели: первая, S и E" },
+    ],
+    sections: [
+      { title: "Новости Xbox 360", items: [
+        { tag: "Совместимость", type: "free", title: "Xbox возвращает обратную совместимость",
+          text: "На GDC 2026 Microsoft пообещала возродить программу обратной совместимости к 25-летию Xbox. На Xbox Series могут появиться новые игры с 360." },
+        { tag: "Обновление", type: "", title: "Игры 360 на новых Xbox стали удобнее",
+          text: "В августовском обновлении у игр Xbox 360 появились игровые хабы: достижения и записи видно прямо в карточке игры." },
+        { tag: "Слух", type: "hw", title: "Игры Xbox 360 на ПК?",
+          text: "По утечке, Microsoft готовит запуск игр Xbox 360 на Windows через эмуляцию — примерно в 2027–2028. Официально не подтверждено." },
+        { tag: "Магазин", type: "hot", title: "Магазин Xbox 360 закрыт",
+          text: "С 29 июля 2024 года в магазине Xbox 360 ничего не купить. Но уже купленные игры можно скачать заново." },
+        { tag: "GTA VI", type: "hot", title: "GTA VI на 360 не будет",
+          text: "Игра выходит только на Xbox Series X|S и PS5. На 360 остаются GTA IV и GTA V." },
+      ] },
+      { title: "Факты", items: [
+        { tag: "Ачивки", type: "free", title: "Достижения придумали здесь",
+          text: "Именно на Xbox 360 появились достижения и Gamerscore. Тот самый звук «бдынь» знают все." },
+        { tag: "Легенда", type: "hot", title: "Красное кольцо смерти",
+          text: "Три красных огня вокруг кнопки — поломка из-за перегрева. Microsoft продлила гарантию до 3 лет и потратила на ремонты больше миллиарда долларов." },
+        { tag: "Kinect", type: "hw", title: "Рекорд Гиннесса",
+          text: "Kinect для Xbox 360 (2010) попал в Книгу рекордов как самое быстро продаваемое электронное устройство." },
+        { tag: "История", type: "", title: "Три версии и 11 лет выпуска",
+          text: "Первая белая (2005), чёрная тонкая S (2010) и E (2013). Производство остановили в 2016 году." },
+      ] },
+      { title: "Фишки Xbox 360", items: [
+        { tag: "Ремонт", type: "", title: "Очистка кэша",
+          text: "Настройки → Система → Память → выбери накопитель → нажми Y → «Очистить системный кэш». Помогает от зависаний." },
+        { tag: "Перегрев", type: "hot", title: "Не прячь консоль в тумбу",
+          text: "Перегрев — главная причина красного кольца. Оставь место сзади и сбоку, протирай решётки от пыли." },
+        { tag: "Игры", type: "free", title: "Играй в 360 на новых Xbox",
+          text: "Сотни игр Xbox 360 запускаются на Xbox One и Series — часто с лучшей картинкой и стабильным FPS." },
+      ] },
+    ],
+  },
+};
+
+const OBC = [
+  ["Halo 3 до утра", "Пати с друзьями, кастомки и «ещё одна катка»"],
+  ["Лобби в Modern Warfare 2", "Ночные катки и звуки из микрофонов"],
+  ["Skate 3 и баги с физикой", "Улетающий в космос скейтер"],
+  ["Minecraft: Xbox 360 Edition", "Первый мир на разделённом экране"],
+  ["Звук получения ачивки", "До сих пор приятно"],
+  ["Пати-чат в гарнитуре", "Голоса друзей до трёх часов ночи"],
+  ["Зелёная газировка на столе", "Классика стола геймера"],
+  ["Красное кольцо смерти", "Самый страшный звук из тумбы"],
+];
+
+let curConsole = "ps5";
+let obc = [];
+try { obc = JSON.parse(localStorage.getItem("obc") || "[]"); } catch (e) {}
+
+function card(f) {
+  return `<div class="card r"><span class="tag ${f.type || ""}">${esc(f.tag)}</span><h3>${esc(f.title)}</h3><p>${esc(f.text)}</p></div>`;
+}
+function renderConsole(key) {
+  const c = CONSOLES[key], view = $("console-view");
+  view.innerHTML = `
+    <div class="con-hero r" style="--h1:${c.h[0]};--h2:${c.h[1]}">
+      ${c.orb ? '<div class="orb"></div>' : `<div class="ghost">${esc(c.title)}</div>`}
+      <div class="blades"><i></i><i></i><i></i></div>
+      <h2>${esc(c.title)}</h2>
+      <p>${esc(c.sub)}</p>
+    </div>
+    <div class="section-title">${esc(c.title)} в цифрах</div>
+    <div class="specs">${c.specs.map(s => `<div class="spec r"><b data-v="${s.v}" data-suf="${esc(s.suf)}" data-dec="${s.dec || 0}">0${esc(s.suf)}</b><span>${esc(s.l)}</span></div>`).join("")}</div>
+    ${c.sections.map(sec => `<div class="section-title">${esc(sec.title)}</div>${sec.items.map(card).join("")}`).join("")}
+    ${key === "x360" ? `
+      <div class="section-title">Older brother core</div>
+      <div class="card r obc-meter"><b id="obc-pct">0%</b><span id="obc-txt">Отмечай, что было у тебя</span><div class="obc-bar"><div id="obc-bar"></div></div></div>
+      <div id="obc-list">${OBC.map((o, i) => `
+        <div class="obc-item r ${obc.includes(i) ? "on" : ""}" data-o="${i}">
+          <div class="box"><svg><use href="#i-check"/></svg></div>
+          <div><b>${esc(o[0])}</b><small>${esc(o[1])}</small></div>
+        </div>`).join("")}</div>` : ""}`;
+  watch(view);
+  view.querySelectorAll(".r").forEach(el => { io.unobserve(el); io.observe(el); });
+  countUp();
+  if (key === "x360") updateObc(false);
+}
+function updateObc(fx) {
+  const pct = Math.round(obc.length / OBC.length * 100);
+  $("obc-pct").textContent = pct + "%";
+  $("obc-bar").style.width = pct + "%";
+  $("obc-txt").textContent = pct === 100 ? "Ты и есть тот самый старший брат" : pct >= 50 ? "Настоящий старший брат" : pct > 0 ? "Почти старший брат" : "Отмечай, что было у тебя";
+  if (fx && pct === 100) { const r = $("obc-pct").getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 90, ["#b6ff3b", "#6be000", "#e8ffd0", "#2fa800"]); H.ok(); }
+}
+$("console-view").addEventListener("click", e => {
+  const it = e.target.closest(".obc-item"); if (!it) return;
+  const i = +it.dataset.o, on = !obc.includes(i);
+  obc = on ? [...obc, i] : obc.filter(x => x !== i);
+  try { localStorage.setItem("obc", JSON.stringify(obc)); } catch (err) {}
+  it.classList.toggle("on", on); H.tap(on ? "medium" : "light");
+  if (on) { const r = it.querySelector(".box").getBoundingClientRect(); FX.burst(r.left + 14, r.top + 14, 16, ["#b6ff3b", "#6be000", "#e8ffd0"]); }
+  updateObc(true);
+});
+$("seg").addEventListener("click", e => {
+  const b = e.target.closest("button[data-c]"); if (!b || b.dataset.c === curConsole) return;
+  const keys = ["ps5", "ps4", "x360"], i = keys.indexOf(b.dataset.c);
+  $("seg").querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+  $("seg-ind").style.transform = `translateX(${i * 100}%)`;
+  const toX = b.dataset.c === "x360", wasX = curConsole === "x360";
+  curConsole = b.dataset.c;
+  if (toX !== wasX) {
+    const r = b.getBoundingClientRect(), w = $("wipe");
+    w.style.setProperty("--wx", r.left + r.width / 2 + "px"); w.style.setProperty("--wy", r.top + r.height / 2 + "px");
+    w.style.background = toX ? "radial-gradient(circle, #c8ff3d, #3a9400 70%)" : "radial-gradient(circle, #5b8cff, #2a1470 70%)";
+    w.classList.remove("go"); void w.offsetWidth; w.classList.add("go");
+    setTimeout(() => { document.body.classList.toggle("x360", toX); setTheme(toX); }, 380);
+    H.tap("heavy");
+  } else H.tap("medium");
+  renderConsole(curConsole);
+});
+function setTheme(x) {
+  try { tg.setHeaderColor(x ? "#020a02" : "#05070f"); tg.setBackgroundColor(x ? "#020a02" : "#05070f"); } catch (e) {}
+  $("title").textContent = x ? "XBOX 360" : "PS | XBOX"; $("title").dataset.text = $("title").textContent;
+  const m = $("mark").querySelector("i"); m.classList.remove("swap"); void m.offsetWidth; m.classList.add("swap");
+}
+renderConsole("ps5");
+
 function countUp() {
-  document.querySelectorAll(".spec b").forEach(b => {
+  document.querySelectorAll("#console-view .spec b").forEach(b => {
     const v = +b.dataset.v, dec = +b.dataset.dec, suf = b.dataset.suf, t0 = performance.now(), dur = reduce ? 1 : 1400;
     (function step(t) {
       const k = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - k, 4);
-      b.textContent = (v * e).toFixed(dec).replace(".", ",") + suf;
+      b.textContent = (v >= 1900 && v <= 2100 && !suf ? Math.round(1990 + (v - 1990) * e) : (v * e).toFixed(dec).replace(".", ",")) + suf;
       if (k < 1) requestAnimationFrame(step);
     })(t0);
   });
