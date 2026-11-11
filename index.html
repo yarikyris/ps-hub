@@ -442,6 +442,37 @@
   .nye-count b { display: block; font: 900 26px Unbounded; color: #ffd56b; text-shadow: 0 0 16px #ffd56b; }
   .nye-count span { font-size: 11px; color: var(--muted); }
 
+  /* ---------- Что нового ---------- */
+  .wn-btn { position: absolute; right: 16px; top: 24px; z-index: 2; padding: 9px 12px; border-radius: 12px; cursor: pointer;
+    border: 1px solid var(--line); background: rgba(255,255,255,.06); color: #fff; font: 800 11px Unbounded; letter-spacing: .08em;
+    display: flex; align-items: center; gap: 7px; transition: transform .3s cubic-bezier(.3,1.8,.5,1); }
+  .wn-btn:active { transform: scale(.92); }
+  body.is-dev .wn-btn { right: 86px; }
+  .wn-btn i { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); display: none; animation: wnPing 1.4s ease-out infinite; }
+  .wn-btn.fresh i { display: block; }
+  @keyframes wnPing { 0% { box-shadow: 0 0 0 0 var(--cyan); } 100% { box-shadow: 0 0 0 9px transparent; } }
+  .wn-sheet { position: fixed; inset: 0; z-index: 79; overflow-y: auto; padding: 16px 16px 50px; background: var(--bg);
+    transform: translateY(105%); transition: transform .55s cubic-bezier(.2,1.1,.3,1); }
+  .wn-sheet.on { transform: none; }
+  .wn-list { position: relative; margin-top: 18px; padding-left: 26px; }
+  .wn-list::before { content: ""; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 2px; border-radius: 2px;
+    background: linear-gradient(var(--cyan), var(--violet), transparent); transform-origin: top; transform: scaleY(0); transition: transform 1.2s cubic-bezier(.3,1,.4,1) .15s; }
+  .wn-sheet.on .wn-list::before { transform: scaleY(1); }
+  .wn-item { position: relative; margin-bottom: 14px; padding: 16px; border-radius: 20px; background: var(--card); border: 1px solid var(--line);
+    opacity: 0; transform: translateX(30px); transition: opacity .5s, transform .6s cubic-bezier(.3,1.5,.5,1); }
+  .wn-sheet.on .wn-item { opacity: 1; transform: none; }
+  .wn-item::before { content: ""; position: absolute; left: -24px; top: 20px; width: 12px; height: 12px; border-radius: 50%;
+    background: var(--bg); border: 3px solid var(--violet); }
+  .wn-item.latest { border-color: var(--cyan); box-shadow: 0 0 30px -10px var(--cyan); }
+  .wn-item.latest::before { border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
+  .wn-item .v { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .wn-item .v b { font: 900 17px Unbounded; }
+  .wn-item .v span { font-size: 12px; color: var(--muted); }
+  .wn-item .v em { font: 800 10px Unbounded; font-style: normal; letter-spacing: .12em; padding: 4px 8px; border-radius: 8px; background: var(--cyan); color: #000; }
+  .wn-item h3 { margin: 6px 0 8px; font: 800 14px Unbounded; color: var(--cyan); }
+  .wn-item ul { margin: 0; padding-left: 18px; line-height: 1.55; font-size: 14px; }
+  .wn-item li { margin-bottom: 4px; }
+
   /* ---------- Режим разработчика ---------- */
   header { position: relative; }
   .dev-btn { position: absolute; right: 16px; top: 26px; display: none; padding: 8px 12px; border-radius: 12px; cursor: pointer;
@@ -663,6 +694,7 @@
         <p id="sub">PS5, PS4, Xbox 360 и GTA VI</p>
       </div>
     </div>
+    <button class="wn-btn" id="wn-btn"><i></i>НОВОЕ</button>
     <button class="dev-btn" id="dev-btn">DEV</button>
   </header>
   <div class="ticker"><div class="ticker-track" id="ticker"></div></div>
@@ -805,6 +837,14 @@
   <div id="ev-quiz"></div>
   <div class="section-title" id="past-title">Открытые дверцы</div>
   <div class="past" id="past"></div>
+</div>
+
+<div class="wn-sheet" id="wn-sheet">
+  <div class="dev-top" style="margin-bottom:0">
+    <div><h2 style="color:var(--cyan)">Что нового</h2><small style="color:var(--muted);font-family:Manrope" id="wn-ver">все обновления приложения</small></div>
+    <button class="ai-close" id="wn-close" aria-label="Закрыть"><svg width="18" height="18"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="wn-list" id="wn-list"></div>
 </div>
 
 <div id="fps">-- FPS</div>
@@ -1694,7 +1734,7 @@ $("ai-form").addEventListener("submit", e => { e.preventDefault(); aiAsk(aiIn.va
 
 /* ---- Режим разработчика ---- */
 const API_BASE = "https://ps-bot.ps-bot.workers.dev/api/";
-const BUILD = "v10 · 2026-11";
+const BUILD = "v11 · 2026-11";
 const apiPost = (path, data) => fetch(API_BASE + path, { method: "POST", headers: { "content-type": "application/json" },
   body: JSON.stringify({ initData: (tg && tg.initData) || "", ...data }) }).then(r => r.json());
 const devSheet = $("dev-sheet");
@@ -1974,6 +2014,52 @@ $("ev-preview").addEventListener("click", e => {
   else { const order = ["1", "2", "3", "6", "4", "5", "7"]; evApply({ on: true, day: order.indexOf(p) + 1, nye: false }); }
   $("dev-sheet").classList.remove("on"); H.tap("medium");
 });
+
+/* ---------- Что нового ---------- */
+const CHANGELOG = [
+  { v: "v11", d: "ноябрь 2026", t: "Экран «Что нового»", l: [
+    "Новая кнопка «Новое» в шапке — вся история обновлений в одном месте",
+    "Точка на кнопке горит, пока ты не посмотрел свежее обновление" ] },
+  { v: "v10", d: "ноябрь 2026", t: "Готовимся к зиме", l: [
+    "Новогодний ивент «Зима выживших» по The Last of Us 1 и 2",
+    "Каждый день ивента приложение меняется: туман, светлячки, метель, весна, Джексон, дождь в Сиэтле и споры",
+    "Дверца дня с фактом и квиз «Насколько ты выживший?»",
+    "31 декабря — гирлянды, салют, отсчёт до полуночи и зомби в шапках Санты" ] },
+  { v: "v9", d: "ноябрь 2026", t: "ИИ-консультант", l: [
+    "Консультант прямо в приложении: спроси про приставки, игры и цены",
+    "Поддержать проект можно звёздами Telegram или через Монобанк",
+    "Секретный режим разработчика" ] },
+  { v: "v8", d: "ноябрь 2026", t: "Больше Xbox 360", l: [
+    "Отдельный квиз про Xbox 360 в зелёном режиме",
+    "Статья «Old Bro»: что такое Older Brother Core",
+    "Какие диски взять первыми, если только купил Xbox 360",
+    "История обновлений системы Xbox 360" ] },
+  { v: "v7", d: "ноябрь 2026", t: "Зелёный режим", l: [
+    "Переключатель PS / Xbox 360: всё приложение становится зелёным",
+    "Банки газировки на фоне и крутящийся значок X",
+    "Новое название «PS | Xbox Хаб» и новая аватарка" ] },
+  { v: "v5", d: "ноябрь 2026", t: "GTA VI и анимации", l: [
+    "Отсчёт до выхода GTA VI и свежие новости по игре",
+    "Частицы, глитч-заголовок, бегущая строка и анимации на всех экранах" ] },
+  { v: "v1", d: "старт", t: "Запуск", l: [
+    "Новости PlayStation и Xbox, фишки консолей и первый квиз" ] },
+];
+const WN_LAST = CHANGELOG[0].v;
+function wnRender() {
+  $("wn-list").innerHTML = CHANGELOG.map((c, i) => `<div class="wn-item${i ? "" : " latest"}" style="transition-delay:${.12 + i * .08}s">
+    <div class="v"><b>${c.v}</b><span>${esc(c.d)}</span>${i ? "" : "<em>СЕЙЧАС</em>"}</div>
+    <h3>${esc(c.t)}</h3><ul>${c.l.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`).join("");
+}
+wnRender();
+let wnSeen = ""; try { wnSeen = localStorage.getItem("wn_seen") || ""; } catch (e) {}
+$("wn-btn").classList.toggle("fresh", wnSeen !== WN_LAST);
+$("wn-btn").addEventListener("click", () => {
+  wnRender(); $("wn-sheet").scrollTop = 0;
+  requestAnimationFrame(() => $("wn-sheet").classList.add("on"));
+  $("wn-btn").classList.remove("fresh"); try { localStorage.setItem("wn_seen", WN_LAST); } catch (e) {}
+  H.tap("medium");
+});
+$("wn-close").addEventListener("click", () => { $("wn-sheet").classList.remove("on"); H.tap(); });
 
 // узнаём у сервера, идёт ли ивент
 fetch(EV_API, { cache: "no-store" }).then(r => r.json()).then(st => evApply({ on: st.active, day: st.day, nye: st.nye })).catch(() => {});
